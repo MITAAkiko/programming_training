@@ -15,7 +15,6 @@ if (empty($_GET['order'])) {
 }
 //最小値
 $page = max($page, 1);
-
 //最大ページを取得する(検索ありなしで分ける)
 if (!empty($_GET['search'])) {
     $counts = $db->prepare('SELECT COUNT(*) AS cnt FROM quotations WHERE company_id=? AND deleted IS NULL AND status=?');
@@ -130,9 +129,11 @@ var_dump($_GET);
             <form action='index.php' method=get>
 
                 <input type='hidden' name='id' value="<?php echo $_GET['id']; ?>" >
-                <input type='hidden' name='search' value="<?php echo $_GET['search']; ?>" >
+                <?php if (!empty($_GET['search'])) : ?>
+                    <input type='hidden' name='search' value="<?php echo $_GET['search']; ?>" >
+                <?php endif; ?>
                 <input type='hidden' name='order' value="<?php echo $_GET['order'] *= -1 ?>" >
-                <th class="no">見積番号　<input type="submit" value="▼"></th>
+                <th class="no">見積番号　<input class="ascdesc" type="submit" value="▼"></th>
                 
             </form>
             <th class="title">見積名</th><th class="manager">担当者名</th>
