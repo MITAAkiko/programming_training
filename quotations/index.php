@@ -62,6 +62,35 @@ $companies -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
 $companies -> execute();
 $company = $companies -> fetch();
 
+/*計算式で並べた方
+$l=-1;
+foreach ($quotations as $quotation) {
+    $quo[$l+=1] = [
+        'no' => $quotation['no'],
+        'title' => $quotation['title'],
+        "manager" => $quotation['manager_name'],
+        "total" => number_format($quotation['total']),
+        "period" => str_replace('-', '/', $quotation['validity_period']),
+        "due" => str_replace('-', '/', $quotation['due_date']),
+        "status" => STATUSES[$quotation['status']],
+        "id" => $quotation['id']
+    ];
+}*/
+
+//キーを用いた方（・・・as $key => $quotation){ $quo[$key]=[・・・]でも同様の結果
+foreach ($quotations as $quotation) {
+        $quo[] = [
+            'no' => $quotation['no'],
+            'title' => $quotation['title'],
+            "manager" => $quotation['manager_name'],
+            "total" => number_format($quotation['total']),
+            "period" => str_replace('-', '/', $quotation['validity_period']),
+            "due" => str_replace('-', '/', $quotation['due_date']),
+            "status" => STATUSES[$quotation['status']],
+            "id" => $quotation['id']
+        ];
+        var_dump($quo[0]['no']);//quo[0]に21個$quo[0]['no']の値が代入されている。
+}
 //htmlspecialchars
 function h($value)
 {
@@ -123,20 +152,6 @@ if (empty($_GET['id']) || $_GET['id']=='') {
             <th class="status">状態</th><th class="q_edit">編集</th><th class="q_delete">削除</th>
         </tr>
 <!--配列に代入-->
-        <?php $l=-1; ?>
-        <?php  foreach ($quotations as $quotation) {
-            $quo[$l+=1] = [
-                'no' => $quotation['no'],
-                'title' => $quotation['title'],
-                "manager" => $quotation['manager_name'],
-                "total" => number_format($quotation['total']),
-                "period" => str_replace('-', '/', $quotation['validity_period']),
-                "due" => str_replace('-', '/', $quotation['due_date']),
-                "status" => STATUSES[$quotation['status']],
-                "id" => $quotation['id']
-            ];
-        } ?>
-                
         <?php if ($_GET['order']>0) :
             for ($i=count($quo)-1-10*(h($page)-1); $i>count($quo)-1-10*(h($page)) && $i >=0; $i--) :
                 ?><!--最大キー引く１０＊ページ数-->
@@ -150,6 +165,7 @@ if (empty($_GET['id']) || $_GET['id']=='') {
                     <td class="td"><?php echo h($quo[$i]['status']);?></td>
                     <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
                     <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quo['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
+                    <?php // var_dump($quo) ?>
                 </tr>
             <?php endfor; ?>
         <?php else : //初期昇順設定
@@ -165,6 +181,7 @@ if (empty($_GET['id']) || $_GET['id']=='') {
                     <td class="td"><?php echo h($quo[$i]['status']);?></td>
                     <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
                     <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quo['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
+                    <?php // var_dump($quo) ?>
                 </tr>
             <?php endfor; ?>
         <?php endif; ?>        
