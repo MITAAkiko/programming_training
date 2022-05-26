@@ -42,34 +42,18 @@ $start = ($page - 1) * 10;
 //DBに接続する用意
 //絞り込みあり
 if (!empty($_GET['search'])) {
-    if (($_GET['order'])>0) {
         $quotations = $db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
-            FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL AND q.status=? ORDER BY q.no ASC LIMIT ?,10');
+            FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL AND q.status=? ORDER BY q.no ASC ');//LIMIT ?,10
         $quotations -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
         $quotations -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
-        $quotations -> bindParam(3, $start, PDO::PARAM_INT);
-    } else {
-        $quotations = $db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
-            FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL AND q.status=? ORDER BY q.no DESC LIMIT ?,10');
-        $quotations -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-        $quotations -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
-        $quotations -> bindParam(3, $start, PDO::PARAM_INT);
-    }
+        //$quotations -> bindParam(3, $start, PDO::PARAM_INT);
     $quotations -> execute();
 } else {//絞り込みなし
-    if (($_GET['order'])>0) {
         $quotations = $db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
-            FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL ORDER BY q.no ASC LIMIT ?,10');
+            FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL ORDER BY q.no ASC ');//LIMIT ?,10
         $quotations -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-        $quotations -> bindParam(2, $start, PDO::PARAM_INT);
+        //$quotations -> bindParam(2, $start, PDO::PARAM_INT);
         $quotations -> execute();
-    } else {
-        $quotations = $db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
-            FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL ORDER BY q.no DESC LIMIT ?,10');
-        $quotations -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-        $quotations -> bindParam(2, $start, PDO::PARAM_INT);
-        $quotations -> execute();
-    }
 }
 
 //会社名を表示させる（見積がないときなど）
@@ -89,7 +73,6 @@ if (empty($_GET['id']) || $_GET['id']=='') {
     exit();
 }
 
-var_dump($_GET);
 ?>
 
 <!DOCTYPE html>
@@ -122,8 +105,7 @@ var_dump($_GET);
         </select>
         <input type='hidden' name='id' value="<?php echo $_GET['id'] ?>" >
     </form>
-    <br>
-    <?php var_dump($_GET); ?>
+    <br><br>
     <table>
         <tr class="table_heading">
             <form action='index.php' method=get>
@@ -140,23 +122,52 @@ var_dump($_GET);
             <th class="total">金額</th><th class="period">見積書有効期限</th><th class="due">納期</th>
             <th class="status">状態</th><th class="q_edit">編集</th><th class="q_delete">削除</th>
         </tr>
-        
-        <?php  foreach ($quotations as $quotation) : ?>
-                <tr>
-                    <td class="td"><?php echo h($quotation['no']);?></td>
-                    <td class="td"><?php echo h($quotation['title']);?></td>
-                    <td class="td"><?php echo h($quotation['manager_name']);?></td>
-                    <td class="td"><?php echo h(number_format($quotation['total']));?>円</td><!--カンマをつける-->
-                    <td class="td"><?php echo h(str_replace('-', '/', $quotation['validity_period']));?><br>
-                    <td class="td"><?php echo h(str_replace('-', '/', $quotation['due_date']));?></td>
-                    <td class="td"><?php echo h(STATUSES[$quotation['status']]);?></td>
-                    <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quotation['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
-                    <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quotation['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
-                </tr>
-        <?php endforeach; ?>
-        
+<!--配列に代入-->
+        <?php $l=-1; ?>
+        <?php  foreach ($quotations as $quotation) {
+            $quo[$l+=1] = [
+                'no' => $quotation['no'],
+                'title' => $quotation['title'],
+                "manager" => $quotation['manager_name'],
+                "total" => number_format($quotation['total']),
+                "period" => str_replace('-', '/', $quotation['validity_period']),
+                "due" => str_replace('-', '/', $quotation['due_date']),
+                "status" => STATUSES[$quotation['status']],
+                "id" => $quotation['id']
+            ];
+        } ?>
+                
+                    <?php if ($_GET['order']>0) : ?><!--降順-->
+                        <?php for ($i=count($quo)-1-10*($page-1); $i>count($quo)-1-10*($page) && $i >=0; $i--) : ?><!--最大キー引く１０＊ページ数-->
+                        <tr>
+                            <td class="td"><?php echo h($quo[$i]['no']);?></td>
+                            <td class="td"><?php echo h($quo[$i]['title']);?></td>
+                            <td class="td"><?php echo h($quo[$i]['manager']);?></td>
+                            <td class="td"><?php echo h($quo[$i]['total']);?>円</td><!--カンマをつける-->
+                            <td class="td"><?php echo h($quo[$i]['period']);?><br>
+                            <td class="td"><?php echo h($quo[$i]['due']);?></td>
+                            <td class="td"><?php echo h($quo[$i]['status']);?></td>
+                            <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
+                            <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quo['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
+                        </tr>
+                        <?php endfor; ?>
+                    <?php else : ?><!--初期昇順設定-->
+                        <?php for ($i=($page-1)*10; $i<($page)*10 && $i < count($quo); $i++) : ?><!--0-9/10-19/-->
+                        <tr>
+                            <td class="td"><?php echo h($quo[$i]['no']);?></td>
+                            <td class="td"><?php echo h($quo[$i]['title']);?></td>
+                            <td class="td"><?php echo h($quo[$i]['manager']);?></td>
+                            <td class="td"><?php echo h($quo[$i]['total']);?>円</td><!--カンマをつける-->
+                            <td class="td"><?php echo h($quo[$i]['period']);?><br>
+                            <td class="td"><?php echo h($quo[$i]['due']);?></td>
+                            <td class="td"><?php echo h($quo[$i]['status']);?></td>
+                            <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
+                            <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quo['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
+                        </tr>
+                        <?php endfor; ?>
+                    <?php endif; ?>        
+      
     </table>
-    <?php var_dump($_GET); ?>
 <hr>
 
 <div class="paging">
@@ -181,7 +192,6 @@ var_dump($_GET);
         if (!empty($_GET['order'])) {
             echo '&order='.$_GET['order']*-1 ;
         } ?>">次へ→</a></span>
-        <?php var_dump($_GET); ?>
     <?php endif; ?>
 </div>
 
@@ -194,7 +204,6 @@ function cfm()
 {
     return confirm('本当に削除しますか');
 }
-
 </script>
 
 
