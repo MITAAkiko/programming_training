@@ -2,6 +2,7 @@
 //session_start();
 require('dbconnect.php');
 require_once('./config.php');
+require('functions.php');
 
 //初期値
 $page = 0;
@@ -72,13 +73,6 @@ if (!empty($_GET['search'])) {//GETでおくる
         $companies->execute();
     }
 }
-
-//htmlspecialchars
-function h($value)
-{
-    return htmlspecialchars($value, ENT_QUOTES);
-}
-
 
 ?>
 

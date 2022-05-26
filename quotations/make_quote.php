@@ -3,12 +3,7 @@
 
 require('../dbconnect.php');
 require_once('../config.php');
-
-//htmlspecialchars
-function h($value)
-{
-    return htmlspecialchars($value, ENT_QUOTES);
-}
+require('../functions.php');
 
 //エラーチェック
 function isError($err)

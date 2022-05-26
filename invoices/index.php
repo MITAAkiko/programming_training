@@ -2,6 +2,7 @@
 
 require('../dbconnect.php');
 require_once('../config.php');
+require('../functions.php');
 //初期値
 $page = 1;
 if (!empty($_GET['page'])) {
@@ -77,11 +78,6 @@ $companies -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
 $companies -> execute();
 $company = $companies -> fetch();
 
-//htmlspecialchars
-function h($value)
-{
-    return htmlspecialchars($value, ENT_QUOTES);
-}
 //idのない人を返す
 if (empty($_GET['id']) || $_GET['id']=='') {
     header('Location:../');
