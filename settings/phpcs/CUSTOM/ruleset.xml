@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ruleset name="CUSTUM">
+ <description>The PSR-2 coding standard. + CUSTOM</description>
+ <rule ref="PSR1"/>
+ <rule ref="PSR2">
+    <exclude name="Generic.Files.LineLength"/>
+ </rule>
+</ruleset>
