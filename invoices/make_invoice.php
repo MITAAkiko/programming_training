@@ -67,13 +67,18 @@ if (!empty($_POST)) {
         $error['pay']='blank';
     } elseif (!preg_match('/^[0-9]{8}$/', $_POST['pay'])) {
         $error['pay']='type';
+    } elseif (strtotime($_POST['pay'])===false) {
+        $error['pay']='check_date';
     } elseif (strtotime($_POST['pay']) < strtotime($_POST['date'])) {
         $error['pay']='time';
     }
+
     if (($_POST['date'])==='') {
         $error['date']='blank';
     } elseif (!preg_match('/^[0-9]{8}$/', $_POST['date'])) {
         $error['date']='type';
+    } elseif (strtotime($_POST['date'])===false) {
+        $error['date']='check_date';
     }
     if (!preg_match("/^[0-9]+$/", $_POST['status'])) { //空文字ダメの半角数値
         $error['status']='type';
@@ -196,6 +201,9 @@ if (!empty($_GET)) {
                     <?php if ($error['pay'] === 'type') : ?>
                         <p class="error">※半角数字のみで入力してください（例:20210525）</p>
                     <?php endif; ?>
+                    <?php if ($error['pay']==='check_date') : ?>
+                        <p class="error">※正しい日付を入力してください</p>
+                    <?php endif; ?>
                     <?php if ($error['pay'] === 'time') : ?>
                         <p class="error">※請求日より後に設定してください</p>
                     <?php endif; ?>
@@ -212,6 +220,9 @@ if (!empty($_GET)) {
                     <?php endif; ?>
                     <?php if ($error['date'] === 'type') : ?>
                         <p class="error">※半角数字のみで入力してください（例:20210525）</p>
+                    <?php endif; ?>
+                    <?php if ($error['date']==='check_date') : ?>
+                        <p class="error">※正しい日付を入力してください</p>
                     <?php endif; ?>
             </td>
         </tr>
