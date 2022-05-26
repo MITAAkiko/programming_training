@@ -1,0 +1,11 @@
+{
+    "phpcs.autoConfigSearch": false,
+    "phpcs.standard": "settings/phpcs/CUSTOM/ruleset.xml",
+    "phpcs.ignorePatterns": [],
+    "phpmd.rules": "settings/phpmd/ruleset.xml",
+    "eslint.alwaysShowStatus": true,
+    "eslint.options": {
+        "configFile": "settings/eslint/config.eslintrc"
+    },
+    "phpcs.executablePath": "/home/user/.config/composer/vendor/squizlabs/php_codesniffer/bin/phpcs"
+}
