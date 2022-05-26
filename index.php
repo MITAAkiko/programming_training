@@ -142,7 +142,7 @@ $prefecture_code='';
 
 <script>
     function cfm(){
-    confirm('「<?php echo h($company['company_name']); ?>」を本当に削除しますか');
+        return confirm('本当に削除しますか');
 }
 $(function(){
   $('#companies_list').tablesorter({

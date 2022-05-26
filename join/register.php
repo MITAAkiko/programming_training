@@ -1,15 +1,16 @@
 <?php
 
 //登録してない人を返す
-if(empty($_POST)){
+if (empty($_POST)) {
     header('Location: index.php');
     exit();
 }
 
 
 //htmlspecialchars
-function h($value){
-    return htmlspecialchars($value,ENT_QUOTES);
+function h($value)
+{
+    return htmlspecialchars($value, ENT_QUOTES);
 }
 ?>
 
