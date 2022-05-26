@@ -2,6 +2,7 @@
 
 require('../dbconnect.php');
 require_once('../config.php');
+require('../functions.php');
 //初期値
 $page = 1;
 if (!empty($_GET['page'])) {
@@ -91,11 +92,7 @@ foreach ($quotations as $quotation) {
         ];
         //var_dump($quo[0]['title']);//quo[0]に21個$quo[0]['no']の値が代入されている。
 }
-//htmlspecialchars
-function h($value)
-{
-    return htmlspecialchars($value, ENT_QUOTES);
-}
+
 //idのない人を返す
 if (empty($_GET['id']) || $_GET['id']=='') {
     header('Location:../');
@@ -163,8 +160,8 @@ if (empty($_GET['id']) || $_GET['id']=='') {
                     <td class="td"><?php echo h($quo[$i]['period']);?><br>
                     <td class="td"><?php echo h($quo[$i]['due']);?></td>
                     <td class="td"><?php echo h($quo[$i]['status']);?></td>
-                    <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
-                    <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quo['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
+                    <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo[$i]['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
+                    <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quo[$i]['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
                     <?php // var_dump($quo) ?>
                 </tr>
             <?php endfor; ?>
@@ -179,8 +176,8 @@ if (empty($_GET['id']) || $_GET['id']=='') {
                     <td class="td"><?php echo h($quo[$i]['period']);?><br>
                     <td class="td"><?php echo h($quo[$i]['due']);?></td>
                     <td class="td"><?php echo h($quo[$i]['status']);?></td>
-                    <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
-                    <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quo['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
+                    <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo[$i]['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
+                    <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quo[$i]['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
                     <?php // var_dump($quo) ?>
                 </tr>
             <?php endfor; ?>
