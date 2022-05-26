@@ -89,7 +89,7 @@ foreach ($quotations as $quotation) {
             "status" => STATUSES[$quotation['status']],
             "id" => $quotation['id']
         ];
-        var_dump($quo[0]['no']);//quo[0]に21個$quo[0]['no']の値が代入されている。
+        //var_dump($quo[0]['title']);//quo[0]に21個$quo[0]['no']の値が代入されている。
 }
 //htmlspecialchars
 function h($value)
