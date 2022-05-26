@@ -137,20 +137,20 @@ if (!empty($_POST)) {
 <body>
 <main>
     <div class="content_add">
-    <div><span class="title">見積書編集</span><a class="btn" href="index.php?id=<?php echo $company['id'] ?>">戻る</a></div>
+    <div><span class="title">見積書編集</span><a class="btn" href="index.php?id=<?php echo h($company['id']) ?>">戻る</a></div>
     <hr>
 <form action="" method="post">
     <table class="join_table">
     <tr><th>見積番号</th> 
-            <td><?php echo $quotation['no'] ?></td>
+            <td><?php echo h($quotation['no']) ?></td>
         </tr>
     <tr><th>見積名</th> 
             <td>
                 <input class="text_join" type="text" name="title" 
                 value="<?php if (!empty($_POST['title'])) {
-                        echo $_POST['title'];
+                        echo h($_POST['title']);
                        } else {
-                            echo $quotation['title'];
+                            echo h($quotation['title']);
                        } ?>">
                 <?php if ($error['title']==='blank') : ?>
                     <p class="error">※見積名を入力してください</p>
@@ -162,15 +162,15 @@ if (!empty($_POST)) {
         </tr>
 <!--会社名取得-->
         <tr><th>会社名</th> 
-            <td><?php echo $company['company_name'] ?></td>
+            <td><?php echo h($company['company_name']) ?></td>
         </tr>
         <tr><th>金額</th> 
             <td>
                 <input class="text_join_en" type="text" name="total" 
                 value="<?php if (!empty($_POST['total'])) {
-                        echo $_POST['total'];
+                        echo h($_POST['total']);
                        } else {
-                            echo $quotation['total'];
+                            echo h($quotation['total']);
                        } ?>"> 円
                     <?php if ($error['total']==='blank') : ?>
                         <p class="error">※金額を入力してください</p>
@@ -188,9 +188,9 @@ if (!empty($_POST)) {
             <td>
                 <input class="text_join" type="text" name="period" 
                 value="<?php if (!empty($_POST['period'])) {
-                        echo str_replace('-', '', $_POST['period']);
+                        echo str_replace('-', '', h($_POST['period']));
                        } else {
-                            echo str_replace('-', '', $quotation['validity_period']);
+                            echo str_replace('-', '', h($quotation['validity_period']));
                        } ?>">
                     <?php if ($error['period']==='blank') : ?>
                         <p class="error">※日付を入力してください</p>
@@ -207,9 +207,9 @@ if (!empty($_POST)) {
             <td>
                 <input class="text_join" type="text" name="due" 
                 value="<?php if (!empty($_POST['date'])) {
-                        echo str_replace('-', '', $_POST['date']);
+                        echo str_replace('-', '', h($_POST['date']));
                        } else {
-                            echo str_replace('-', '', $quotation['due_date']);
+                            echo str_replace('-', '', h($quotation['due_date']));
                        }?>">
                     <?php if ($error['due']==='blank') : ?>
                         <p class="error">※納期を入力してください</p>
@@ -227,7 +227,7 @@ if (!empty($_POST)) {
         </tr>
         <tr><th>状態</th>
             <td><select class="select_status" name="status">
-                        <option value="<?php echo $quotation['status'] ?>"><?php echo STATUSES[$quotation['status']] ?></option>
+                        <option value="<?php echo h($quotation['status']) ?>"><?php echo STATUSES[h($quotation['status'])] ?></option>
                         <?php foreach (STATUSES as $number => $value) : ?>
                         <option value="<?php echo $number ?>"><?php echo $value ?></option>
                         <?php endforeach; ?>

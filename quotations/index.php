@@ -90,9 +90,9 @@ if (empty($_GET['id']) || $_GET['id']=='') {
     <h2 class="home">見積一覧 <a href="../" class="btn">会社一覧へ戻る</a>
         <span class="company_name"><?php echo h($company['company_name']) ?></span></h2>
     <hr>
-    <a href="./make_quote.php?id=<?php echo $_GET['id'] ?>" class="long_btn">見積作成</a>
+    <a href="./make_quote.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">見積作成</a>
     <!--絞り込み-->
-    <form action='./' method="get" href='./?id=<?php echo $_GET['id'] ?>&search=<?php echo $_GET['search'] ?>'>
+    <form action='./' method="get" href='./?id=<?php echo h($_GET['id']) ?>&search=<?php echo h($_GET['search']) ?>'>
         <input class="search_btn" type="submit" value="検索">
         <select class="text_search" name="search">
         <?php if (!empty($_GET['search'])) :?>
@@ -103,18 +103,18 @@ if (empty($_GET['id']) || $_GET['id']=='') {
                 <option value="<?php echo $number ?>"><?php echo $value ?></option>
             <?php endforeach; ?>
         </select>
-        <input type='hidden' name='id' value="<?php echo $_GET['id'] ?>" >
+        <input type='hidden' name='id' value="<?php echo h($_GET['id']) ?>" >
     </form>
     <br><br>
     <table>
         <tr class="table_heading">
             <form action='index.php' method=get>
 
-                <input type='hidden' name='id' value="<?php echo $_GET['id']; ?>" >
+                <input type='hidden' name='id' value="<?php echo h($_GET['id']); ?>" >
                 <?php if (!empty($_GET['search'])) : ?>
-                    <input type='hidden' name='search' value="<?php echo $_GET['search']; ?>" >
+                    <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
-                <input type='hidden' name='order' value="<?php echo $_GET['order'] *= -1 ?>" >
+                <input type='hidden' name='order' value="<?php echo h($_GET['order'] *= -1) ?>" >
                 <th class="no">見積番号　<input class="ascdesc" type="submit" value="▼"></th>
                 
             </form>
@@ -137,35 +137,37 @@ if (empty($_GET['id']) || $_GET['id']=='') {
             ];
         } ?>
                 
-                    <?php if ($_GET['order']>0) : ?><!--降順-->
-                        <?php for ($i=count($quo)-1-10*($page-1); $i>count($quo)-1-10*($page) && $i >=0; $i--) : ?><!--最大キー引く１０＊ページ数-->
-                        <tr>
-                            <td class="td"><?php echo h($quo[$i]['no']);?></td>
-                            <td class="td"><?php echo h($quo[$i]['title']);?></td>
-                            <td class="td"><?php echo h($quo[$i]['manager']);?></td>
-                            <td class="td"><?php echo h($quo[$i]['total']);?>円</td><!--カンマをつける-->
-                            <td class="td"><?php echo h($quo[$i]['period']);?><br>
-                            <td class="td"><?php echo h($quo[$i]['due']);?></td>
-                            <td class="td"><?php echo h($quo[$i]['status']);?></td>
-                            <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
-                            <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quo['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
-                        </tr>
-                        <?php endfor; ?>
-                    <?php else : ?><!--初期昇順設定-->
-                        <?php for ($i=($page-1)*10; $i<($page)*10 && $i < count($quo); $i++) : ?><!--0-9/10-19/-->
-                        <tr>
-                            <td class="td"><?php echo h($quo[$i]['no']);?></td>
-                            <td class="td"><?php echo h($quo[$i]['title']);?></td>
-                            <td class="td"><?php echo h($quo[$i]['manager']);?></td>
-                            <td class="td"><?php echo h($quo[$i]['total']);?>円</td><!--カンマをつける-->
-                            <td class="td"><?php echo h($quo[$i]['period']);?><br>
-                            <td class="td"><?php echo h($quo[$i]['due']);?></td>
-                            <td class="td"><?php echo h($quo[$i]['status']);?></td>
-                            <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
-                            <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quo['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
-                        </tr>
-                        <?php endfor; ?>
-                    <?php endif; ?>        
+        <?php if ($_GET['order']>0) :
+            for ($i=count($quo)-1-10*(h($page)-1); $i>count($quo)-1-10*(h($page)) && $i >=0; $i--) :
+                ?><!--最大キー引く１０＊ページ数-->
+                <tr>
+                    <td class="td"><?php echo h($quo[$i]['no']);?></td>
+                    <td class="td"><?php echo h($quo[$i]['title']);?></td>
+                    <td class="td"><?php echo h($quo[$i]['manager']);?></td>
+                    <td class="td"><?php echo h($quo[$i]['total']);?>円</td><!--カンマをつける-->
+                    <td class="td"><?php echo h($quo[$i]['period']);?><br>
+                    <td class="td"><?php echo h($quo[$i]['due']);?></td>
+                    <td class="td"><?php echo h($quo[$i]['status']);?></td>
+                    <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
+                    <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quo['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
+                </tr>
+            <?php endfor; ?>
+        <?php else : //初期昇順設定
+            for ($i=(h($page-1))*10; $i<(h($page))*10 && $i < count($quo); $i++) :
+                ?><!--0-9/10-19/-->
+                <tr>
+                    <td class="td"><?php echo h($quo[$i]['no']);?></td>
+                    <td class="td"><?php echo h($quo[$i]['title']);?></td>
+                    <td class="td"><?php echo h($quo[$i]['manager']);?></td>
+                    <td class="td"><?php echo h($quo[$i]['total']);?>円</td><!--カンマをつける-->
+                    <td class="td"><?php echo h($quo[$i]['period']);?><br>
+                    <td class="td"><?php echo h($quo[$i]['due']);?></td>
+                    <td class="td"><?php echo h($quo[$i]['status']);?></td>
+                    <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
+                    <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quo['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
+                </tr>
+            <?php endfor; ?>
+        <?php endif; ?>        
       
     </table>
 <hr>
@@ -173,24 +175,24 @@ if (empty($_GET['id']) || $_GET['id']=='') {
 <div class="paging">
     <!--前へ-->
     <?php if ($page > 1) :  ?>
-        <span><a class="pgbtn" href="index.php?id=<?php echo $_GET['id'] ?>&page=<?php print($page -1);
+        <span><a class="pgbtn" href="index.php?id=<?php echo h($_GET['id']) ?>&page=<?php print(h($page) -1);
         if (!empty($_GET['search'])) {
-            echo '&search='.$_GET['search'] ;
+            echo '&search='.h($_GET['search']) ;
         }
         if (!empty($_GET['order'])) {
-            echo '&order='.$_GET['order']*-1 ;
+            echo '&order='.h($_GET['order'])*-1 ;
         } ?>">←前</a></span>
     <?php endif; ?>
     <!--今のページ-->
-    <span class="pgbtn nowpage"><?php print($page); ?></span>
+    <span class="pgbtn nowpage"><?php print(h($page)); ?></span>
     <!--次へ-->
     <?php if ($page < $maxPage) : ?>
-        <span><a class="pgbtn" href="index.php?id=<?php echo $_GET['id'] ?>&page=<?php print($page + 1);
+        <span><a class="pgbtn" href="index.php?id=<?php echo h($_GET['id']) ?>&page=<?php print(h($page) + 1);
         if (!empty($_GET['search'])) {
-            echo '&search='.$_GET['search'] ;
+            echo '&search='.h($_GET['search']) ;
         }
         if (!empty($_GET['order'])) {
-            echo '&order='.$_GET['order']*-1 ;
+            echo '&order='.h($_GET['order'])*-1 ;
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>

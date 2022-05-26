@@ -136,7 +136,7 @@ if (!empty($_GET)) {
 <body>
 <main>
     <div class="content_add">
-    <div><span class="title">見積作成</span><a class="btn" href="./index.php?id=<?php echo $_GET['id'] ?>">戻る</a></div>
+    <div><span class="title">見積作成</span><a class="btn" href="./index.php?id=<?php echo h($_GET['id']) ?>">戻る</a></div>
     <hr>
 <form action="" method="post">
     <table class="join_table">
@@ -144,7 +144,7 @@ if (!empty($_GET)) {
             <td>
                 <input class="text_join" type="text" name="title" 
                 value="<?php if (!empty($_POST['title'])) {
-                        echo $_POST['title'];
+                        echo h($_POST['title']);
                        } ?>">
                 <?php if ($error['title']==='blank') : ?>
                     <p class="error">※見積名を入力してください</p>
@@ -161,7 +161,7 @@ if (!empty($_GET)) {
             <td>
                 <input class="text_join_en" type="text" name="total" 
                 value="<?php if (!empty($_POST['total'])) {
-                        echo $_POST['total'];
+                        echo h($_POST['total']);
                        } ?>"> 円
                     <?php if ($error['total']==='blank') : ?>
                         <p class="error">※金額を入力してください</p>
@@ -178,7 +178,7 @@ if (!empty($_GET)) {
             <td>
                 <input class="text_join" type="text" name="period" 
                 value="<?php if (!empty($_POST['period'])) {
-                         echo $_POST['period'];
+                         echo h($_POST['period']);
                        } ?>">
                     <?php if ($error['period']==='blank') : ?>
                         <p class="error">※日付を入力してください</p>
@@ -195,7 +195,7 @@ if (!empty($_GET)) {
             <td>
                 <input class="text_join" type="text" name="due" 
                 value="<?php if (!empty($_POST['due'])) {
-                        echo $_POST['due'];
+                        echo h($_POST['due']);
                        } ?>">
                     <?php if ($error['due']==='blank') : ?>
                         <p class="error">※納期を入力してください</p>
@@ -235,8 +235,8 @@ if (!empty($_GET)) {
     </table>
     <hr>
     <input type="submit" value="見積作成" class="long_btn">
-    <input type="hidden" name="prefix" value="<?php echo $company['prefix'] ?>">
-    <input type="hidden" name="return_id" value="<?php echo $company['id'] ?>"><!--一覧にもどるため-->
+    <input type="hidden" name="prefix" value="<?php echo h($company['prefix']) ?>">
+    <input type="hidden" name="return_id" value="<?php echo h($company['id']) ?>"><!--一覧にもどるため-->
 </form>
     </div>
 </main>

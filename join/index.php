@@ -111,16 +111,15 @@ if (!empty($_POST)) {
             SET company_name=?, manager_name=?,phone_number=?,
             postal_code=?,prefecture_code=?,address=?,
             mail_address=?,prefix=?,created=NOW(),modified=NOW()');
-        echo $ret=$statement->execute([
-            $_POST['name'],
-            $_POST['manager'],
-            $_POST['phone'],
-            $_POST['postal_code'],
-            $_POST['prefecture_code'],
-            $_POST['address'],
-            $_POST['email'],
-            $_POST['prefix'],
-        ]);
+        $statement->bindParam(1, $_POST['name'], PDO::PARAM_STR);
+        $statement->bindParam(2, $_POST['manager'], PDO::PARAM_STR);
+        $statement->bindParam(3, $_POST['phone'], PDO::PARAM_STR);
+        $statement->bindParam(4, $_POST['postal_code'], PDO::PARAM_STR);
+        $statement->bindParam(5, $_POST['prefecture_code'], PDO::PARAM_STR);
+        $statement->bindParam(6, $_POST['address'], PDO::PARAM_STR);
+        $statement->bindParam(7, $_POST['email'], PDO::PARAM_STR);
+        $statement->bindParam(8, $_POST['prefix'], PDO::PARAM_STR);
+        echo $ret=$statement->execute();
         header('Location:../');
         exit();
     }

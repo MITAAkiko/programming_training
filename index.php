@@ -100,7 +100,7 @@ function h($value)
     <hr>
     <a href="join/" class="long_btn">新規登録</a>
     <!--検索フォーム-->
-    <form action="index.php" method="get" href='./?search=<?php echo $_GET['search'] ?>'>
+    <form action="index.php" method="get" href='./?search=<?php echo h($_GET['search']) ?>'>
         <input class="search_btn" type="submit" value="検索">
         <input class="text_search" type="text" name="search" value="<?php
         if (!empty($_GET['search'])) {
@@ -115,9 +115,9 @@ function h($value)
         <form action='index.php' method=get>
 
             <?php if (!empty($_GET['search'])) : ?>
-                <input type='hidden' name='search' value="<?php echo $_GET['search']; ?>" >
+                <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
             <?php endif; ?>
-            <input type='hidden' name='order' value="<?php echo $_GET['order'] *= -1 ?>" >
+            <input type='hidden' name='order' value="<?php echo h($_GET['order'] *= -1) ?>" >
             <th class="th ID">会社番号　<input class="ascdesc" type="submit" value="▼"></th>
 
         </form>
@@ -149,43 +149,33 @@ function h($value)
 <hr>
 <div class="paging">
     <?php if ($page > 1) :  ?>
-        <span><a class="pgbtn" href="index.php?page=<?php print($page -1);
+        <span><a class="pgbtn" href="index.php?page=<?php print(h($page) -1);
         /*検索結果あり*/
         if (!empty($_GET['search'])) {
-            echo '&search='.$_GET['search'] ;
+            echo '&search='.h($_GET['search']) ;
         }/*昇順降順*/
         if (!empty($_GET['order'])) {
-            echo '&order='.$_GET['order']*-1 ;
+            echo '&order='.h($_GET['order'])*-1 ;
         } ?>">←前へ</a></span>
     <?php endif; ?>
-    <span class="pgbtn nowpage"><?php print($page); ?></span>
+    <span class="pgbtn nowpage"><?php print(h($page)); ?></span>
     <?php if ($page < $maxPage) : ?>
-        <span><a class="pgbtn" href="index.php?page=<?php print($page + 1);
+        <span><a class="pgbtn" href="index.php?page=<?php print(h($page) + 1);
         if (!empty($_GET['search'])) {
-            echo '&search='.$_GET['search'] ;
+            echo '&search='.h($_GET['search']) ;
         }/*昇順降順*/
         if (!empty($_GET['order'])) {
-            echo '&order='.$_GET['order']*-1 ;
+            echo '&order='.h($_GET['order'])*-1 ;
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>
 
 </main>
-<!--
-<script src="../../../jquery-3.6.0.min.js"></script>
-<script src="jquery.tablesorter.min.js"></script>
-    -->
+
 <script>
     function cfm(){
         return confirm('本当に削除しますか');
 }
-$(function(){
-  $('#companies_list').tablesorter({
-    headers: {
-      0: { sorter: "digit"} /// => 数値としてソート
-    }
-  });
-});
 </script>
 </body>
 
