@@ -167,3 +167,14 @@ table th ,table td{
     margin-top:3px;
     font-size: 20px;
 }
+
+.ascdesc{
+    background-color: #EE0000;
+    color: white;
+    border: 0px;
+    float: right;
+}
+.ascdesc:hover{
+    color: rgb(191, 191, 191);
+    
+}

@@ -10,7 +10,9 @@ if (!empty($_GET['page'])) {
         $page=1;
     }
 }
-$status = '';
+if (empty($_GET['order'])) {
+    $_GET['order']=1;
+}
 //最小値
 $page = max($page, 1);
 //最後のページを取得する
@@ -39,18 +41,35 @@ $start = ($page - 1) * 10;
 //DBに接続する用意
 //絞り込みあり
 if (!empty($_GET['search'])) {
-    $invoices = $db -> prepare('SELECT   i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
-        FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL AND i.status=? ORDER BY i.no ASC LIMIT ?,10');
-    $invoices -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-    $invoices -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
-    $invoices -> bindParam(3, $start, PDO::PARAM_INT);
-    $invoices -> execute();
+    if (($_GET['order'])>0) {
+        $invoices = $db -> prepare('SELECT   i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
+            FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL AND i.status=? ORDER BY i.no ASC LIMIT ?,10');
+        $invoices -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
+        $invoices -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
+        $invoices -> bindParam(3, $start, PDO::PARAM_INT);
+        $invoices -> execute();
+    } else {
+        $invoices = $db -> prepare('SELECT   i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
+            FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL AND i.status=? ORDER BY i.no DESC LIMIT ?,10');
+        $invoices -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
+        $invoices -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
+        $invoices -> bindParam(3, $start, PDO::PARAM_INT);
+        $invoices -> execute();
+    }
 } else {
-    $invoices = $db -> prepare('SELECT  i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
-        FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL ORDER BY i.no ASC LIMIT ?,10');
-    $invoices -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-    $invoices -> bindParam(2, $start, PDO::PARAM_INT);
-    $invoices -> execute();
+    if (($_GET['order'])>0) {
+        $invoices = $db -> prepare('SELECT  i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
+            FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL ORDER BY i.no ASC LIMIT ?,10');
+        $invoices -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
+        $invoices -> bindParam(2, $start, PDO::PARAM_INT);
+        $invoices -> execute();
+    } else {
+        $invoices = $db -> prepare('SELECT  i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
+            FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL ORDER BY i.no DESC LIMIT ?,10');
+        $invoices -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
+        $invoices -> bindParam(2, $start, PDO::PARAM_INT);
+        $invoices -> execute();
+    }
 }
 //会社名を表示させる（見積がないときなど）
 $companies = $db -> prepare('SELECT  company_name, id FROM companies WHERE id=? AND deleted IS NULL');
@@ -105,10 +124,21 @@ if (empty($_GET['id']) || $_GET['id']=='') {
     <br><br>
     <table>
         <tr class="table_heading">
-            <th class="no">請求番号</th><th class="title">請求名</th><th class="manager">担当者名</th>
-            <th class="total">金額</th><th class="pay">支払期限</th><th class="date">請求日</th><th class="quo">見積番号</th>
+            <form action='index.php' method=get>
+
+                <input type='hidden' name='id' value="<?php echo $_GET['id']; ?>" >
+                <?php if (!empty($_GET['search'])) : ?>
+                    <input type='hidden' name='search' value="<?php echo $_GET['search']; ?>" >
+                <?php endif; ?>
+                <input type='hidden' name='order' value="<?php echo $_GET['order'] *= -1 ?>" >
+                <th class="no">請求番号　<input class="ascdesc" type="submit" value="▼"></th>
+
+            </form>
+                
+            <th class="title">請求名</th><th class="manager">担当者名</th><th class="total">金額</th>
+            <th class="pay">支払期限</th><th class="date">請求日</th><th class="quo">見積番号</th>
             <th class="status">状態</th><th class="i_edit">編集</th><th class="i_delete">削除</th>
-           
+            
         </tr>
         
         <?php  foreach ($invoices as $invoice) : ?>
@@ -130,9 +160,12 @@ if (empty($_GET['id']) || $_GET['id']=='') {
 <hr>
 <div class="paging">
     <?php if ($page > 1) :  ?>
-        <span><a class="pgbtn" href="index.php?id=<?php echo $_GET['id'] ?>&?page=<?php print($page -1);
+        <span><a class="pgbtn" href="index.php?id=<?php echo $_GET['id'] ?>&page=<?php print($page -1);
         if (!empty($_GET['search'])) {
              echo '&search='.$_GET['search'] ;
+        }
+        if (!empty($_GET['order'])) {
+            echo '&order='.$_GET['order']*-1 ;
         } ?>">←前</a></span>
     <?php endif; ?>
     <span class="pgbtn nowpage"><?php print($page); ?></span>
@@ -140,6 +173,9 @@ if (empty($_GET['id']) || $_GET['id']=='') {
         <span><a class="pgbtn" href="index.php?id=<?php echo $_GET['id'] ?>&page=<?php print($page + 1);
         if (!empty($_GET['search'])) {
              echo '&search='.$_GET['search'] ;
+        }
+        if (!empty($_GET['order'])) {
+            echo '&order='.$_GET['order']*-1 ;
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>
