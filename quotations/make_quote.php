@@ -52,6 +52,8 @@ if (!empty($_POST)) {
         $error['period']='blank';
     } elseif (!preg_match('/^[0-9]{8}$/', $_POST['period'])) {
         $error['period']='type';
+    } elseif (strtotime($_POST['period'])===false) {
+        $error['period']='check_date';
     }
     if (strtotime($_POST['period']) > strtotime($_POST['due'])) {
         $error['due']='time';
@@ -59,6 +61,8 @@ if (!empty($_POST)) {
         $error['due']='blank';
     } elseif (!preg_match('/^[0-9]{8}$/', $_POST['due'])) {
         $error['due']='type';
+    } elseif (strtotime($_POST['due'])===false) {
+        $error['due']='check_date';
     }
     if (!preg_match("/^[0-9]+$/", $_POST['status'])) { //空文字ダメの半角数値
         $error['status']='type';
@@ -83,6 +87,7 @@ if (!empty($_POST)) {
         $quotate_id = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
         $no = $_POST['prefix'].'-q-'.$quotate_id;//見積番号
 
+        
         $statement = $db->prepare('INSERT INTO quotations 
             SET company_id=?,no=?,
             title=?, total=?, validity_period=?, due_date=?, status=?, 
@@ -147,7 +152,6 @@ if (!empty($_GET)) {
                 <?php endif; ?>
             </td>
         </tr>
-<!--会社名取得-->
         <tr><th>会社名</th> 
             <td><?php echo h($company['company_name']) ?></td>
         </tr>
@@ -180,6 +184,9 @@ if (!empty($_GET)) {
                     <?php if ($error['period'] === 'type') : ?>
                         <p class="error">※半角数字のみで入力してください（例:20210525）</p>
                     <?php endif; ?>
+                    <?php if ($error['period']==='check_date') : ?>
+                        <p class="error">※正しい日付を入力してください</p>
+                    <?php endif; ?>
             </td>
         </tr>
         <tr><th>納期</th> 
@@ -196,6 +203,9 @@ if (!empty($_GET)) {
                     <?php endif; ?>
                     <?php if ($error['due'] === 'type') : ?>
                         <p class="error">※半角数字のみで入力してください（例:20210525）</p>
+                    <?php endif; ?>
+                    <?php if ($error['due']==='check_date') : ?>
+                        <p class="error">※正しい日付を入力してください</p>
                     <?php endif; ?>
             </td>
         </tr>
