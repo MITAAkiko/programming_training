@@ -87,7 +87,8 @@ if (!empty($_POST)) {
         $quotate_id = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
         $no = $_POST['prefix'].'-q-'.$quotate_id;//見積番号
 
-        
+        $due = new DateTime();
+        $due = $due->format('Y-m-d');
         $statement = $db->prepare('INSERT INTO quotations 
             SET company_id=?,no=?,
             title=?, total=?, validity_period=?, due_date=?, status=?, 
@@ -97,7 +98,8 @@ if (!empty($_POST)) {
         $statement->bindParam(3, $_POST['title'], PDO::PARAM_STR);
         $statement->bindParam(4, $_POST['total'], PDO::PARAM_INT);
         $statement->bindParam(5, $_POST['period'], PDO::PARAM_INT);
-        $statement->bindParam(6, $_POST['due'], PDO::PARAM_INT);
+        //$statement->bindParam(6, $_POST['due'], PDO::PARAM_INT);
+        $statement->bindValue(6, $due, PDO::PARAM_STR);
         $statement->bindParam(7, $_POST['status'], PDO::PARAM_INT);
         echo $ret=$statement->execute();
         header('Location:./?id='.$_POST['return_id']);

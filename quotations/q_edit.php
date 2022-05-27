@@ -60,42 +60,38 @@ $isError = '';
 if (!empty($_POST)) {
     if (($_POST['title'])==='') {
         $error['title']='blank';
-    }
-    if (strlen($_POST['title'])>64) {
+    } elseif (strlen($_POST['title'])>64) {
         $error['title']='long';
     }
     if (($_POST['total'])==='') {
         $error['total']='blank';
-    }
-    if (!preg_match('/^[0-9]+$/', $_POST['total'])) { //空文字ダメの半角数値
+    } elseif (!preg_match('/^[0-9]+$/', $_POST['total'])) { //空文字ダメの半角数値
         $error['total']='type';
-    }
-    if (strlen($_POST['total'])>10) {
+    } elseif (strlen($_POST['total'])>10) {
         $error['total']='long';
-    }
-    if (!preg_match('/^[0-9]{8}$/', $_POST['period'])) {
-        $error['period']='type';
     }
     if (($_POST['period'])==='') {
         $error['period']='blank';
-    }
-    if (strtotime($_POST['period']) > strtotime($_POST['due'])) {
-        $error['due']='time';
+    } elseif (!preg_match('/^[0-9]{8}$/', $_POST['period'])) {
+        $error['period']='type';
+    } elseif (strtotime($_POST['period'])===false) {
+        $error['period']='check_date';
     }
     if (($_POST['due'])==='') {
         $error['due']='blank';
-    }
-    if (!preg_match('/^[0-9]{8}$/', $_POST['due'])) {
+    } elseif (!preg_match('/^[0-9]{8}$/', $_POST['due'])) {
         $error['due']='type';
-    }
-    if (!preg_match("/^[0-9]+$/", $_POST['status'])) { //空文字ダメの半角数値
-        $error['status']='type';
-    }
-    if (strlen($_POST['status'])>1) {
-        $error['status']='long';
+    } elseif (strtotime($_POST['period']) > strtotime($_POST['due'])) {
+        $error['due']='time';
+    } elseif (strtotime($_POST['due'])===false) {
+        $error['due']='check_date';
     }
     if (($_POST['status'])==='') {
         $error['status']='blank';
+    } elseif (!preg_match("/^[0-9]+$/", $_POST['status'])) { //空文字ダメの半角数値
+        $error['status']='type';
+    } elseif (strlen($_POST['status'])>1) {
+        $error['status']='long';
     }
 }
 
@@ -202,6 +198,9 @@ if (!empty($_POST)) {
                     <?php if ($error['period'] === 'type') : ?>
                         <p class="error">※半角数字のみで入力してください（例:20210525）</p>
                     <?php endif; ?>
+                    <?php if ($error['period']==='check_date') : ?>
+                        <p class="error">※正しい日付を入力してください</p>
+                    <?php endif; ?>
             </td>
         </tr>
         <tr><th>納期</th> 
@@ -220,6 +219,9 @@ if (!empty($_POST)) {
                     <?php endif; ?>
                     <?php if ($error['due'] === 'type') : ?>
                         <p class="error">※半角数字のみで入力してください（例:20210525）</p>
+                    <?php endif; ?>
+                    <?php if ($error['due']==='check_date') : ?>
+                        <p class="error">※正しい日付を入力してください</p>
                     <?php endif; ?>
             </td>
         </tr>

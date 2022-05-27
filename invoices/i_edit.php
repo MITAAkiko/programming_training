@@ -70,24 +70,28 @@ if (!empty($_POST)) {
     } elseif (strlen($_POST['total'])>10) {
         $error['total']='long';
     }
-    if (!preg_match('/^[0-9]{8}$/', $_POST['pay'])) {
-        $error['pay']='type';
-    } elseif (($_POST['pay'])==='') {
+    if (($_POST['pay'])==='') {
         $error['pay']='blank';
+    } elseif (!preg_match('/^[0-9]{8}$/', $_POST['pay'])) {
+        $error['pay']='type';
     } elseif (strtotime($_POST['pay']) < strtotime($_POST['date'])) {
         $error['pay']='time';
+    } elseif (strtotime($_POST['pay'])===false) {
+        $error['pay']='check_date';
     }
     if (($_POST['date'])==='') {
         $error['date']='blank';
     } elseif (!preg_match('/^[0-9]{8}$/', $_POST['date'])) {
         $error['date']='type';
+    } elseif (strtotime($_POST['date'])===false) {
+        $error['date']='check_date';
     }
-    if (!preg_match("/^[0-9]+$/", $_POST['status'])) { //空文字ダメの半角数値
+    if (($_POST['status'])==='') {
+        $error['status']='blank';
+    } elseif (!preg_match("/^[0-9]+$/", $_POST['status'])) { //空文字ダメの半角数値
         $error['status']='type';
     } elseif (strlen($_POST['status'])>1) {
         $error['status']='long';
-    } elseif (($_POST['status'])==='') {
-        $error['status']='blank';
     }
 }
 
@@ -193,6 +197,9 @@ if (!empty($_POST)) {
                 <?php if ($error['pay'] === 'time') : ?>
                     <p class="error">※請求日より後に設定してください</p>
                 <?php endif; ?>
+                <?php if ($error['pay']==='check_date') : ?>
+                        <p class="error">※正しい日付を入力してください</p>
+                <?php endif; ?>
             </td>
         </tr>
         <tr><th>請求日</th> 
@@ -208,6 +215,9 @@ if (!empty($_POST)) {
                     <?php endif; ?>
                     <?php if ($error['date'] === 'type') : ?>
                         <p class="error">※半角数字のみで入力してください（例:20210525）</p>
+                    <?php endif; ?>
+                    <?php if ($error['date']==='check_date') : ?>
+                        <p class="error">※正しい日付を入力してください</p>
                     <?php endif; ?>
             </td>
         </tr>
