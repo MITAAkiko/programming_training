@@ -70,4 +70,4 @@ define('STATUSES', [
 */
 
 /*一覧で表示
- <td class="td"><?php echo h(STATUSES[$quotation['status']]);?></td>
+ <td class="td"><?php echo h(STATUSES[$quotation['status']]);?></td>*/

@@ -45,25 +45,26 @@ if (!empty($_GET['search'])) {
     $invoices -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
     $invoices -> bindParam(3, $start, PDO::PARAM_INT);
     $invoices -> execute();
-}else{
+} else {
     $invoices = $db -> prepare('SELECT  i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
         FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL ORDER BY i.no ASC LIMIT ?,10');
-    $invoices -> bindParam(1,$_GET['id'],PDO::PARAM_INT);
-    $invoices -> bindParam(2,$start,PDO::PARAM_INT);
+    $invoices -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
+    $invoices -> bindParam(2, $start, PDO::PARAM_INT);
     $invoices -> execute();
 }
 //会社名を表示させる（見積がないときなど）
 $companies = $db -> prepare('SELECT  company_name, id FROM companies WHERE id=? AND deleted IS NULL');
-$companies -> bindParam(1,$_GET['id'],PDO::PARAM_INT);
+$companies -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
 $companies -> execute();
 $company = $companies -> fetch();
 
 //htmlspecialchars
-function h($value){
-    return htmlspecialchars($value,ENT_QUOTES);
+function h($value)
+{
+    return htmlspecialchars($value, ENT_QUOTES);
 }
 //idのない人を返す
-if(empty($_GET['id']) || $_GET['id']==''){
+if (empty($_GET['id']) || $_GET['id']=='') {
     header('Location:../');
     exit();
 }
@@ -90,11 +91,11 @@ if(empty($_GET['id']) || $_GET['id']==''){
         <input class="search_btn" type="submit" value="検索">
         <select class="text_search" name="search">
         <!--検索した後の初期値-->
-        <?php if(!empty($_GET['search'])):?>
+        <?php if (!empty($_GET['search'])) :?>
             <option value="<?php echo h($_GET['search']); ?>"><?php echo STATUSES[h($_GET['search'])]?></option>
         <?php endif; ?>
         <option value="">すべての状態</option>
-            <?php foreach(STATUSES as $number => $value): ?>
+            <?php foreach (STATUSES as $number => $value) : ?>
                 <option value="<?php echo $number ?>"><?php echo $value ?></option>
             <?php endforeach; ?>
         </select>
@@ -110,32 +111,36 @@ if(empty($_GET['id']) || $_GET['id']==''){
            
         </tr>
         
-        <?php  foreach($invoices as $invoice): ?>
+        <?php  foreach ($invoices as $invoice) : ?>
                 <tr>
                     <td class="td"><?php echo h($invoice['no']);?></td>
                     <td class="td"><?php echo h($invoice['title']);?></td>
                     <td class="td"><?php echo h($invoice['manager_name']);?></td>
                     <td class="td"><?php echo h(number_format($invoice['total']));?>円</td><!--カンマをつける-->
-                    <td class="td"><?php echo h(str_replace('-','/',$invoice['payment_deadline']));?><br>
-                    <td class="td"><?php echo h(str_replace('-','/',$invoice['date_of_issue']));?></td>
+                    <td class="td"><?php echo h(str_replace('-', '/', $invoice['payment_deadline']));?><br>
+                    <td class="td"><?php echo h(str_replace('-', '/', $invoice['date_of_issue']));?></td>
                     <td class="td"><?php echo h($invoice['quotation_no']);?></td>
                     <td class="td"><?php echo h(STATUSES[$invoice['status']]);?></td>
                     <td class="td"><a class="edit_delete" href="i_edit.php?id=<?php echo h($invoice['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
                     <td class="td"><a class="edit_delete" href="i_delete.php?id=<?php echo h($invoice['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
                 </tr>
-            <?php endforeach; ?>
+        <?php endforeach; ?>
             <!--==koko-->       
     </table>
 <hr>
 <div class="paging">
-    <?php if($page > 1):  ?>
-        <span><a class="pgbtn" href="index.php?id=<?php echo $_GET['id'] ?>&?page=<?php print($page -1); 
-         if(!empty($_GET['search'])){ echo '&search='.$_GET['search'] ;} ?>">←前</a></span>
+    <?php if ($page > 1) :  ?>
+        <span><a class="pgbtn" href="index.php?id=<?php echo $_GET['id'] ?>&?page=<?php print($page -1);
+        if (!empty($_GET['search'])) {
+             echo '&search='.$_GET['search'] ;
+        } ?>">←前</a></span>
     <?php endif; ?>
     <span class="pgbtn nowpage"><?php print($page); ?></span>
-    <?php if($page < $maxPage): ?>
-        <span><a class="pgbtn" href="index.php?id=<?php echo $_GET['id'] ?>&page=<?php print($page + 1); 
-         if(!empty($_GET['search'])){ echo '&search='.$_GET['search'] ;} ?>">次へ→</a></span>
+    <?php if ($page < $maxPage) : ?>
+        <span><a class="pgbtn" href="index.php?id=<?php echo $_GET['id'] ?>&page=<?php print($page + 1);
+        if (!empty($_GET['search'])) {
+             echo '&search='.$_GET['search'] ;
+        } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>
 
@@ -145,7 +150,7 @@ if(empty($_GET['id']) || $_GET['id']==''){
 
 <script>
 function cfm(){
-    return confirm('「<?php echo h($invoice['no']); ?>」を本当に削除しますか');
+    return confirm('本当に削除しますか');
 }
 
 </script>

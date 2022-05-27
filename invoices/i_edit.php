@@ -154,7 +154,6 @@ if (!empty($_POST)) {
                 <?php endif; ?>
             </td>
         </tr>
-<!--会社名取得-->
         <tr><th>会社名</th> 
             <td><?php echo $company['company_name'] ?></td>
         </tr>
