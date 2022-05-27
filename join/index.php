@@ -37,15 +37,13 @@ $isError = '';
 if (!empty($_POST)) {
     if (($_POST['name'])==='') {
         $error['name']='blank';
-    }
-    if (strlen($_POST['name'])>64) {
+    } elseif (strlen($_POST['name'])>64) {
         $error['name']='long';
     }
 
     if (($_POST['manager'])==='') {
         $error['manager']='blank';
-    }
-    if (strlen($_POST['manager'])>32) {
+    } elseif (strlen($_POST['manager'])>32) {
         $error['manager']='long';
     }
 
