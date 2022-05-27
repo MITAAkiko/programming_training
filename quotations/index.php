@@ -80,19 +80,17 @@ foreach ($quotations as $quotation) {
 
 //キーを用いた方（・・・as $key => $quotation){ $quo[$key]=[・・・]でも同様の結果
 foreach ($quotations as $quotation) {
-        $quo[] = [
-            'no' => $quotation['no'],
-            'title' => $quotation['title'],
-            "manager" => $quotation['manager_name'],
-            "total" => number_format($quotation['total']),
-            "period" => str_replace('-', '/', $quotation['validity_period']),
-            "due" => str_replace('-', '/', $quotation['due_date']),
-            "status" => STATUSES[$quotation['status']],
-            "id" => $quotation['id']
-        ];
-        //var_dump($quo[0]['title']);//quo[0]に21個$quo[0]['no']の値が代入されている。
+    $quo[] = [
+        'no' => $quotation['no'],
+        'title' => $quotation['title'],
+        "manager" => $quotation['manager_name'],
+        "total" => number_format($quotation['total']),
+        "period" => str_replace('-', '/', $quotation['validity_period']),
+        "due" => str_replace('-', '/', $quotation['due_date']),
+        "status" => STATUSES[$quotation['status']],
+        "id" => $quotation['id']
+    ];
 }
-
 //idのない人を返す
 if (empty($_GET['id']) || $_GET['id']=='') {
     header('Location:../');

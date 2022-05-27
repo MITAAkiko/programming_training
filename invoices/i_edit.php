@@ -1,9 +1,9 @@
 <?php
-//idがない時はindex.phpに返す
 require('../dbconnect.php');
 require_once('../config.php');
 require('../functions.php');
 
+//idがない時はindex.phpに返す
 if (empty($_GET)) {
     header('Location:./');
 }
