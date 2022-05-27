@@ -11,6 +11,9 @@ if (!empty($_GET['page'])) {
         $page=1;
     }
 }
+if (empty($_GET['order'])) {
+    $_GET['order']=1;
+}
 //最小値
 $page = max($page, 1);
 //最後のページを取得する
@@ -37,19 +40,37 @@ $start = ($page - 1) * 10;
 //DBに接続する用意
 //検索した場合
 if (!empty($_GET['search'])) {//GETでおくる
-    $searched = '%'.$_GET['search'].'%' ;
-    $companies=$db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
-        FROM companies WHERE deleted IS NULL AND (company_name LIKE ? OR manager_name LIKE ?)
-        ORDER BY id ASC LIMIT ?,10');
-    $companies->bindParam(1, $searched, PDO::PARAM_STR);
-    $companies->bindParam(2, $searched, PDO::PARAM_STR);
-    $companies->bindParam(3, $start, PDO::PARAM_INT);
-    $companies->execute();
+    if (($_GET['order'])>0) {
+        $searched = '%'.$_GET['search'].'%' ;
+        $companies=$db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
+            FROM companies WHERE deleted IS NULL AND (company_name LIKE ? OR manager_name LIKE ?)
+            ORDER BY id ASC LIMIT ?,10');
+        $companies->bindParam(1, $searched, PDO::PARAM_STR);
+        $companies->bindParam(2, $searched, PDO::PARAM_STR);
+        $companies->bindParam(3, $start, PDO::PARAM_INT);
+        $companies->execute();
+    } else {
+        $searched = '%'.$_GET['search'].'%' ;
+        $companies=$db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
+            FROM companies WHERE deleted IS NULL AND (company_name LIKE ? OR manager_name LIKE ?)
+            ORDER BY id DESC LIMIT ?,10');
+        $companies->bindParam(1, $searched, PDO::PARAM_STR);
+        $companies->bindParam(2, $searched, PDO::PARAM_STR);
+        $companies->bindParam(3, $start, PDO::PARAM_INT);
+        $companies->execute();
+    }
 } else {//検索なかった場合
-    $companies=$db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
-        FROM companies WHERE deleted IS NULL ORDER BY id ASC LIMIT ?,10');
-    $companies->bindParam(1, $start, PDO::PARAM_INT);
-    $companies->execute();
+    if (($_GET['order'])>0) {
+        $companies=$db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
+            FROM companies WHERE deleted IS NULL ORDER BY id ASC LIMIT ?,10');
+        $companies->bindParam(1, $start, PDO::PARAM_INT);
+        $companies->execute();
+    } else {
+        $companies=$db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
+            FROM companies WHERE deleted IS NULL ORDER BY id DESC LIMIT ?,10');
+        $companies->bindParam(1, $start, PDO::PARAM_INT);
+        $companies->execute();
+    }
 }
 
 //htmlspecialchars
@@ -58,7 +79,6 @@ function h($value)
     return htmlspecialchars($value, ENT_QUOTES);
 }
 
-$prefecture_code='';
 
 ?>
 
@@ -87,19 +107,28 @@ $prefecture_code='';
              echo h($_GET['search']);
         } ?>">
     </form>
+    <br>
 
-    <br><br>
     <table id='companies_list'>
-    <thead>
+ <!--   <thead>-->
         <tr class="table_heading">
-            <th class="th ID">会社番号</th><th class="th name">会社名</th>
-            <th class="th PIC">担当者名</th><th class="th tel">電話番号</th>
+        <form action='index.php' method=get>
+
+            <?php if (!empty($_GET['search'])) : ?>
+                <input type='hidden' name='search' value="<?php echo $_GET['search']; ?>" >
+            <?php endif; ?>
+            <input type='hidden' name='order' value="<?php echo $_GET['order'] *= -1 ?>" >
+            <th class="th ID">会社番号　<input class="ascdesc" type="submit" value="▼"></th>
+
+        </form>
+
+            <th class="th name">会社名</th><th class="th PIC">担当者名</th><th class="th tel">電話番号</th>
             <th class="th address">住所</th><th class="th email">メールアドレス</th>
             <th class="th quotation">見積一覧</th><th class="th invoice">請求一覧</th>
             <th class="th edit">編集</th><th class="th delete">削除</th>
         </tr>
-    </thead>
-    <tbody>    
+<!--    </thead>
+    <tbody>    -->
         <?php foreach ($companies as $company) : ?>
                 <tr>
                     <td class="td"><?php echo h($company['id']);?></td>
@@ -115,7 +144,7 @@ $prefecture_code='';
                     <td class="td"><a class="edit_delete" href="delete.php?id=<?php echo h($company['id']); ?>" onclick="return cfm()">削除</a></td>
                 </tr>
         <?php endforeach; ?>
-    </tbody>
+<!--    </tbody>-->
     </table>
 <hr>
 <div class="paging">
@@ -124,6 +153,9 @@ $prefecture_code='';
         /*検索結果あり*/
         if (!empty($_GET['search'])) {
             echo '&search='.$_GET['search'] ;
+        }/*昇順降順*/
+        if (!empty($_GET['order'])) {
+            echo '&order='.$_GET['order']*-1 ;
         } ?>">←前へ</a></span>
     <?php endif; ?>
     <span class="pgbtn nowpage"><?php print($page); ?></span>
@@ -131,15 +163,18 @@ $prefecture_code='';
         <span><a class="pgbtn" href="index.php?page=<?php print($page + 1);
         if (!empty($_GET['search'])) {
             echo '&search='.$_GET['search'] ;
+        }/*昇順降順*/
+        if (!empty($_GET['order'])) {
+            echo '&order='.$_GET['order']*-1 ;
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>
 <br>
 </main>
-
+<!--
 <script src="../../../jquery-3.6.0.min.js"></script>
 <script src="jquery.tablesorter.min.js"></script>
-
+    -->
 <script>
     function cfm(){
         return confirm('本当に削除しますか');
