@@ -10,7 +10,9 @@ if (!empty($_GET['page'])) {
         $page=1;
     }
 }
-
+if (empty($_GET['order'])) {
+    $_GET['order']=1;
+}
 //最小値
 $page = max($page, 1);
 
@@ -41,18 +43,34 @@ $start = ($page - 1) * 10;
 //DBに接続する用意
 //絞り込みあり
 if (!empty($_GET['search'])) {
-    $quotations = $db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
-        FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL AND q.status=? ORDER BY q.no ASC LIMIT ?,10');
-    $quotations -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-    $quotations -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
-    $quotations -> bindParam(3, $start, PDO::PARAM_INT);
+    if (($_GET['order'])>0) {
+        $quotations = $db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
+            FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL AND q.status=? ORDER BY q.no ASC LIMIT ?,10');
+        $quotations -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
+        $quotations -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
+        $quotations -> bindParam(3, $start, PDO::PARAM_INT);
+    } else {
+        $quotations = $db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
+            FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL AND q.status=? ORDER BY q.no DESC LIMIT ?,10');
+        $quotations -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
+        $quotations -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
+        $quotations -> bindParam(3, $start, PDO::PARAM_INT);
+    }
     $quotations -> execute();
 } else {//絞り込みなし
-    $quotations = $db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
-        FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL ORDER BY q.no ASC LIMIT ?,10');
-    $quotations -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-    $quotations -> bindParam(2, $start, PDO::PARAM_INT);
-    $quotations -> execute();
+    if (($_GET['order'])>0) {
+        $quotations = $db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
+            FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL ORDER BY q.no ASC LIMIT ?,10');
+        $quotations -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
+        $quotations -> bindParam(2, $start, PDO::PARAM_INT);
+        $quotations -> execute();
+    } else {
+        $quotations = $db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
+            FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL ORDER BY q.no DESC LIMIT ?,10');
+        $quotations -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
+        $quotations -> bindParam(2, $start, PDO::PARAM_INT);
+        $quotations -> execute();
+    }
 }
 
 //会社名を表示させる（見積がないときなど）
@@ -71,6 +89,8 @@ if (empty($_GET['id']) || $_GET['id']=='') {
     header('Location:../');
     exit();
 }
+
+var_dump($_GET);
 ?>
 
 <!DOCTYPE html>
@@ -103,10 +123,19 @@ if (empty($_GET['id']) || $_GET['id']=='') {
         </select>
         <input type='hidden' name='id' value="<?php echo $_GET['id'] ?>" >
     </form>
-    <br><br>
+    <br>
+    <?php var_dump($_GET); ?>
     <table>
         <tr class="table_heading">
-            <th class="no">見積番号</th><th class="title">見積名</th><th class="manager">担当者名</th>
+            <form action='index.php' method=get>
+
+                <input type='hidden' name='id' value="<?php echo $_GET['id']; ?>" >
+                <input type='hidden' name='search' value="<?php echo $_GET['search']; ?>" >
+                <input type='hidden' name='order' value="<?php echo $_GET['order'] *= -1 ?>" >
+                <th class="no">見積番号　<input type="submit" value="▼"></th>
+                
+            </form>
+            <th class="title">見積名</th><th class="manager">担当者名</th>
             <th class="total">金額</th><th class="period">見積書有効期限</th><th class="due">納期</th>
             <th class="status">状態</th><th class="q_edit">編集</th><th class="q_delete">削除</th>
         </tr>
@@ -126,20 +155,32 @@ if (empty($_GET['id']) || $_GET['id']=='') {
         <?php endforeach; ?>
         
     </table>
+    <?php var_dump($_GET); ?>
 <hr>
+
 <div class="paging">
+    <!--前へ-->
     <?php if ($page > 1) :  ?>
-        <span><a class="pgbtn" href="index.php?id=<?php echo $_GET['id'] ?>&?page=<?php print($page -1);
+        <span><a class="pgbtn" href="index.php?id=<?php echo $_GET['id'] ?>&page=<?php print($page -1);
         if (!empty($_GET['search'])) {
             echo '&search='.$_GET['search'] ;
+        }
+        if (!empty($_GET['order'])) {
+            echo '&order='.$_GET['order']*-1 ;
         } ?>">←前</a></span>
     <?php endif; ?>
+    <!--今のページ-->
     <span class="pgbtn nowpage"><?php print($page); ?></span>
+    <!--次へ-->
     <?php if ($page < $maxPage) : ?>
         <span><a class="pgbtn" href="index.php?id=<?php echo $_GET['id'] ?>&page=<?php print($page + 1);
         if (!empty($_GET['search'])) {
             echo '&search='.$_GET['search'] ;
+        }
+        if (!empty($_GET['order'])) {
+            echo '&order='.$_GET['order']*-1 ;
         } ?>">次へ→</a></span>
+        <?php var_dump($_GET); ?>
     <?php endif; ?>
 </div>
 
