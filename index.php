@@ -107,7 +107,7 @@ function h($value)
              echo h($_GET['search']);
         } ?>">
     </form>
-    <br>
+    <br><br>
 
     <table id='companies_list'>
  <!--   <thead>-->
@@ -169,7 +169,7 @@ function h($value)
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>
-<br>
+
 </main>
 <!--
 <script src="../../../jquery-3.6.0.min.js"></script>
