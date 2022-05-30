@@ -107,7 +107,6 @@ if (!empty($_POST)) {
         $statement = $db->prepare('UPDATE invoices
             SET  title=?, total=?, payment_deadline=?, date_of_issue=?, status=?,
             modified=NOW() WHERE id=?');
-        
         $statement->bindParam(1, $_POST['title'], PDO::PARAM_STR);
         $statement->bindParam(2, $_POST['total'], PDO::PARAM_INT);
         $statement->bindParam(3, $_POST['pay'], PDO::PARAM_INT);
@@ -135,12 +134,12 @@ if (!empty($_POST)) {
 <body>
 <main>
     <div class="content_add">
-    <div><span class="title">請求書編集</span><a class="btn" href="index.php?id=<?php echo $company['id'] ?>">戻る</a></div>
+    <div><span class="title">請求書編集</span><a class="btn" href="index.php?id=<?php echo h($company['id']) ?>">戻る</a></div>
     <hr>
 <form action="" method="post">
     <table class="join_table">
         <tr><th>請求番号</th> 
-            <td><?php echo $invoice['no'] ?></td>
+            <td><?php echo h($invoice['no']) ?></td>
         </tr>
         <tr><th>請求名</th> 
             <td>
@@ -165,9 +164,9 @@ if (!empty($_POST)) {
             <td>
                 <input class="text_join_en" type="text" name="total" 
                 value="<?php if (!empty($_POST['total'])) {
-                        echo $_POST['total'];
+                        echo h($_POST['total']);
                        } else {
-                            echo $invoice['total'];
+                            echo h($invoice['total']);
                        } ?>"> 円
                     <?php if ($error['total']==='blank') : ?>
                         <p class="error">※金額を入力してください</p>
@@ -184,9 +183,9 @@ if (!empty($_POST)) {
             <td>
                 <input class="text_join" type="text" name="pay" 
                 value="<?php if (!empty($_POST['pay'])) {
-                        echo str_replace('-', '', $_POST['pay']);
+                        echo str_replace('-', '', h($_POST['pay']));
                        } else {
-                           echo str_replace('-', '', $invoice['payment_deadline']);
+                           echo str_replace('-', '', h($invoice['payment_deadline']));
                        } ?>">
                 <?php if ($error['pay']==='blank') : ?>
                     <p class="error">※日付を入力してください</p>
@@ -206,9 +205,9 @@ if (!empty($_POST)) {
             <td>
                 <input class="text_join" type="text" name="date"
                 value="<?php if (!empty($_POST['date'])) {
-                        echo str_replace('-', '', $_POST['date']);
+                        echo str_replace('-', '', h($_POST['date']));
                        } else {
-                           echo str_replace('-', '', $invoice['date_of_issue']);
+                           echo str_replace('-', '', h($invoice['date_of_issue']));
                        }?>">
                     <?php if ($error['date']==='blank') : ?>
                         <p class="error">※請求日を入力してください</p>
@@ -222,11 +221,11 @@ if (!empty($_POST)) {
             </td>
         </tr>
         <tr><th>見積番号</th> 
-            <td><?php echo $invoice['quotation_no'] ?></td>
+            <td><?php echo h($invoice['quotation_no']) ?></td>
         </tr>
         <tr><th>状態</th>
             <td><select class="select_status" name="status">
-                        <option value="<?php echo $invoice['status'] ?>"><?php echo STATUSES[$invoice['status']] ?></option>
+                        <option value="<?php echo h($invoice['status']) ?>"><?php echo STATUSES[h($invoice['status'])] ?></option>
                         <?php foreach (STATUSES as $number => $value) : ?>
                         <option value="<?php echo $number ?>"><?php echo $value ?></option>
                         <?php endforeach; ?>

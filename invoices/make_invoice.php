@@ -116,7 +116,7 @@ if (!empty($_POST)) {
         $statement->bindParam(7, $_POST['quo'], PDO::PARAM_STR);
         $statement->bindParam(8, $_POST['status'], PDO::PARAM_INT);
         echo $ret=$statement->execute();
-        header('Location:./?id='.$_POST['return_id']);
+        header('Location:./?id='.h($_POST['return_id']));
         exit();
     }
 }
@@ -150,7 +150,7 @@ if (!empty($_GET)) {
 <body>
 <main>
     <div class="content_add">
-    <div><span class="title">請求作成</span><a class="btn" href="./index.php?id=<?php echo $_GET['id'] ?>">戻る</a></div>
+    <div><span class="title">請求作成</span><a class="btn" href="./index.php?id=<?php echo h($_GET['id']) ?>">戻る</a></div>
     <hr>
 <form action="" method="post">
     <table class="join_table">
@@ -158,7 +158,7 @@ if (!empty($_GET)) {
             <td>
                 <input class="text_join" type="text" name="title" 
                 value="<?php if (!empty($_POST['title'])) {
-                        echo $_POST['title'];
+                        echo h($_POST['title']);
                        } ?>">
                 <?php if ($error['title']==='blank') : ?>
                     <p class="error">※請求名を入力してください</p>
@@ -176,7 +176,7 @@ if (!empty($_GET)) {
             <td>
                 <input class="text_join_en" type="text" name="total" 
                 value="<?php if (!empty($_POST['total'])) {
-                         echo $_POST['total'];
+                         echo h($_POST['total']);
                        } ?>"> 円
                     <?php if ($error['total']==='blank') : ?>
                         <p class="error">※金額を入力してください</p>
@@ -193,7 +193,7 @@ if (!empty($_GET)) {
             <td>
                 <input class="text_join" type="text" name="pay" 
                 value="<?php if (!empty($_POST['pay'])) {
-                         echo $_POST['pay'];
+                         echo h($_POST['pay']);
                        } ?>">
                     <?php if ($error['pay']==='blank') : ?>
                         <p class="error">※日付を入力してください</p>
@@ -213,7 +213,7 @@ if (!empty($_GET)) {
             <td>
                 <input class="text_join" type="text" name="date" 
                 value="<?php if (!empty($_POST['date'])) {
-                         echo $_POST['date'];
+                         echo h($_POST['date']);
                        } ?>">
                     <?php if ($error['date']==='blank') : ?>
                         <p class="error">※請求日を入力してください</p>
@@ -230,7 +230,7 @@ if (!empty($_GET)) {
             <td>
                 <input class="text_join" type="text" name="quo" 
                 value="<?php if (!empty($_POST['quo'])) {
-                        echo $_POST['quo'];
+                        echo h($_POST['quo']);
                        } ?>">
                     <?php if ($error['quo']==='quo') : ?>
                         <p class="error">※見積番号を入力してください</p>
@@ -267,8 +267,8 @@ if (!empty($_GET)) {
     </table>
     <hr>
     <input type="submit" value="請求作成" class="long_btn">
-    <input type="hidden" name="prefix" value="<?php echo $company['prefix'] ?>">
-    <input type="hidden" name="return_id" value="<?php echo $company['id'] ?>"><!--一覧にもどるため-->
+    <input type="hidden" name="prefix" value="<?php echo h($company['prefix']) ?>">
+    <input type="hidden" name="return_id" value="<?php echo h($company['id']) ?>"><!--一覧にもどるため-->
 </form>
     </div>
 </main>

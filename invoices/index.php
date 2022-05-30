@@ -105,8 +105,8 @@ if (empty($_GET['id']) || $_GET['id']=='') {
     <h2 class="home">請求一覧 <a href="../" class="btn">会社一覧へ戻る</a>
         <span class="company_name"><?php echo h($company['company_name']) ?></span></h2>
     <hr>
-    <a href="./make_invoice.php?id=<?php echo $_GET['id'] ?>" class="long_btn">請求作成</a>
-    <form action='./' method="get" href='./?id=<?php echo $_GET['id'] ?>&search=<?php echo $_GET['search'] ?>'>
+    <a href="./make_invoice.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">請求作成</a>
+    <form action='./' method="get" href='./?id=<?php echo h($_GET['id']) ?>&search=<?php echo h($_GET['search']) ?>'><!--getにhrefいらない？自動で入力？-->
         <input class="search_btn" type="submit" value="検索">
         <select class="text_search" name="search">
         <!--検索した後の初期値-->
@@ -118,7 +118,7 @@ if (empty($_GET['id']) || $_GET['id']=='') {
                 <option value="<?php echo $number ?>"><?php echo $value ?></option>
             <?php endforeach; ?>
         </select>
-        <input type='hidden' name='id' value="<?php echo $_GET['id'] ?>" >
+        <input type='hidden' name='id' value="<?php echo h($_GET['id']) ?>" >
     </form>
     
     <br><br>
@@ -126,11 +126,11 @@ if (empty($_GET['id']) || $_GET['id']=='') {
         <tr class="table_heading">
             <form action='index.php' method=get>
 
-                <input type='hidden' name='id' value="<?php echo $_GET['id']; ?>" >
+                <input type='hidden' name='id' value="<?php echo h($_GET['id']); ?>" >
                 <?php if (!empty($_GET['search'])) : ?>
-                    <input type='hidden' name='search' value="<?php echo $_GET['search']; ?>" >
+                    <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
-                <input type='hidden' name='order' value="<?php echo $_GET['order'] *= -1 ?>" >
+                <input type='hidden' name='order' value="<?php echo h($_GET['order'] *= -1) ?>" >
                 <th class="no">請求番号　<input class="ascdesc" type="submit" value="▼"></th>
 
             </form>
@@ -160,22 +160,22 @@ if (empty($_GET['id']) || $_GET['id']=='') {
 <hr>
 <div class="paging">
     <?php if ($page > 1) :  ?>
-        <span><a class="pgbtn" href="index.php?id=<?php echo $_GET['id'] ?>&page=<?php print($page -1);
+        <span><a class="pgbtn" href="index.php?id=<?php echo h($_GET['id']) ?>&page=<?php print(h($page) -1);
         if (!empty($_GET['search'])) {
-             echo '&search='.$_GET['search'] ;
+             echo '&search='.h($_GET['search']) ;
         }
         if (!empty($_GET['order'])) {
-            echo '&order='.$_GET['order']*-1 ;
+            echo '&order='.h($_GET['order']*-1) ;
         } ?>">←前</a></span>
     <?php endif; ?>
-    <span class="pgbtn nowpage"><?php print($page); ?></span>
+    <span class="pgbtn nowpage"><?php print h($page); ?></span>
     <?php if ($page < $maxPage) : ?>
-        <span><a class="pgbtn" href="index.php?id=<?php echo $_GET['id'] ?>&page=<?php print($page + 1);
+        <span><a class="pgbtn" href="index.php?id=<?php echo h($_GET['id']) ?>&page=<?php print h($page) + 1;
         if (!empty($_GET['search'])) {
-             echo '&search='.$_GET['search'] ;
+             echo '&search='.h($_GET['search']) ;
         }
         if (!empty($_GET['order'])) {
-            echo '&order='.$_GET['order']*-1 ;
+            echo '&order='.h($_GET['order']*-1) ;
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>
