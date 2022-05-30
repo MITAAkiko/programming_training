@@ -1,8 +1,9 @@
 <?php
-//idがない時はindex.phpに返す
 require('../dbconnect.php');
 require_once('../config.php');
+require('../functions.php');
 
+//idがない時はindex.phpに返す
 if (empty($_GET)) {
     header('Location:./');
 }
@@ -25,13 +26,6 @@ $invoices = $db -> prepare('SELECT no, title, total, payment_deadline, date_of_i
 $invoices -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
 $invoices -> execute();
 $invoice = $invoices -> fetch();
-
-
-//htmlspecialchars
-function h($value)
-{
-    return htmlspecialchars($value, ENT_QUOTES);
-}
 
 //バリデーションチェック
 //エラーチェック

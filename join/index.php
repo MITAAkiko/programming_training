@@ -2,13 +2,7 @@
 //session_start();
 require('../dbconnect.php');
 require('../config.php');
-
-
-//htmlspecialchars
-function h($value)
-{
-    return htmlspecialchars($value, ENT_QUOTES);
-}
+require('../functions.php');
 
 //バリデーションチェック
 //エラーチェック
@@ -43,15 +37,13 @@ $isError = '';
 if (!empty($_POST)) {
     if (($_POST['name'])==='') {
         $error['name']='blank';
-    }
-    if (strlen($_POST['name'])>64) {
+    } elseif (strlen($_POST['name'])>64) {
         $error['name']='long';
     }
 
     if (($_POST['manager'])==='') {
         $error['manager']='blank';
-    }
-    if (strlen($_POST['manager'])>32) {
+    } elseif (strlen($_POST['manager'])>32) {
         $error['manager']='long';
     }
 

@@ -2,7 +2,7 @@
 //session_start();
 require('./dbconnect.php');
 require_once('./config.php');
-
+require('functions.php');
 //idない場合は戻る
 if (empty($_GET)) {
     header('Location:index.php');
@@ -15,11 +15,6 @@ $companies -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
 $companies -> execute();
 $company = $companies -> fetch();
 
-//htmlspecialchars
-function h($value)
-{
-    return htmlspecialchars($value, ENT_QUOTES);
-}
 
 //バリデーションチェック
 //エラーチェック

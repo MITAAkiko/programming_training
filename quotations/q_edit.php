@@ -2,6 +2,7 @@
 //idがない時はindex.phpに返す
 require('../dbconnect.php');
 require_once('../config.php');
+require('../functions.php');
 
 if (empty($_GET)) {
     header('Location:./');
@@ -26,12 +27,6 @@ $quotations ->bindParam(1, $_GET['id'], PDO::PARAM_INT);
 $quotations -> execute();
 $quotation = $quotations -> fetch();
 
-
-//htmlspecialchars
-function h($value)
-{
-    return htmlspecialchars($value, ENT_QUOTES);
-}
 
 //バリデーションチェック
 //エラーチェック
