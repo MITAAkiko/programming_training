@@ -1,12 +1,11 @@
 <?php
-
-//require('../../dbconnect.php');
 require_once('../../config.php');
 require('../../functions.php');
 
 require_once('../../app/controllers/InvoicesController.php');
 
 use App\Controllers\InvoicesController;
+
 $cmp = new InvoicesController;
 $res = $cmp->index($_GET);
 
@@ -15,87 +14,6 @@ $invoices = $res['invoices'];
 $company = $res['company'];
 $page = $res['page'];
 $_GET['order'] = $res['order'];
-// //初期値
-// $page = 1;
-// if (!empty($_GET['page'])) {
-//     $page= $_GET['page'];
-//     if ($page == '') {
-//         $page=1;
-//     }
-// }
-// if (empty($_GET['order'])) {
-//     $_GET['order']=1;
-// }
-// //最小値
-// $page = max($page, 1);
-// //最後のページを取得する
-// if (!empty($_GET['search'])) {
-//     $counts = $db->prepare('SELECT COUNT(*) AS cnt FROM invoices WHERE company_id=? AND deleted IS NULL AND status=?');
-//     $counts -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-//     $counts -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
-//     $counts -> execute();
-//     $cnt = $counts->fetch();
-//     $maxPage = ceil($cnt['cnt']/10);
-// } else {
-//     $counts = $db->prepare('SELECT COUNT(*) AS cnt FROM invoices WHERE company_id=? AND deleted IS NULL');
-//     $counts -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-//     $counts -> execute();
-//     $cnt = $counts->fetch();
-//     $maxPage = ceil($cnt['cnt']/10);
-// }
-
-// //最大値
-// $maxPage = max($maxPage, 1);
-// $page = min($page, $maxPage);
-
-// //ページ
-// $start = ($page - 1) * 10;
-
-// //DBに接続する用意
-// //絞り込みあり
-// if (!empty($_GET['search'])) {
-//     if (($_GET['order'])>0) {
-//         $invoices = $db -> prepare('SELECT   i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
-//             FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL AND i.status=? ORDER BY i.no ASC LIMIT ?,10');
-//         $invoices -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-//         $invoices -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
-//         $invoices -> bindParam(3, $start, PDO::PARAM_INT);
-//         $invoices -> execute();
-//     } else {
-//         $invoices = $db -> prepare('SELECT   i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
-//             FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL AND i.status=? ORDER BY i.no DESC LIMIT ?,10');
-//         $invoices -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-//         $invoices -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
-//         $invoices -> bindParam(3, $start, PDO::PARAM_INT);
-//         $invoices -> execute();
-//     }
-// } else {
-//     if (($_GET['order'])>0) {
-//         $invoices = $db -> prepare('SELECT  i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
-//             FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL ORDER BY i.no ASC LIMIT ?,10');
-//         $invoices -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-//         $invoices -> bindParam(2, $start, PDO::PARAM_INT);
-//         $invoices -> execute();
-//     } else {
-//         $invoices = $db -> prepare('SELECT  i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
-//             FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL ORDER BY i.no DESC LIMIT ?,10');
-//         $invoices -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-//         $invoices -> bindParam(2, $start, PDO::PARAM_INT);
-//         $invoices -> execute();
-//     }
-// }
-// //会社名を表示させる（見積がないときなど）
-// $companies = $db -> prepare('SELECT  company_name, id FROM companies WHERE id=? AND deleted IS NULL');
-// $companies -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-// $companies -> execute();
-// $company = $companies -> fetch();
-
-// //idのない人を返す
-// if (empty($_GET['id']) || $_GET['id']=='') {
-//     header('Location:../companies/');
-//     exit();
-// }
-
 ?>
 
 <!DOCTYPE html>
