@@ -1,19 +1,20 @@
 <?php
-//session_start();
-require('dbconnect.php');
-require_once('./config.php');
-require('functions.php');
+
+require_once('../dbconnect.php');
+require_once('../config.php');
+require_once('../functions.php');
 
 //初期値
+if (empty($_GET['order'])) {
+    $_GET['order']=1;
+}
+
 $page = 0;
 if (!empty($_GET['page'])) {
     $page= $_GET['page'];
     if ($page == '') {
         $page=1;
     }
-}
-if (empty($_GET['order'])) {
-    $_GET['order']=1;
 }
 //最小値
 $page = max($page, 1);
@@ -40,6 +41,7 @@ $start = ($page - 1) * 10;
 
 //DBに接続する用意
 //検索した場合
+
 if (!empty($_GET['search'])) {//GETでおくる
     if (($_GET['order'])>0) {
         $searched = '%'.$_GET['search'].'%' ;
@@ -74,13 +76,18 @@ if (!empty($_GET['search'])) {//GETでおくる
     }
 }
 
+// use App\Controllers\CompaniesController;
+
+// $cmp = new CompaniesController();
+// $response = $cmp->index($_GET);
+// $companies = $response['companies'];
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="../style.css">
 
 
 
@@ -92,7 +99,7 @@ if (!empty($_GET['search'])) {//GETでおくる
     <div class="contents">
     <h2 class="home" href='./'>会社一覧</h2>
     <hr>
-    <a href="join/" class="long_btn">新規登録</a>
+    <a href="./add.php" class="long_btn">新規登録</a>
     <!--検索フォーム-->
     <form action="index.php" method="get" href='./?search=<?php echo h($_GET['search']) ?>'>
         <input class="search_btn" type="submit" value="検索">

@@ -1,4 +1,6 @@
-
+pushできない
+requireとrequire_onceの違い、複数読み込みとは？
+$_GET['search']という値を3つの場所で使っているのはよくない？
 
 
 

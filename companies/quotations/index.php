@@ -1,18 +1,20 @@
 <?php
 
-require('../dbconnect.php');
-require_once('../config.php');
-require('../functions.php');
+require_once('../../dbconnect.php');
+require_once('../../config.php');
+require_once('../../functions.php');
+
 //初期値
+if (empty($_GET['order'])) {
+    $_GET['order']=1;
+}
+
 $page = 1;
 if (!empty($_GET['page'])) {
     $page= $_GET['page'];
     if ($page == '') {
         $page=1;
     }
-}
-if (empty($_GET['order'])) {
-    $_GET['order']=1;
 }
 //最小値
 $page = max($page, 1);
@@ -31,11 +33,9 @@ if (!empty($_GET['search'])) {
     $cnt = $counts->fetch();
     $maxPage = ceil($cnt['cnt']/10);
 }
-
 //最大値
 $maxPage = max($maxPage, 1);
 $page = min($page, $maxPage);
-
 
 //ページ
 $start = ($page - 1) * 10;
@@ -93,7 +93,7 @@ foreach ($quotations as $quotation) {
 }
 //idのない人を返す
 if (empty($_GET['id']) || $_GET['id']=='') {
-    header('Location:../');
+    header('Location:../companies/');
     exit();
 }
 
@@ -103,7 +103,7 @@ if (empty($_GET['id']) || $_GET['id']=='') {
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="../style.css">
+<link rel="stylesheet" type="text/css" href="../../style.css">
 <link rel="stylesheet" type="text/css" href="q_style.css">
     <title>プログラミング実習</title>
 </head>
