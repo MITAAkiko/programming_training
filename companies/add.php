@@ -7,8 +7,8 @@ require_once('../app/controllers/CompaniesController.php');
  use App\Controllers\CompaniesController;
 
  $cmp = new CompaniesController;
- $res = $cmp->add($_POST);
- $error = $res['error'];
+ $error = $cmp->add($_POST);
+
 
 ?>
 

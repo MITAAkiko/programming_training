@@ -175,7 +175,7 @@ class CompaniesController
                 exit();
             }
         }
-        return ['error' => $error];
+        return $error;
     }
 
     public function edit($get, $post)
