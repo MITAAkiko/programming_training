@@ -178,4 +178,124 @@ class InvoicesController
             'isError' => $isError,
         ];
     }
+    public function edit($get, $post)
+    {
+        //idがない時はindex.phpに返す
+        if (empty($get)) {
+            header('Location:./');
+        }
+        if ($get['id'] == '' || $get['cid'] == '') {
+            header('Location:./');
+        } else {
+            $id = $get['id'];
+            $cid = $get['cid'];
+        }
+        //DBに接続する
+        //会社名
+        $company = $this->invMdl->editGetCompanyName($get);
+        // $companies = $this->db -> prepare('SELECT id, company_name, prefix
+        //     FROM companies WHERE id=?');
+        // $companies -> bindParam(1, $get['cid'], \PDO::PARAM_INT);
+        // $companies -> execute();
+        // $company = $companies -> fetch();
+        //編集用
+        $invoice = $this->invMdl->editGetData($get);
+        // $invoices = $this->db -> prepare('SELECT no, title, total, payment_deadline, date_of_issue, quotation_no, status 
+        //     FROM invoices WHERE id = ?');
+        // $invoices -> bindParam(1, $get['id'], \PDO::PARAM_INT);
+        // $invoices -> execute();
+        // $invoice = $invoices -> fetch();
+
+        //バリデーションチェック
+        //エラーチェック
+        function isError2($err)
+        {
+            $nonerror=[
+                'title' => '',
+                'total' => '',
+                'pay' => '',
+                'date' => '',
+                'status' => ''
+            ];
+            return $err !== $nonerror;
+        }
+        //初期値
+        $error = [
+            'title' => '',
+            'total' => '',
+            'pay' => '',
+            'date' => '',
+            'status' => ''
+        ];
+        $isError = '';
+
+        //エラーについて
+        if (!empty($post)) {
+            if (($post['title'])==='') {
+                $error['title']='blank';
+            } elseif (strlen($post['title'])>64) {
+                $error['title']='long';
+            }
+            if (($post['total'])==='') {
+                $error['total']='blank';
+            } elseif (!preg_match('/^[0-9]+$/', $post['total'])) { //空文字ダメの半角数値
+                $error['total']='type';
+            } elseif (strlen($post['total'])>10) {
+                $error['total']='long';
+            }
+            if (($post['pay'])==='') {
+                $error['pay']='blank';
+            } elseif (!preg_match('/^[0-9]{8}$/', $post['pay'])) {
+                $error['pay']='type';
+            } elseif (strtotime($post['pay']) < strtotime($post['date'])) {
+                $error['pay']='time';
+            } elseif (strtotime($post['pay'])===false) {
+                $error['pay']='check_date';
+            }
+            if (($post['date'])==='') {
+                $error['date']='blank';
+            } elseif (!preg_match('/^[0-9]{8}$/', $post['date'])) {
+                $error['date']='type';
+            } elseif (strtotime($post['date'])===false) {
+                $error['date']='check_date';
+            }
+            if (($post['status'])==='') {
+                $error['status']='blank';
+            } elseif (!preg_match("/^[0-9]+$/", $post['status'])) { //空文字ダメの半角数値
+                $error['status']='type';
+            } elseif (strlen($post['status'])>1) {
+                $error['status']='long';
+            }
+        }
+
+        //エラーがある.ファンクションそのまま使えないから変数に代入
+        $isError = isError2($error);
+        //エラーがあったときに状態をもう一度選択する促し
+        if ($isError) {
+            $error['status']='iserr';
+        }
+        //エラーがない時にデータベースに登録する
+        if (!empty($post)) {
+            if (!$isError) {
+                // $statement = $this->db->prepare('UPDATE invoices
+                //     SET  title=?, total=?, payment_deadline=?, date_of_issue=?, status=?,
+                //     modified=NOW() WHERE id=?');
+                // $statement->bindParam(1, $post['title'], \PDO::PARAM_STR);
+                // $statement->bindParam(2, $post['total'], \PDO::PARAM_INT);
+                // $statement->bindParam(3, $post['pay'], \PDO::PARAM_INT);
+                // $statement->bindParam(4, $post['date'], \PDO::PARAM_INT);
+                // $statement->bindParam(5, $post['status'], \PDO::PARAM_INT);
+                // $statement->bindParam(6, $get['id'], \PDO::PARAM_INT);
+                // $statement->execute();
+                $this->invMdl->editData($get, $post);
+                header('Location:./?id='.$company['id']);
+                //exit();
+            }
+        }
+        return [
+            'invoice' => $invoice,
+            'error' => $error,
+            'company' => $company,
+        ];
+    }
 }

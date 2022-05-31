@@ -106,4 +106,35 @@ class InvoicesModel
         return $company;
     }
     //edit
+    public function editGetCompanyName($get)
+    {
+        $companies = $this->db -> prepare('SELECT id, company_name, prefix
+            FROM companies WHERE id=?');
+        $companies -> bindParam(1, $get['cid'], \PDO::PARAM_INT);
+        $companies -> execute();
+        $company = $companies -> fetch();
+        return $company;
+    }
+    public function editGetData($get)
+    {
+        $invoices = $this->db -> prepare('SELECT no, title, total, payment_deadline, date_of_issue, quotation_no, status 
+            FROM invoices WHERE id = ?');
+        $invoices -> bindParam(1, $get['id'], \PDO::PARAM_INT);
+        $invoices -> execute();
+        $invoice = $invoices -> fetch();
+        return $invoice;
+    }
+    public function editData($get, $post)
+    {
+        $statement = $this->db->prepare('UPDATE invoices
+            SET  title=?, total=?, payment_deadline=?, date_of_issue=?, status=?,
+            modified=NOW() WHERE id=?');
+        $statement->bindParam(1, $post['title'], \PDO::PARAM_STR);
+        $statement->bindParam(2, $post['total'], \PDO::PARAM_INT);
+        $statement->bindParam(3, $post['pay'], \PDO::PARAM_INT);
+        $statement->bindParam(4, $post['date'], \PDO::PARAM_INT);
+        $statement->bindParam(5, $post['status'], \PDO::PARAM_INT);
+        $statement->bindParam(6, $get['id'], \PDO::PARAM_INT);
+        $statement->execute();
+    }
 }

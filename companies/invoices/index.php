@@ -1,9 +1,7 @@
 <?php
 require_once('../../config.php');
 require('../../functions.php');
-
 require_once('../../app/controllers/InvoicesController.php');
-
 use App\Controllers\InvoicesController;
 
 $cmp = new InvoicesController;
