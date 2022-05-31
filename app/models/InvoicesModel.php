@@ -137,6 +137,7 @@ class InvoicesModel
         $statement->bindParam(6, $get['id'], \PDO::PARAM_INT);
         $statement->execute();
     }
+    //delete
     public function delete($id)
     {
         $del = $this->db->prepare('UPDATE invoices SET deleted=NOW() WHERE id=?');

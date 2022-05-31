@@ -155,8 +155,8 @@ class InvoicesController
             if (!$isError) {
                 //id取得
                 $getid = $this->invMdl->addGetId($get);
-                $invoice_id = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
-                $no = $post['prefix'].'-i-'.$invoice_id;//請求番号
+                $invoiceId = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
+                $no = $post['prefix'].'-i-'.$invoiceId;//請求番号
                 //登録実行
                 $this->invMdl->addData($get, $post, $no);
                 header('Location:./?id='.h($post['return_id']));
@@ -288,9 +288,6 @@ class InvoicesController
             $id = $get['id'];
             $cid = $get['cid'];
             //削除する
-            // $del = $this->db->prepare('UPDATE invoices SET deleted=NOW() WHERE id=?');
-            // $del -> bindParam(1, $id, \PDO::PARAM_INT);
-            // $del -> execute();
             $this->invMdl->delete($id);
             header('Location:index.php?id='.$cid);
             //exit();
