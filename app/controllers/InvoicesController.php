@@ -152,29 +152,12 @@ class InvoicesController
 
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
-            //var_dump($post);exit();
             if (!$isError) {
-                // $getids = $db->prepare('SELECT count(*)+1 AS getid FROM invoices WHERE company_id=?');//idを取得
-                // $getids->bindParam(1, $get['id'], PDO::PARAM_INT);
-                // $getids->execute();
-                // $getid = $getids->fetch();
+                //id取得
                 $getid = $this->invMdl->addGetId($get);
                 $invoice_id = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
                 $no = $post['prefix'].'-i-'.$invoice_id;//請求番号
-
-                // $statement = $db->prepare('INSERT INTO invoices 
-                //     SET company_id=?,no=?,
-                //     title=?, total=?, payment_deadline=?, date_of_issue=?, quotation_no=?, status=?, 
-                //     created=NOW(),modified=NOW()');
-                // $statement->bindParam(1, $get['id'], PDO::PARAM_INT);
-                // $statement->bindParam(2, $no, PDO::PARAM_STR);
-                // $statement->bindParam(3, $post['title'], PDO::PARAM_STR);
-                // $statement->bindParam(4, $post['total'], PDO::PARAM_INT);
-                // $statement->bindParam(5, $post['pay'], PDO::PARAM_INT);
-                // $statement->bindParam(6, $post['date'], PDO::PARAM_INT);
-                // $statement->bindParam(7, $post['quo'], PDO::PARAM_STR);
-                // $statement->bindParam(8, $post['status'], PDO::PARAM_INT);
-                // $statement->execute();
+                //登録実行
                 $this->invMdl->addData($get, $post, $no);
                 header('Location:./?id='.h($post['return_id']));
             }
@@ -186,14 +169,9 @@ class InvoicesController
             // exit();
         }
         //会社名取得
-        if (!empty($get)) {//いらない？
-            // $companies = $db->prepare('SELECT company_name, prefix ,id
-            //     FROM companies WHERE id=?');
-            // $companies->bindParam(1, $get['id'], PDO::PARAM_INT);
-            // $companies->execute();
-            // $company = $companies->fetch();
+        //if (!empty($get)) {//いらない？
             $company = $this->invMdl->addGetCompanyName($get);
-        }
+       // }
         return [
             'error' => $error,
             'company' => $company,
