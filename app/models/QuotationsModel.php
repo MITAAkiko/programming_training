@@ -51,4 +51,5 @@ class QuotationsModel
         $company = $companies -> fetch();
         return $company;
     }
+    //add
 }
