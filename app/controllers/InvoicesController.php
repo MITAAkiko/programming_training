@@ -278,4 +278,22 @@ class InvoicesController
             'company' => $company,
         ];
     }
+    public function delete($get)
+    {
+        if (empty($get)) {
+            header('Location:./');
+        } elseif ($get['id'] == '') {
+            header('Location:./');
+        } else {
+            $id = $get['id'];
+            $cid = $get['cid'];
+            //削除する
+            // $del = $this->db->prepare('UPDATE invoices SET deleted=NOW() WHERE id=?');
+            // $del -> bindParam(1, $id, \PDO::PARAM_INT);
+            // $del -> execute();
+            $this->invMdl->delete($id);
+            header('Location:index.php?id='.$cid);
+            //exit();
+        }
+    }
 }
