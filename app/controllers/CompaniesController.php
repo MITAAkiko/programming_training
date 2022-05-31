@@ -1,19 +1,18 @@
 <?php
 namespace App\Controllers;
+
 //モデルのファイルを読み込む
  require_once('../app/models/CompaniesModel.php');
  use App\Models\CompaniesModel;
 
 class CompaniesController
 {
-
-     private $cmpMdl;
-    
+    //Model\CompaniesModelにつなぐための変数
+    private $cmpMdl;
     public function __construct()
     {
         $this->cmpMdl = new CompaniesModel;
     }
-    
     public function index($get, $post = null)
     {
         
@@ -51,19 +50,15 @@ class CompaniesController
         //DBに接続する用意
         if (!empty($get['search'])) {//GETでおくる
             if (($get['order'])>0) {
-                $res = $this->cmpMdl->getDataSearchedASC($get, $start);
-                $companies = $res['companies'];
+                $companies = $this->cmpMdl->getDataSearchedASC($get, $start);
             } else {
-                $res = $this->cmpMdl->getDataSearchedDESC($get, $start);
-                $companies = $res['companies'];
+                $companies = $this->cmpMdl->getDataSearchedDESC($get, $start);
             }
         } else {//検索なかった場合
             if (($get['order'])>0) {
-                $res = $this->cmpMdl->getDataASC($start);
-                $companies = $res['companies'];
+                $companies = $this->cmpMdl->getDataASC($start);
             } else {
-                $res = $this->cmpMdl->getDataDESC($start);
-                $companies = $res['companies'];
+                $companies = $this->cmpMdl->getDataDESC($start);
             }
         }
         return [
@@ -73,7 +68,6 @@ class CompaniesController
             'order' => $get['order']
         ];
     }
-
     public function add($post)
     {
         //バリデーションチェック
@@ -177,7 +171,6 @@ class CompaniesController
         }
         return $error;
     }
-
     public function edit($get, $post)
     {
 
@@ -290,6 +283,5 @@ class CompaniesController
             header('Location:index.php');
             exit();
         }
-        
     }
 }

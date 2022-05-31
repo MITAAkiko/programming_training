@@ -36,7 +36,7 @@ class CompaniesModel
         $companies->bindParam(2, $searched, \PDO::PARAM_STR);
         $companies->bindParam(3, $start, \PDO::PARAM_INT);
         $companies->execute();
-        return ['companies' => $companies];
+        return $companies;
     }
     public function getDataSearchedDESC($get, $start)
     {
@@ -48,7 +48,7 @@ class CompaniesModel
         $companies->bindParam(2, $searched, \PDO::PARAM_STR);
         $companies->bindParam(3, $start, \PDO::PARAM_INT);
         $companies->execute();
-        return ['companies' => $companies];
+        return  $companies;
     }
     public function getDataASC($start)
     {
@@ -56,7 +56,7 @@ class CompaniesModel
             FROM companies WHERE deleted IS NULL ORDER BY id ASC LIMIT ?,10');
         $companies->bindParam(1, $start, \PDO::PARAM_INT);
         $companies->execute();
-        return ['companies' => $companies];
+        return $companies;
     }
     public function getDataDESC($start)
     {
@@ -64,7 +64,7 @@ class CompaniesModel
             FROM companies WHERE deleted IS NULL ORDER BY id DESC LIMIT ?,10');
         $companies->bindParam(1, $start, \PDO::PARAM_INT);
         $companies->execute();
-        return ['companies' => $companies];
+        return $companies;
     }
     //add
     public function addData($post)
