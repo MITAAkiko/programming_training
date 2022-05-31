@@ -4,22 +4,28 @@ namespace App\Controllers;
 //require_once('../../dbconnect.php');
 class CompaniesController
 {
-    public function db()
+    public function __construct()
     {
-        //require_once('../../dbconnect.php');
-        $user='root';
-        $pass='P@ssw0rd';
-        try {
-            $db = new PDO('mysql:dbname=programming_training;host=127.0.0.1;charset=utf8', $user, $pass);
-            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            echo '接続エラー:'.$e->getMessage();
-        }
-        return $db;
+        require_once('../../dbconnect.php');
+        $this->db = $db;
     }
-    
+    // public function db()
+    // {
+    //     //require_once('../../dbconnect.php');
+    //     $user='root';
+    //     $pass='P@ssw0rd';
+    //     try {
+    //         $db = new PDO('mysql:dbname=programming_training;host=127.0.0.1;charset=utf8', $user, $pass);
+    //         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    //     } catch (PDOException $e) {
+    //         echo '接続エラー:'.$e->getMessage();
+    //     }
+    //     return $db;
+    // }
+
     public function index($get, $post = null)
     {
+        require_once('../../dbconnect.php');
             //初期値
         if (empty($get['order'])) {
             $get['order']=1;
