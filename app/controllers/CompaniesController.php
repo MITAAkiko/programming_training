@@ -166,7 +166,7 @@ class CompaniesController
             if (!$isError) {
                 $this->cmpMdl->addData($post);
                 header('Location:./');
-                exit();
+                //exit();
             }
         }
         return $error;
@@ -262,7 +262,7 @@ class CompaniesController
             if (!$isError) {
                 $this->cmpMdl->editData($get, $post);
                 header('Location:./');
-                exit();
+                //exit();
             }
         }
         return [
@@ -281,7 +281,7 @@ class CompaniesController
             $this->cmpMdl->deleteData($id);
         
             header('Location:index.php');
-            exit();
+            //exit();
         }
     }
 }
