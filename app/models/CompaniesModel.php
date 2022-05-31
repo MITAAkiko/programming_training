@@ -79,6 +79,33 @@ class CompaniesModel
         $statement->bindParam(7, $post['email'], \PDO::PARAM_STR);
         $statement->bindParam(8, $post['prefix'], \PDO::PARAM_STR);
         $statement->execute();
-        
     }
+    //edit
+    public function editShowData($get)
+    {
+        //DBに接続する用意
+        $companies = $this->db ->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address, prefix  
+            FROM companies WHERE id=?');
+        $companies -> bindParam(1, $get['id'], \PDO::PARAM_INT);
+        $companies -> execute();
+        $company = $companies -> fetch();
+        return $company;
+    }
+    public function editData($get, $post)
+    {
+        $statement = $this->db->prepare('UPDATE companies 
+        SET company_name=?, manager_name=?,phone_number=?,
+        postal_code=?,prefecture_code=?,address=?,
+        mail_address=?,modified=NOW() WHERE id=?');
+        $statement->bindParam(1, $post['name'], \PDO::PARAM_STR);
+        $statement->bindParam(2, $post['manager'], \PDO::PARAM_STR);
+        $statement->bindParam(3, $post['phone'], \PDO::PARAM_INT);
+        $statement->bindParam(4, $post['postal_code'], \PDO::PARAM_INT);
+        $statement->bindParam(5, $post['prefecture_code'], \PDO::PARAM_INT);
+        $statement->bindParam(6, $post['address'], \PDO::PARAM_STR);
+        $statement->bindParam(7, $post['email'], \PDO::PARAM_STR);
+        $statement->bindParam(8, $get['id'], \PDO::PARAM_INT);
+        $statement->execute();
+    }
+    //deete
 }

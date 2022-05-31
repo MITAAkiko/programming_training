@@ -76,9 +76,7 @@ class CompaniesController
 
     public function add($post)
     {
-                
         //バリデーションチェック
-        //エラーチェック
         function isError($err)
         {
             $nonerror=[
@@ -172,24 +170,111 @@ class CompaniesController
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
-                // $statement = $db->prepare('INSERT INTO companies 
-                //     SET company_name=?, manager_name=?,phone_number=?,
-                //     postal_code=?,prefecture_code=?,address=?,
-                //     mail_address=?,prefix=?,created=NOW(),modified=NOW()');
-                // $statement->bindParam(1, $post['name'], PDO::PARAM_STR);
-                // $statement->bindParam(2, $post['manager'], PDO::PARAM_STR);
-                // $statement->bindParam(3, $post['phone'], PDO::PARAM_STR);
-                // $statement->bindParam(4, $post['postal_code'], PDO::PARAM_STR);
-                // $statement->bindParam(5, $post['prefecture_code'], PDO::PARAM_STR);
-                // $statement->bindParam(6, $post['address'], PDO::PARAM_STR);
-                // $statement->bindParam(7, $post['email'], PDO::PARAM_STR);
-                // $statement->bindParam(8, $post['prefix'], PDO::PARAM_STR);
-                // echo $ret=$statement->execute();
                 $this->cmpMdl->addData($post);
                 header('Location:./');
                 exit();
             }
         }
         return ['error' => $error];
+    }
+
+    public function edit($get, $post)
+    {
+
+        //idない場合は戻る
+        if (empty($get)) {
+            header('Location:./');
+        }
+        $company = $this->cmpMdl->editShowData($get);
+        
+        // バリデーションチェック
+        // エラーチェック
+        function isError2($err)
+        {
+            $nonerror=[
+                'name' => '',
+                'manager' => '',
+                'phone' => '',
+                'postal_code' => '',
+                'prefecture_code' => '',
+                'address' => '',
+                'email' => ''
+            ];
+            return $err !== $nonerror;
+        }
+        //初期値
+        $error = [
+            'name' => '',
+            'manager' => '',
+            'phone' => '',
+            'postal_code' => '',
+            'prefecture_code' => '',
+            'address' => '',
+            'email' => ''
+        ];
+        $isError = '';
+
+        //エラーについて
+        if (!empty($post)) {
+            if (($post['name'])==='') {
+                $error['name']='blank';
+            } elseif (strlen($post['name'])>64) {
+                $error['name']='long';
+            }
+            if (($post['manager'])==='') {
+                $error['manager']='blank';
+            } elseif (strlen($post['manager'])>32) {
+                $error['manager']='long';
+            }
+            if (($post['phone'])==='') {
+                $error['phone']='blank';
+            } elseif (!preg_match('/^[0-9]+$/', $post['phone'])) { //空文字ダメの半角数値
+                $error['phone']='type';
+            } elseif (strlen($post['phone'])>11) {
+                $error['phone']='long';
+            }
+            if (($post['postal_code'])==='') {
+                $error['postal_code']='blank';
+            } elseif (!preg_match("/^[0-9]+$/", $post['postal_code'])) { //空文字ダメの半角数値
+                $error['postal_code']='type';
+            } elseif (strlen($post['postal_code'])>7) {
+                $error['postal_code']='long';
+            }
+            if (($post['prefecture_code'])==='') {
+                $error['prefecture_code']='blank';
+            } elseif (!preg_match("/^[0-9]+$/", $post['prefecture_code'])) { //空文字ダメの半角数値
+                $error['prefecture_code']='type';
+            } elseif (($post['prefecture_code'])>47 || ($post['prefecture_code'])<1) {
+                $error['prefecture_code']='long47';
+            }
+            if (($post['address'])==='') {
+                $error['address']='blank';
+            } elseif (strlen($post['address'])>100) {
+                $error['address']='long';
+            }
+            if (($post['email'])==='') {
+                $error['email']='blank';
+            } elseif (!preg_match("/^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/", $post['email'])) {
+                $error['email']='type';
+            } elseif (strlen($post['email'])>100) {
+                $error['email']='long';
+            }
+        }
+
+        //エラーがある.ファンクションそのまま使えないから変数に代入
+        $isError = isError2($error);
+
+        //エラーがない時にデータベースに登録する
+        if (!empty($post)) {
+            if (!$isError) {
+                $this->cmpMdl->editData($get, $post);
+                header('Location:./');
+                exit();
+            }
+        }
+        return [
+            'error' => $error ,
+            'company' => $company,
+        ];
     }
 }
