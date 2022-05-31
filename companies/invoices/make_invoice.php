@@ -4,131 +4,131 @@
 require('../../dbconnect.php');
 require_once('../../config.php');
 require('../../functions.php');
-/*~~mada
-quotation_no = 'yahho000',
-title = '請求名' ,
-total = 100000,
-payment_deadline = '20220505' ,
-date_of_issue  = '20220505',
-status = 1,
-*/
-//エラーチェック
-function isError($err)
-{
-    $nonerror=[
-        'quo' => '',
-        'title' => '',
-        'total' => '',
-        'pay' => '',
-        'date' => '',
-        'status' => ''
-    ];
-    return $err !== $nonerror;
-}
-//初期値
-$error = [
-    'quo' => '',
-    'title' => '',
-    'total' => '',
-    'pay' => '',
-    'date' => '',
-    'status' => ''
-];
-$isError = '';
+require_once('../../app/controllers/InvoicesController.php');
+use App\Controllers\InvoicesController;
 
-//エラーについて
-if (!empty($_POST)) {
-    if (!preg_match("/^[0-9a-zA-Z]+$/", $_POST['quo'])) { //空文字ダメの半角数値
-        $error['quo']='type';
-    }
-    if (($_POST['quo'])==='') {
-        $error['quo']='blank';
-    } elseif (strlen($_POST['quo'])>100) {
-        $error['quo']='long';
-    }
-    if (($_POST['title'])==='') {
-        $error['title']='blank';
-    } elseif (strlen($_POST['title'])>64) {
-        $error['title']='long';
-    }
-    if (($_POST['total'])==='') {
-        $error['total']='blank';
-    } elseif (!preg_match('/^[0-9]+$/', $_POST['total'])) { //空文字ダメの半角数値
-        $error['total']='type';
-    } elseif (strlen($_POST['total'])>10) {
-        $error['total']='long';
-    }
-    if (($_POST['pay'])==='') {
-        $error['pay']='blank';
-    } elseif (!preg_match('/^[0-9]{8}$/', $_POST['pay'])) {
-        $error['pay']='type';
-    } elseif (strtotime($_POST['pay'])===false) {
-        $error['pay']='check_date';
-    } elseif (strtotime($_POST['pay']) < strtotime($_POST['date'])) {
-        $error['pay']='time';
-    }
+$cmp = new InvoicesController;
+$res = $cmp->add($_GET, $_POST);
+$error = $res['error'];
+$company = $res['company'];
+$isError = $res['isError'];
+// //エラーチェック
+// function isError($err)
+// {
+//     $nonerror=[
+//         'quo' => '',
+//         'title' => '',
+//         'total' => '',
+//         'pay' => '',
+//         'date' => '',
+//         'status' => ''
+//     ];
+//     return $err !== $nonerror;
+// }
+// //初期値
+// $error = [
+//     'quo' => '',
+//     'title' => '',
+//     'total' => '',
+//     'pay' => '',
+//     'date' => '',
+//     'status' => ''
+// ];
+// $isError = '';
 
-    if (($_POST['date'])==='') {
-        $error['date']='blank';
-    } elseif (!preg_match('/^[0-9]{8}$/', $_POST['date'])) {
-        $error['date']='type';
-    } elseif (strtotime($_POST['date'])===false) {
-        $error['date']='check_date';
-    }
-    if (!preg_match("/^[0-9]+$/", $_POST['status'])) { //空文字ダメの半角数値
-        $error['status']='type';
-    } elseif (strlen($_POST['status'])>1) {
-        $error['status']='long';
-    } elseif (($_POST['status'])==='') {
-        $error['status']='blank';
-    }
-}
+// //エラーについて
+// if (!empty($_POST)) {
+//     if (!preg_match("/^[0-9a-zA-Z]+$/", $_POST['quo'])) { //空文字ダメの半角数値
+//         $error['quo']='type';
+//     }
+//     if (($_POST['quo'])==='') {
+//         $error['quo']='blank';
+//     } elseif (strlen($_POST['quo'])>100) {
+//         $error['quo']='long';
+//     }
+//     if (($_POST['title'])==='') {
+//         $error['title']='blank';
+//     } elseif (strlen($_POST['title'])>64) {
+//         $error['title']='long';
+//     }
+//     if (($_POST['total'])==='') {
+//         $error['total']='blank';
+//     } elseif (!preg_match('/^[0-9]+$/', $_POST['total'])) { //空文字ダメの半角数値
+//         $error['total']='type';
+//     } elseif (strlen($_POST['total'])>10) {
+//         $error['total']='long';
+//     }
+//     if (($_POST['pay'])==='') {
+//         $error['pay']='blank';
+//     } elseif (!preg_match('/^[0-9]{8}$/', $_POST['pay'])) {
+//         $error['pay']='type';
+//     } elseif (strtotime($_POST['pay'])===false) {
+//         $error['pay']='check_date';
+//     } elseif (strtotime($_POST['pay']) < strtotime($_POST['date'])) {
+//         $error['pay']='time';
+//     }
 
-//エラーがある.ファンクションそのまま使えないから変数に代入
-$isError = isError($error);
+//     if (($_POST['date'])==='') {
+//         $error['date']='blank';
+//     } elseif (!preg_match('/^[0-9]{8}$/', $_POST['date'])) {
+//         $error['date']='type';
+//     } elseif (strtotime($_POST['date'])===false) {
+//         $error['date']='check_date';
+//     }
+//     if (!preg_match("/^[0-9]+$/", $_POST['status'])) { //空文字ダメの半角数値
+//         $error['status']='type';
+//     } elseif (strlen($_POST['status'])>1) {
+//         $error['status']='long';
+//     } elseif (($_POST['status'])==='') {
+//         $error['status']='blank';
+//     }
+// }
 
-//エラーがない時にデータベースに登録する
-if (!empty($_POST)) {
-    //var_dump($_POST);exit();
-    if (!$isError) {
-        $getids = $db->prepare('SELECT count(*)+1 AS getid FROM invoices WHERE company_id=?');//idを取得
-        $getids->bindParam(1, $_GET['id'], PDO::PARAM_INT);
-        $getids->execute();
-        $getid = $getids->fetch();
-        $invoice_id = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
-        $no = $_POST['prefix'].'-i-'.$invoice_id;//請求番号
+// //エラーがある.ファンクションそのまま使えないから変数に代入
+// $isError = isError($error);
 
-        $statement = $db->prepare('INSERT INTO invoices 
-            SET company_id=?,no=?,
-            title=?, total=?, payment_deadline=?, date_of_issue=?, quotation_no=?, status=?, 
-            created=NOW(),modified=NOW()');
-        $statement->bindParam(1, $_GET['id'], PDO::PARAM_INT);
-        $statement->bindParam(2, $no, PDO::PARAM_STR);
-        $statement->bindParam(3, $_POST['title'], PDO::PARAM_STR);
-        $statement->bindParam(4, $_POST['total'], PDO::PARAM_INT);
-        $statement->bindParam(5, $_POST['pay'], PDO::PARAM_INT);
-        $statement->bindParam(6, $_POST['date'], PDO::PARAM_INT);
-        $statement->bindParam(7, $_POST['quo'], PDO::PARAM_STR);
-        $statement->bindParam(8, $_POST['status'], PDO::PARAM_INT);
-        echo $ret=$statement->execute();
-        header('Location:./?id='.h($_POST['return_id']));
-        exit();
-    }
-}
+// //エラーがない時にデータベースに登録する
+// if (!empty($_POST)) {
+//     //var_dump($_POST);exit();
+//     if (!$isError) {
+//         $getids = $db->prepare('SELECT count(*)+1 AS getid FROM invoices WHERE company_id=?');//idを取得
+//         $getids->bindParam(1, $_GET['id'], PDO::PARAM_INT);
+//         $getids->execute();
+//         $getid = $getids->fetch();
+//         $invoice_id = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
+//         $no = $_POST['prefix'].'-i-'.$invoice_id;//請求番号
 
-//$_GET['id']ない時戻す
-if (empty($_GET)) {
-    header('Location:../companies/');
-    exit();
-}
-//会社名取得
-if (!empty($_GET)) {
-    $companies = $db->prepare('SELECT company_name, prefix ,id
-        FROM companies WHERE id=?');
-    $companies->bindParam(1, $_GET['id'], PDO::PARAM_INT);
-    $companies->execute();
-    $company = $companies->fetch();
-}
+//         $statement = $db->prepare('INSERT INTO invoices 
+//             SET company_id=?,no=?,
+//             title=?, total=?, payment_deadline=?, date_of_issue=?, quotation_no=?, status=?, 
+//             created=NOW(),modified=NOW()');
+//         $statement->bindParam(1, $_GET['id'], PDO::PARAM_INT);
+//         $statement->bindParam(2, $no, PDO::PARAM_STR);
+//         $statement->bindParam(3, $_POST['title'], PDO::PARAM_STR);
+//         $statement->bindParam(4, $_POST['total'], PDO::PARAM_INT);
+//         $statement->bindParam(5, $_POST['pay'], PDO::PARAM_INT);
+//         $statement->bindParam(6, $_POST['date'], PDO::PARAM_INT);
+//         $statement->bindParam(7, $_POST['quo'], PDO::PARAM_STR);
+//         $statement->bindParam(8, $_POST['status'], PDO::PARAM_INT);
+//         echo $ret=$statement->execute();
+//         header('Location:./?id='.h($_POST['return_id']));
+//         exit();
+//     }
+// }
+
+// //$_GET['id']ない時戻す
+// if (empty($_GET)) {
+//     header('Location:../companies/');
+//     exit();
+// }
+// //会社名取得
+// if (!empty($_GET)) {
+//     $companies = $db->prepare('SELECT company_name, prefix ,id
+//         FROM companies WHERE id=?');
+//     $companies->bindParam(1, $_GET['id'], PDO::PARAM_INT);
+//     $companies->execute();
+//     $company = $companies->fetch();
+// }
     
 ?>
 

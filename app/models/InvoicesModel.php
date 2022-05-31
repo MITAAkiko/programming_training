@@ -72,4 +72,37 @@ class InvoicesModel
         $company = $companies -> fetch();
         return $company;
     }
+    //add
+    public function addGetId($get)
+    {
+        $getids = $this->db->prepare('SELECT count(*)+1 AS getid FROM invoices WHERE company_id=?');//idを取得
+        $getids->bindParam(1, $get['id'], \PDO::PARAM_INT);
+        $getids->execute();
+        $getid = $getids->fetch();
+        return $getid;
+    }
+    public function addData($get, $post, $no)
+    {
+        $statement = $this->db->prepare('INSERT INTO invoices SET company_id=?,no=?,
+            title=?, total=?, payment_deadline=?, date_of_issue=?, quotation_no=?, status=?, 
+            created=NOW(),modified=NOW()');
+        $statement->bindParam(1, $get['id'], \PDO::PARAM_INT);
+        $statement->bindParam(2, $no, \PDO::PARAM_STR);
+        $statement->bindParam(3, $post['title'], \PDO::PARAM_STR);
+        $statement->bindParam(4, $post['total'], \PDO::PARAM_INT);
+        $statement->bindParam(5, $post['pay'], \PDO::PARAM_INT);
+        $statement->bindParam(6, $post['date'], \PDO::PARAM_INT);
+        $statement->bindParam(7, $post['quo'], \PDO::PARAM_STR);
+        $statement->bindParam(8, $post['status'], \PDO::PARAM_INT);
+        $statement->execute();
+    }
+    public function addGetCompanyName($get)
+    {
+        $companies = $this->db->prepare('SELECT company_name, prefix ,id
+            FROM companies WHERE id=?');
+        $companies->bindParam(1, $get['id'], \PDO::PARAM_INT);
+        $companies->execute();
+        $company = $companies->fetch();
+        return $company;
+    }
 }
