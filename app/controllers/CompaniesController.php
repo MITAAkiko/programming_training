@@ -277,4 +277,19 @@ class CompaniesController
             'company' => $company,
         ];
     }
+    public function delete($get)
+    {
+        if (empty($get)) {
+            header('Location:./');
+        } elseif ($get['id'] == '') {
+            header('Location:./');
+        } else {
+            $id = $get['id'];
+            $this->cmpMdl->deleteData($id);
+        
+            header('Location:index.php');
+            exit();
+        }
+        
+    }
 }

@@ -2,7 +2,6 @@
 
 require('../config.php');
 require('../functions.php');
-
 require_once('../app/controllers/CompaniesController.php');
 
  use App\Controllers\CompaniesController;
