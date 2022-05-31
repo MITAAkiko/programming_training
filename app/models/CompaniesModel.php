@@ -107,5 +107,5 @@ class CompaniesModel
         $statement->bindParam(8, $get['id'], \PDO::PARAM_INT);
         $statement->execute();
     }
-    //deete
+    //delete
 }
