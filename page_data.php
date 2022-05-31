@@ -1,7 +1,7 @@
 <?php
 require_once('dbconnect.php');
 require_once('page_class.php');
-require_once('index.php');
+require_once('index.php');//何度も検索する場合もあるが、onceでいい？
 //require_once('quotations/index.php');
 
 //会社一覧用

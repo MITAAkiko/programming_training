@@ -3,16 +3,20 @@
 require('../dbconnect.php');
 require_once('../config.php');
 require('../functions.php');
+/*
+require_once('page_class.php');
+require_once('page_data.php');
+*/
 //初期値
+if (empty($_GET['order'])) {
+    $_GET['order']=1;
+}
 $page = 1;
 if (!empty($_GET['page'])) {
     $page= $_GET['page'];
     if ($page == '') {
         $page=1;
     }
-}
-if (empty($_GET['order'])) {
-    $_GET['order']=1;
 }
 //最小値
 $page = max($page, 1);
@@ -31,14 +35,16 @@ if (!empty($_GET['search'])) {
     $cnt = $counts->fetch();
     $maxPage = ceil($cnt['cnt']/10);
 }
-
 //最大値
 $maxPage = max($maxPage, 1);
 $page = min($page, $maxPage);
 
-
 //ページ
 $start = ($page - 1) * 10;
+
+
+//$maxPage = $quoPage->getMaxPage();
+//$page = $quoPage->getPage();
 
 //DBに接続する用意
 //絞り込みあり
