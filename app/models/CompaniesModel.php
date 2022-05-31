@@ -1,7 +1,6 @@
 <?php
 namespace App\Models;
 
-//require_once('../../dbconnect.php');
 class CompaniesModel
 {
     private $db;
