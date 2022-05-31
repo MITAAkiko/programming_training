@@ -83,6 +83,7 @@ require_once('../app/controllers/CompaniesController.php');
  $companies = $res['companies'];
  $maxPage = $res['maxPage'];
  $page = $res['page'];
+ $_GET['order'] = $res['order'];
 
             
 
