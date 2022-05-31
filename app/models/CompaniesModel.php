@@ -8,23 +8,23 @@ class CompaniesModel
     {
         $this->db = new \PDO('mysql:dbname=programming_training;host=127.0.0.1;charset=utf8', 'root', 'P@ssw0rd');
     }
-
-    public function getMaxPageSearched($get)
+//index
+    public function getMaxPageSearched($search)
     {
-        $searched = '%'.$get['search'].'%' ;
+        $searched = '%'.$search.'%' ;
         $counts = $this->db->prepare('SELECT COUNT(*) AS cnt FROM companies WHERE deleted IS NULL AND (company_name LIKE ? OR manager_name LIKE ?)');
         $counts->bindParam(1, $searched, \PDO::PARAM_STR);
         $counts->bindParam(2, $searched, \PDO::PARAM_STR);
         $counts->execute();
         $cnt = $counts->fetch();
-        return [ 'cnt' => $cnt ];
+        return $cnt;
     }
     public function getMaxPage()
     {
         $counts = $this->db->prepare('SELECT COUNT(*) AS cnt FROM companies WHERE deleted IS NULL');
         $counts->execute();
         $cnt = $counts->fetch();
-        return [ 'cnt' => $cnt ];
+        return $cnt;
     }
     public function getDataSearchedASC($get, $start)
     {
@@ -65,5 +65,20 @@ class CompaniesModel
         $companies->bindParam(1, $start, \PDO::PARAM_INT);
         $companies->execute();
         return ['companies' => $companies];
+    }
+    //add
+    public function addData($post)
+    {
+        $statement = $this->db->prepare('INSERT INTO companies SET company_name=?, manager_name=?,phone_number=?,postal_code=?,prefecture_code=?,address=?,mail_address=?,prefix=?,created=NOW(),modified=NOW()');
+        $statement->bindParam(1, $post['name'], \PDO::PARAM_STR);
+        $statement->bindParam(2, $post['manager'], \PDO::PARAM_STR);
+        $statement->bindParam(3, $post['phone'], \PDO::PARAM_STR);
+        $statement->bindParam(4, $post['postal_code'], \PDO::PARAM_STR);
+        $statement->bindParam(5, $post['prefecture_code'], \PDO::PARAM_STR);
+        $statement->bindParam(6, $post['address'], \PDO::PARAM_STR);
+        $statement->bindParam(7, $post['email'], \PDO::PARAM_STR);
+        $statement->bindParam(8, $post['prefix'], \PDO::PARAM_STR);
+        $statement->execute();
+        
     }
 }
