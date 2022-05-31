@@ -3,6 +3,7 @@
 require_once('../dbconnect.php');
 require_once('../config.php');
 require_once('../functions.php');
+require_once('../app/controllers/CompaniesController.php');
 
 //初期値
 if (empty($_GET['order'])) {
@@ -41,46 +42,51 @@ $start = ($page - 1) * 10;
 
 //DBに接続する用意
 //検索した場合
+// if (!empty($_GET['search'])) {//GETでおくる
+//     if (($_GET['order'])>0) {
+//         $searched = '%'.$_GET['search'].'%' ;
+//         $companies=$db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
+//             FROM companies WHERE deleted IS NULL AND (company_name LIKE ? OR manager_name LIKE ?)
+//             ORDER BY id ASC LIMIT ?,10');
+//         $companies->bindParam(1, $searched, PDO::PARAM_STR);
+//         $companies->bindParam(2, $searched, PDO::PARAM_STR);
+//         $companies->bindParam(3, $start, PDO::PARAM_INT);
+//         $companies->execute();
+//     } else {
+//         $searched = '%'.$_GET['search'].'%' ;
+//         $companies=$db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
+//             FROM companies WHERE deleted IS NULL AND (company_name LIKE ? OR manager_name LIKE ?)
+//             ORDER BY id DESC LIMIT ?,10');
+//         $companies->bindParam(1, $searched, PDO::PARAM_STR);
+//         $companies->bindParam(2, $searched, PDO::PARAM_STR);
+//         $companies->bindParam(3, $start, PDO::PARAM_INT);
+//         $companies->execute();
+//     }
+// } else {//検索なかった場合
+//     if (($_GET['order'])>0) {
+//         $companies=$db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
+//             FROM companies WHERE deleted IS NULL ORDER BY id ASC LIMIT ?,10');
+//         $companies->bindParam(1, $start, PDO::PARAM_INT);
+//         $companies->execute();
+//     } else {
+//         $companies=$db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
+//             FROM companies WHERE deleted IS NULL ORDER BY id DESC LIMIT ?,10');
+//         $companies->bindParam(1, $start, PDO::PARAM_INT);
+//         $companies->execute();
+//     }
+// }
 
-if (!empty($_GET['search'])) {//GETでおくる
-    if (($_GET['order'])>0) {
-        $searched = '%'.$_GET['search'].'%' ;
-        $companies=$db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
-            FROM companies WHERE deleted IS NULL AND (company_name LIKE ? OR manager_name LIKE ?)
-            ORDER BY id ASC LIMIT ?,10');
-        $companies->bindParam(1, $searched, PDO::PARAM_STR);
-        $companies->bindParam(2, $searched, PDO::PARAM_STR);
-        $companies->bindParam(3, $start, PDO::PARAM_INT);
-        $companies->execute();
-    } else {
-        $searched = '%'.$_GET['search'].'%' ;
-        $companies=$db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
-            FROM companies WHERE deleted IS NULL AND (company_name LIKE ? OR manager_name LIKE ?)
-            ORDER BY id DESC LIMIT ?,10');
-        $companies->bindParam(1, $searched, PDO::PARAM_STR);
-        $companies->bindParam(2, $searched, PDO::PARAM_STR);
-        $companies->bindParam(3, $start, PDO::PARAM_INT);
-        $companies->execute();
-    }
-} else {//検索なかった場合
-    if (($_GET['order'])>0) {
-        $companies=$db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
-            FROM companies WHERE deleted IS NULL ORDER BY id ASC LIMIT ?,10');
-        $companies->bindParam(1, $start, PDO::PARAM_INT);
-        $companies->execute();
-    } else {
-        $companies=$db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
-            FROM companies WHERE deleted IS NULL ORDER BY id DESC LIMIT ?,10');
-        $companies->bindParam(1, $start, PDO::PARAM_INT);
-        $companies->execute();
-    }
-}
+ use App\Controllers\CompaniesController;
+
+ $cmp = new CompaniesController;
+ $res = $cmp->index($_GET);
+ $companies = $res['companies'];
 
 // use App\Controllers\CompaniesController;
 
-// $cmp = new CompaniesController();
-// $response = $cmp->index($_GET);
-// $companies = $response['companies'];
+// $hello1 = new CompaniesController;
+// $sayHello = $hello1->hel();
+
 ?>
 
 <!DOCTYPE html>
