@@ -6,39 +6,39 @@ require_once('../functions.php');
 require_once('../app/controllers/CompaniesController.php');
 
 //初期値
-if (empty($_GET['order'])) {
-    $_GET['order']=1;
-}
+// if (empty($_GET['order'])) {
+//     $_GET['order']=1;
+// }
 
-$page = 0;
-if (!empty($_GET['page'])) {
-    $page= $_GET['page'];
-    if ($page == '') {
-        $page=1;
-    }
-}
-//最小値
-$page = max($page, 1);
-//最後のページを取得する
+// $page = 0;
+// if (!empty($_GET['page'])) {
+//     $page= $_GET['page'];
+//     if ($page == '') {
+//         $page=1;
+//     }
+// }
+// //最小値
+// $page = max($page, 1);
+// //最後のページを取得する
 
-if (!empty($_GET['search'])) {
-    $searched = '%'.$_GET['search'].'%' ;
-    $counts = $db->prepare('SELECT COUNT(*) AS cnt FROM companies WHERE deleted IS NULL AND (company_name LIKE ? OR manager_name LIKE ?)');
-    $counts->bindParam(1, $searched, PDO::PARAM_STR);
-    $counts->bindParam(2, $searched, PDO::PARAM_STR);
-    $counts->execute();
-    $cnt = $counts->fetch();
-    $maxPage = ceil($cnt['cnt']/10);
-} else {
-    $counts = $db->query('SELECT COUNT(*) AS cnt FROM companies WHERE deleted IS NULL');
-    $cnt = $counts->fetch();
-    $maxPage = ceil($cnt['cnt']/10);
-}
+// if (!empty($_GET['search'])) {
+//     $searched = '%'.$_GET['search'].'%' ;
+//     $counts = $db->prepare('SELECT COUNT(*) AS cnt FROM companies WHERE deleted IS NULL AND (company_name LIKE ? OR manager_name LIKE ?)');
+//     $counts->bindParam(1, $searched, PDO::PARAM_STR);
+//     $counts->bindParam(2, $searched, PDO::PARAM_STR);
+//     $counts->execute();
+//     $cnt = $counts->fetch();
+//     $maxPage = ceil($cnt['cnt']/10);
+// } else {
+//     $counts = $db->query('SELECT COUNT(*) AS cnt FROM companies WHERE deleted IS NULL');
+//     $cnt = $counts->fetch();
+//     $maxPage = ceil($cnt['cnt']/10);
+// }
 
-//最大値
-$page = min($page, $maxPage);
+// //最大値
+// $page = min($page, $maxPage);
 //ページ
-$start = ($page - 1) * 10;
+// $start = ($page - 1) * 10;
 
 //DBに接続する用意
 //検索した場合
@@ -81,6 +81,10 @@ $start = ($page - 1) * 10;
  $cmp = new CompaniesController;
  $res = $cmp->index($_GET);
  $companies = $res['companies'];
+ $maxPage = $res['maxPage'];
+ $page = $res['page'];
+
+            
 
 // use App\Controllers\CompaniesController;
 
