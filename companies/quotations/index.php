@@ -3,105 +3,116 @@
 require_once('../../dbconnect.php');
 require_once('../../config.php');
 require_once('../../functions.php');
+require_once('../../app/controllers/QuotationsController.php');
+use App\Controllers\QuotationController;
 
-//初期値
-if (empty($_GET['order'])) {
-    $_GET['order']=1;
-}
+$cmp = new QuotationController;
+$res = $cmp->index($_GET);
+$company = $res['company'];
+$page = $res['page'];
+$maxPage = $res['maxPage'];
+$quo = $res['quo'];
+$quo_count = $res['quoCount'];
+$_GET['order'] = $res['order'];
+// //初期値
+// if (empty($_GET['order'])) {
+//     $_GET['order']=1;
+// }
 
-$page = 1;
-if (!empty($_GET['page'])) {
-    $page= $_GET['page'];
-    if ($page == '') {
-        $page=1;
-    }
-}
-//最小値
-$page = max($page, 1);
-//最大ページを取得する(検索ありなしで分ける)
-if (!empty($_GET['search'])) {
-    $counts = $db->prepare('SELECT COUNT(*) AS cnt FROM quotations WHERE company_id=? AND deleted IS NULL AND status=?');
-    $counts -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-    $counts -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
-    $counts -> execute();
-    $cnt = $counts->fetch();
-    $maxPage = ceil($cnt['cnt']/10);
-} else {
-    $counts = $db->prepare('SELECT COUNT(*) AS cnt FROM quotations WHERE company_id=? AND deleted IS NULL');
-    $counts -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-    $counts -> execute();
-    $cnt = $counts->fetch();
-    $maxPage = ceil($cnt['cnt']/10);
-}
-//最大値
-$maxPage = max($maxPage, 1);
-$page = min($page, $maxPage);
+// $page = 1;
+// if (!empty($_GET['page'])) {
+//     $page= $_GET['page'];
+//     if ($page == '') {
+//         $page=1;
+//     }
+// }
+// //最小値
+// $page = max($page, 1);
+// //最大ページを取得する(検索ありなしで分ける)
+// if (!empty($_GET['search'])) {
+//     $counts = $db->prepare('SELECT COUNT(*) AS cnt FROM quotations WHERE company_id=? AND deleted IS NULL AND status=?');
+//     $counts -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
+//     $counts -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
+//     $counts -> execute();
+//     $cnt = $counts->fetch();
+//     $maxPage = ceil($cnt['cnt']/10);
+// } else {
+//     $counts = $db->prepare('SELECT COUNT(*) AS cnt FROM quotations WHERE company_id=? AND deleted IS NULL');
+//     $counts -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
+//     $counts -> execute();
+//     $cnt = $counts->fetch();
+//     $maxPage = ceil($cnt['cnt']/10);
+// }
+// //最大値
+// $maxPage = max($maxPage, 1);
+// $page = min($page, $maxPage);
 
-//ページ
-$start = ($page - 1) * 10;
+// //ページ
+// $start = ($page - 1) * 10;
 
-//DBに接続する用意
-//絞り込みあり
-if (!empty($_GET['search'])) {
-        $quotations = $db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
-            FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL AND q.status=? ORDER BY q.no ASC ');//LIMIT ?,10
-        $quotations -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-        $quotations -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
-        //$quotations -> bindParam(3, $start, PDO::PARAM_INT);
-    $quotations -> execute();
-} else {//絞り込みなし
-        $quotations = $db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
-            FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL ORDER BY q.no ASC ');//LIMIT ?,10
-        $quotations -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-        //$quotations -> bindParam(2, $start, PDO::PARAM_INT);
-        $quotations -> execute();
-}
+// //DBに接続する用意
+// //絞り込みあり
+// if (!empty($_GET['search'])) {
+//         $quotations = $db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
+//             FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL AND q.status=? ORDER BY q.no ASC ');//LIMIT ?,10
+//         $quotations -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
+//         $quotations -> bindParam(2, $_GET['search'], PDO::PARAM_INT);
+//         //$quotations -> bindParam(3, $start, PDO::PARAM_INT);
+//     $quotations -> execute();
+// } else {//絞り込みなし
+//         $quotations = $db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
+//             FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL ORDER BY q.no ASC ');//LIMIT ?,10
+//         $quotations -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
+//         //$quotations -> bindParam(2, $start, PDO::PARAM_INT);
+//         $quotations -> execute();
+// }
 
-//会社名を表示させる（見積がないときなど）
-$companies = $db -> prepare('SELECT  company_name, id FROM companies WHERE id=? ');
-$companies -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
-$companies -> execute();
-$company = $companies -> fetch();
+// //会社名を表示させる（見積がないときなど）
+// $companies = $db -> prepare('SELECT  company_name, id FROM companies WHERE id=? ');
+// $companies -> bindParam(1, $_GET['id'], PDO::PARAM_INT);
+// $companies -> execute();
+// $company = $companies -> fetch();
 
-/*計算式で並べた方
-$l=-1;
-foreach ($quotations as $quotation) {
-    $quo[$l+=1] = [
-        'no' => $quotation['no'],
-        'title' => $quotation['title'],
-        "manager" => $quotation['manager_name'],
-        "total" => number_format($quotation['total']),
-        "period" => str_replace('-', '/', $quotation['validity_period']),
-        "due" => str_replace('-', '/', $quotation['due_date']),
-        "status" => STATUSES[$quotation['status']],
-        "id" => $quotation['id']
-    ];
-}*/
+// /*計算式で並べた方
+// $l=-1;
+// foreach ($quotations as $quotation) {
+//     $quo[$l+=1] = [
+//         'no' => $quotation['no'],
+//         'title' => $quotation['title'],
+//         "manager" => $quotation['manager_name'],
+//         "total" => number_format($quotation['total']),
+//         "period" => str_replace('-', '/', $quotation['validity_period']),
+//         "due" => str_replace('-', '/', $quotation['due_date']),
+//         "status" => STATUSES[$quotation['status']],
+//         "id" => $quotation['id']
+//     ];
+// }*/
 
-//キーを用いた方（・・・as $key => $quotation){ $quo[$key]=[・・・]でも同様の結果
-foreach ($quotations as $quotation) {
-    $quo[] = [
-        'no' => $quotation['no'],
-        'title' => $quotation['title'],
-        "manager" => $quotation['manager_name'],
-        "total" => number_format($quotation['total']),
-        "period" => str_replace('-', '/', $quotation['validity_period']),
-        "due" => str_replace('-', '/', $quotation['due_date']),
-        "status" => STATUSES[$quotation['status']],
-        "id" => $quotation['id']
-    ];
-}
-//idのない人を返す
-if (empty($_GET['id']) || $_GET['id']=='') {
-    header('Location:../companies/');
-    exit();
-}
-//データがない時とあるときの処理
-if (empty($quo)) {
-    $quo_count = 0;
-} else {
-    $quo_count = count($quo);
-}
+// //キーを用いた方（・・・as $key => $quotation){ $quo[$key]=[・・・]でも同様の結果
+// foreach ($quotations as $quotation) {
+//     $quo[] = [
+//         'no' => $quotation['no'],
+//         'title' => $quotation['title'],
+//         "manager" => $quotation['manager_name'],
+//         "total" => number_format($quotation['total']),
+//         "period" => str_replace('-', '/', $quotation['validity_period']),
+//         "due" => str_replace('-', '/', $quotation['due_date']),
+//         "status" => STATUSES[$quotation['status']],
+//         "id" => $quotation['id']
+//     ];
+// }
+// //idのない人を返す
+// if (empty($_GET['id']) || $_GET['id']=='') {
+//     header('Location:../companies/');
+//     exit();
+// }
+// //データがない時とあるときの処理
+// if (empty($quo)) {
+//     $quo_count = 0;
+// } else {
+//     $quo_count = count($quo);
+// }
+
 ?>
 
 <!DOCTYPE html>
