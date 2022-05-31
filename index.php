@@ -2,18 +2,22 @@
 //session_start();
 require('dbconnect.php');
 require_once('./config.php');
-require('functions.php');
+require_once('functions.php');
+
+require_once('page_class.php');
+require_once('page_data.php');
 
 //初期値
+if (empty($_GET['order'])) {
+    $_GET['order']=1;
+}
+/*
 $page = 0;
 if (!empty($_GET['page'])) {
     $page= $_GET['page'];
     if ($page == '') {
         $page=1;
     }
-}
-if (empty($_GET['order'])) {
-    $_GET['order']=1;
 }
 //最小値
 $page = max($page, 1);
@@ -37,9 +41,12 @@ if (!empty($_GET['search'])) {
 $page = min($page, $maxPage);
 //ページ
 $start = ($page - 1) * 10;
-
+*/
 //DBに接続する用意
 //検索した場合
+$start = $cmpPage->getStartPage();
+$page = $cmpPage->getPage();
+
 if (!empty($_GET['search'])) {//GETでおくる
     if (($_GET['order'])>0) {
         $searched = '%'.$_GET['search'].'%' ;
@@ -153,7 +160,7 @@ if (!empty($_GET['search'])) {//GETでおくる
         } ?>">←前へ</a></span>
     <?php endif; ?>
     <span class="pgbtn nowpage"><?php print(h($page)); ?></span>
-    <?php if ($page < $maxPage) : ?>
+    <?php if ($page < $cmpPage->getMaxPage()) : ?>
         <span><a class="pgbtn" href="index.php?page=<?php print(h($page) + 1);
         if (!empty($_GET['search'])) {
             echo '&search='.h($_GET['search']) ;
