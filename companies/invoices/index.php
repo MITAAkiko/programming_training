@@ -1,8 +1,8 @@
 <?php
 
-require('../dbconnect.php');
-require_once('../config.php');
-require('../functions.php');
+require('../../dbconnect.php');
+require_once('../../config.php');
+require('../../functions.php');
 //初期値
 $page = 1;
 if (!empty($_GET['page'])) {
@@ -80,7 +80,7 @@ $company = $companies -> fetch();
 
 //idのない人を返す
 if (empty($_GET['id']) || $_GET['id']=='') {
-    header('Location:../');
+    header('Location:../companies/');
     exit();
 }
 
@@ -90,7 +90,7 @@ if (empty($_GET['id']) || $_GET['id']=='') {
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="../style.css">
+<link rel="stylesheet" type="text/css" href="../../style.css">
 <link rel="stylesheet" type="text/css" href="i_style.css">
     <title>プログラミング実習</title>
 </head>

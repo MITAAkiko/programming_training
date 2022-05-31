@@ -1,16 +1,14 @@
 <?php
 
-require('../dbconnect.php');
-require_once('../config.php');
-require('../functions.php');
-/*
-require_once('page_class.php');
-require_once('page_data.php');
-*/
+require_once('../../dbconnect.php');
+require_once('../../config.php');
+require_once('../../functions.php');
+
 //初期値
 if (empty($_GET['order'])) {
     $_GET['order']=1;
 }
+
 $page = 1;
 if (!empty($_GET['page'])) {
     $page= $_GET['page'];
@@ -41,10 +39,6 @@ $page = min($page, $maxPage);
 
 //ページ
 $start = ($page - 1) * 10;
-
-
-//$maxPage = $quoPage->getMaxPage();
-//$page = $quoPage->getPage();
 
 //DBに接続する用意
 //絞り込みあり
@@ -99,7 +93,7 @@ foreach ($quotations as $quotation) {
 }
 //idのない人を返す
 if (empty($_GET['id']) || $_GET['id']=='') {
-    header('Location:../');
+    header('Location:../companies/');
     exit();
 }
 
@@ -109,7 +103,7 @@ if (empty($_GET['id']) || $_GET['id']=='') {
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="../style.css">
+<link rel="stylesheet" type="text/css" href="../../style.css">
 <link rel="stylesheet" type="text/css" href="q_style.css">
     <title>プログラミング実習</title>
 </head>

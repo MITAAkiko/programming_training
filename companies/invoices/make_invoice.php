@@ -1,9 +1,9 @@
 <?php
 //見積作成画面
 
-require('../dbconnect.php');
-require_once('../config.php');
-require('../functions.php');
+require('../../dbconnect.php');
+require_once('../../config.php');
+require('../../functions.php');
 /*~~mada
 quotation_no = 'yahho000',
 title = '請求名' ,
@@ -118,7 +118,7 @@ if (!empty($_POST)) {
 
 //$_GET['id']ない時戻す
 if (empty($_GET)) {
-    header('Location:../');
+    header('Location:../companies/');
     exit();
 }
 //会社名取得
@@ -136,9 +136,9 @@ if (!empty($_GET)) {
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="../style.css">
+<link rel="stylesheet" type="text/css" href="../../style.css">
 <link rel="stylesheet" type="text/css" href="i_style.css">
-<link rel="stylesheet" type="text/css" href="../join/style_join.css">
+<link rel="stylesheet" type="text/css" href="../../style_join.css">
     <title>プログラミング実習</title>
 </head>
 

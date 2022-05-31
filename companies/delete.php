@@ -1,5 +1,5 @@
 <?php
-require('dbconnect.php');
+require('../dbconnect.php');
 
 //var_dump($_REQUEST);
 

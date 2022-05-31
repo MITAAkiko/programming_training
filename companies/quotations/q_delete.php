@@ -1,5 +1,5 @@
 <?php
-require('../dbconnect.php');
+require('../../dbconnect.php');
 
 if (empty($_GET)) {
     header('Location:./');

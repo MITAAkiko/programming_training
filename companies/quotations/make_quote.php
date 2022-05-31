@@ -1,39 +1,16 @@
 <?php
-//idがない時はindex.phpに返す
-require('../dbconnect.php');
-require_once('../config.php');
-require('../functions.php');
+//見積作成画面
 
-if (empty($_GET)) {
-    header('Location:./');
-}
-if ($_GET['id'] == '' || $_GET['cid'] == '') {
-    header('Location:./');
-} else {
-    $id = $_GET['id'];
-    $cid = $_GET['cid'];
-}
-//DBに接続する
-//会社名
-$companies = $db -> prepare('SELECT id, company_name, prefix
-    FROM companies WHERE id=?');
-$companies->bindParam(1, $_GET['cid'], PDO::PARAM_INT);
-$companies -> execute();
-$company = $companies -> fetch();
-//編集用
-$quotations = $db -> prepare('SELECT no, title, total, validity_period, due_date, status 
-    FROM quotations WHERE id = ?');
-$quotations ->bindParam(1, $_GET['id'], PDO::PARAM_INT);
-$quotations -> execute();
-$quotation = $quotations -> fetch();
+require('../../dbconnect.php');
+require_once('../../config.php');
+require('../../functions.php');
 
-
-//バリデーションチェック
 //エラーチェック
 function isError($err)
 {
     $nonerror=[
         'title' => '',
+        'name' => '',
         'total' => '',
         'period' => '',
         'due' => '',
@@ -44,6 +21,7 @@ function isError($err)
 //初期値
 $error = [
     'title' => '',
+    'name' => '',
     'total' => '',
     'period' => '',
     'due' => '',
@@ -72,80 +50,96 @@ if (!empty($_POST)) {
     } elseif (strtotime($_POST['period'])===false) {
         $error['period']='check_date';
     }
-    if (($_POST['due'])==='') {
+    if (strtotime($_POST['period']) > strtotime($_POST['due'])) {
+        $error['due']='time';
+    } elseif (($_POST['due'])==='') {
         $error['due']='blank';
     } elseif (!preg_match('/^[0-9]{8}$/', $_POST['due'])) {
         $error['due']='type';
-    } elseif (strtotime($_POST['period']) > strtotime($_POST['due'])) {
-        $error['due']='time';
     } elseif (strtotime($_POST['due'])===false) {
         $error['due']='check_date';
     }
-    if (($_POST['status'])==='') {
-        $error['status']='blank';
-    } elseif (!preg_match("/^[0-9]+$/", $_POST['status'])) { //空文字ダメの半角数値
+    if (!preg_match("/^[0-9]+$/", $_POST['status'])) { //空文字ダメの半角数値
         $error['status']='type';
     } elseif (strlen($_POST['status'])>1) {
         $error['status']='long';
+    } elseif (($_POST['status'])==='') {
+        $error['status']='blank';
     }
 }
 
 //エラーがある.ファンクションそのまま使えないから変数に代入
 $isError = isError($error);
-//エラーがあったときに状態をもう一度選択する促し
-if ($isError) {
-    $error['status']='iserr';
-}
+
 //エラーがない時にデータベースに登録する
 if (!empty($_POST)) {
+    //var_dump($_POST);exit();
     if (!$isError) {
-        //  validity_period=?, due_date=?,
+        $getids = $db->prepare('SELECT count(*)+1 AS getid FROM quotations WHERE company_id=?');//idを取得
+        $getids->bindParam(1, $_GET['id'], PDO::PARAM_INT);
+        $getids->execute();
+        $getid = $getids->fetch();
+        $quotate_id = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
+        $no = $_POST['prefix'].'-q-'.$quotate_id;//見積番号
 
-        $statement = $db->prepare('UPDATE quotations
-            SET  title=?, total=?, validity_period=?, due_date=?, status=?,
-            modified=NOW() WHERE id=?');
-        
-        $statement->bindParam(1, $_POST['title'], PDO::PARAM_STR);
-        $statement->bindParam(2, $_POST['total'], PDO::PARAM_INT);
-        $statement->bindParam(3, $_POST['period'], PDO::PARAM_INT);
-        $statement->bindParam(4, $_POST['due'], PDO::PARAM_INT);
-        $statement->bindParam(5, $_POST['status'], PDO::PARAM_INT);
-        $statement->bindParam(6, $_GET['id'], PDO::PARAM_INT);
+        $due = new DateTime();
+        $due = $due->format('Y-m-d');
+        $statement = $db->prepare('INSERT INTO quotations 
+            SET company_id=?,no=?,
+            title=?, total=?, validity_period=?, due_date=?, status=?, 
+            created=NOW(),modified=NOW()');
+        $statement->bindParam(1, $_GET['id'], PDO::PARAM_INT);
+        $statement->bindParam(2, $no, PDO::PARAM_STR);
+        $statement->bindParam(3, $_POST['title'], PDO::PARAM_STR);
+        $statement->bindParam(4, $_POST['total'], PDO::PARAM_INT);
+        $statement->bindParam(5, $_POST['period'], PDO::PARAM_INT);
+        //$statement->bindParam(6, $_POST['due'], PDO::PARAM_INT);
+        $statement->bindValue(6, $due, PDO::PARAM_STR);
+        $statement->bindParam(7, $_POST['status'], PDO::PARAM_INT);
         echo $ret=$statement->execute();
-        header('Location:./?id='.$company['id']);
+        header('Location:./?id='.$_POST['return_id']);
         exit();
     }
 }
 
+//$_GET['id']ない時戻す
+if (empty($_GET)) {
+    header('Location:../companies');
+    exit();
+}
+//会社名取得
+if (!empty($_GET)) {
+    $companies = $db->prepare('SELECT company_name, prefix ,id
+        FROM companies WHERE id=?');
+    $companies->bindParam(1, $_GET['id'], PDO::PARAM_INT);
+    $companies->execute();
+    $company = $companies->fetch();
+}
+   
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="../style.css">
-<link rel="stylesheet" type="text/css" href="../join/style_join.css">
-<link rel="stylesheet" type="text/css" href="./q_style.css">
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link rel="stylesheet" type="text/css" href="q_style.css">
+<link rel="stylesheet" type="text/css" href="../../style_join.css">
     <title>プログラミング実習</title>
 </head>
 
 <body>
 <main>
     <div class="content_add">
-    <div><span class="title">見積書編集</span><a class="btn" href="index.php?id=<?php echo h($company['id']) ?>">戻る</a></div>
+    <div><span class="title">見積作成</span><a class="btn" href="./index.php?id=<?php echo h($_GET['id']) ?>">戻る</a></div>
     <hr>
 <form action="" method="post">
     <table class="join_table">
-    <tr><th>見積番号</th> 
-            <td><?php echo h($quotation['no']) ?></td>
-        </tr>
-    <tr><th>見積名</th> 
+        <tr><th>見積名</th> 
             <td>
                 <input class="text_join" type="text" name="title" 
                 value="<?php if (!empty($_POST['title'])) {
                         echo h($_POST['title']);
-                       } else {
-                            echo h($quotation['title']);
                        } ?>">
                 <?php if ($error['title']==='blank') : ?>
                     <p class="error">※見積名を入力してください</p>
@@ -155,7 +149,6 @@ if (!empty($_POST)) {
                 <?php endif; ?>
             </td>
         </tr>
-<!--会社名取得-->
         <tr><th>会社名</th> 
             <td><?php echo h($company['company_name']) ?></td>
         </tr>
@@ -164,28 +157,23 @@ if (!empty($_POST)) {
                 <input class="text_join_en" type="text" name="total" 
                 value="<?php if (!empty($_POST['total'])) {
                         echo h($_POST['total']);
-                       } else {
-                            echo h($quotation['total']);
                        } ?>"> 円
                     <?php if ($error['total']==='blank') : ?>
                         <p class="error">※金額を入力してください</p>
                     <?php endif; ?>
                     <?php if ($error['total'] === 'type') :?>
-                        <p class="error">※半角数字で入力してください</p>
+                        <p class="error">※半角数字のみで入力してください</p>
                     <?php endif; ?>
                     <?php if ($error['total'] === 'long') :?>
                         <p class="error">※10桁以内で入力してください</p>
                     <?php endif; ?>
             </td>
         </tr>
-
         <tr><th>見積書有効期限</th> 
             <td>
                 <input class="text_join" type="text" name="period" 
                 value="<?php if (!empty($_POST['period'])) {
-                        echo str_replace('-', '', h($_POST['period']));
-                       } else {
-                            echo str_replace('-', '', h($quotation['validity_period']));
+                         echo h($_POST['period']);
                        } ?>">
                     <?php if ($error['period']==='blank') : ?>
                         <p class="error">※日付を入力してください</p>
@@ -201,11 +189,9 @@ if (!empty($_POST)) {
         <tr><th>納期</th> 
             <td>
                 <input class="text_join" type="text" name="due" 
-                value="<?php if (!empty($_POST['date'])) {
-                        echo str_replace('-', '', h($_POST['date']));
-                       } else {
-                            echo str_replace('-', '', h($quotation['due_date']));
-                       }?>">
+                value="<?php if (!empty($_POST['due'])) {
+                        echo h($_POST['due']);
+                       } ?>">
                     <?php if ($error['due']==='blank') : ?>
                         <p class="error">※納期を入力してください</p>
                     <?php endif; ?>
@@ -222,7 +208,7 @@ if (!empty($_POST)) {
         </tr>
         <tr><th>状態</th>
             <td><select class="select_status" name="status">
-                        <option value="<?php echo h($quotation['status']) ?>"><?php echo STATUSES[h($quotation['status'])] ?></option>
+                        <option value="">選択してください</option>
                         <?php foreach (STATUSES as $number => $value) : ?>
                         <option value="<?php echo $number ?>"><?php echo $value ?></option>
                         <?php endforeach; ?>
@@ -236,14 +222,16 @@ if (!empty($_POST)) {
                     <?php if ($error['status']==='long') : ?>
                         <p class="error">※正しく選択してください</p>
                     <?php endif; ?>
-                    <?php if ($error['status']==='iserr') : ?>
+                    <?php if ($isError) : ?>
                         <p class="error">※もう一度選択してください</p>
                     <?php endif; ?>
             </td>
         </tr>
     </table>
     <hr>
-    <input type="submit" value="変更" class="long_btn">
+    <input type="submit" value="見積作成" class="long_btn">
+    <input type="hidden" name="prefix" value="<?php echo h($company['prefix']) ?>">
+    <input type="hidden" name="return_id" value="<?php echo h($company['id']) ?>"><!--一覧にもどるため-->
 </form>
     </div>
 </main>

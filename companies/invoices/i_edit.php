@@ -1,7 +1,7 @@
 <?php
-require('../dbconnect.php');
-require_once('../config.php');
-require('../functions.php');
+require('../../dbconnect.php');
+require_once('../../config.php');
+require('../../functions.php');
 
 //idがない時はindex.phpに返す
 if (empty($_GET)) {
@@ -119,8 +119,8 @@ if (!empty($_POST)) {
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="../style.css">
-<link rel="stylesheet" type="text/css" href="../join/style_join.css">
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link rel="stylesheet" type="text/css" href="../../style_join.css">
 <link rel="stylesheet" type="text/css" href="./i_style.css">
     <title>プログラミング実習</title>
 </head>
