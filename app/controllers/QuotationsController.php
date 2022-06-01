@@ -196,9 +196,9 @@ class QuotationController
         }
         //DBに接続する
         //会社名
-        $company = $this->quoMdl->fetchCompanyNameById($get['cid']);
+        $company = $this->quoMdl->fetchCompanyNameById($cid);
         //編集用
-        $quotation = $this->quoMdl->fetchDataByQuotationId($get['id']);
+        $quotation = $this->quoMdl->fetchDataByQuotationId($id);
         //バリデーションチェック
         //エラーチェック
         function isError($err)
@@ -270,7 +270,7 @@ class QuotationController
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
-                $this->quoMdl->edit($get['id'], $post);
+                $this->quoMdl->edit($id, $post);
                 header('Location:./?id='.$company['id']);
                 //exit();
             }
