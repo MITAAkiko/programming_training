@@ -52,4 +52,36 @@ class QuotationsModel
         return $company;
     }
     //add
+    public function addGetId($get)
+    {
+        $getids = $this->db->prepare('SELECT count(*)+1 AS getid FROM quotations WHERE company_id=?');//idを取得
+        $getids->bindParam(1, $get['id'], \PDO::PARAM_INT);
+        $getids->execute();
+        $getid = $getids->fetch();
+        return $getid;
+    }
+    public function addData($get, $post, $due, $no)
+    {
+        $statement = $this->db->prepare('INSERT INTO quotations 
+            SET company_id=?,no=?,
+            title=?, total=?, validity_period=?, due_date=?, status=?, 
+            created=NOW(),modified=NOW()');
+        $statement->bindParam(1, $get['id'], \PDO::PARAM_INT);
+        $statement->bindParam(2, $no, \PDO::PARAM_STR);
+        $statement->bindParam(3, $post['title'], \PDO::PARAM_STR);
+        $statement->bindParam(4, $post['total'], \PDO::PARAM_INT);
+        $statement->bindParam(5, $post['period'], \PDO::PARAM_INT);
+        $statement->bindValue(6, $due, \PDO::PARAM_STR);
+        $statement->bindParam(7, $post['status'], \PDO::PARAM_INT);
+        $statement->execute();
+    }
+    public function addGetCompanyName($get)
+    {
+        $companies = $this->db->prepare('SELECT company_name, prefix ,id
+            FROM companies WHERE id=?');
+        $companies->bindParam(1, $get['id'], \PDO::PARAM_INT);
+        $companies->execute();
+        $company = $companies->fetch();
+        return $company;
+    }
 }
