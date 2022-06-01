@@ -22,10 +22,10 @@ class QuotationController
 
         //maxPage(検索ありなしで分ける)
         if (!empty($get['search'])) {
-            $cnt = $this->quoMdl->getMaxpageSearched($get);
+            $cnt = $this->quoMdl->fetchMaxpageSearched($get);
             $maxPage = ceil($cnt['cnt']/10);
         } else {
-            $cnt = $this->quoMdl->getMaxpage($get);
+            $cnt = $this->quoMdl->fetchMaxpage($get['id']);
             $maxPage = ceil($cnt['cnt']/10);
         }
         $maxPage = max($maxPage, 1);
@@ -44,12 +44,12 @@ class QuotationController
         //DBに接続する用意
         //絞り込みあり
         if (!empty($get['search'])) {
-            $quotations = $this->quoMdl->showDataSearched($get);
+            $quotations = $this->quoMdl->fetchDataSearched($get);
         } else {//絞り込みなし
-            $quotations = $this->quoMdl->showData($get);
+            $quotations = $this->quoMdl->fetchDataById($get['id']);
         }
         //会社名を表示させる（見積がないときなど）
-        $company = $this->quoMdl->showCompanyName($get);
+        $company = $this->quoMdl->fetchCompanyNameById($get['id']);
         //キーを用いた方（・・・as $key => $quotation){ $quo[$key]=[・・・]でも同様の結果
         foreach ($quotations as $quotation) {
             $quo[] = [
@@ -156,13 +156,13 @@ class QuotationController
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
-                $getid = $this->quoMdl->addGetId($get);
+                $getid = $this->quoMdl->fetchId($get['id']);
                 $quotateId = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
                 $no = $post['prefix'].'-q-'.$quotateId;//見積番号
 
                 $due = new \DateTime();
                 $due = $due->format('Y-m-d');
-                $this->quoMdl->addData($get, $post, $due, $no);
+                $this->quoMdl->create($get['id'], $post, $due, $no);
                 header('Location:./?id='.$post['return_id']);
                 //exit();
             }
@@ -175,7 +175,7 @@ class QuotationController
         }
         //会社名取得
         if (!empty($get)) {
-            $company = $this->quoMdl->addGetCompanyName($get);
+            $company = $this->quoMdl->fetchCompanyNameById($get['id']);
         }
         return [
             'error' => $error,
@@ -196,9 +196,9 @@ class QuotationController
         }
         //DBに接続する
         //会社名
-        $company = $this->quoMdl->editGetCompanyName($get);
+        $company = $this->quoMdl->fetchCompanyNameById($get['cid']);
         //編集用
-        $quotation = $this->quoMdl->editShowData($get);
+        $quotation = $this->quoMdl->fetchDataByQuotationId($get['id']);
         //バリデーションチェック
         //エラーチェック
         function isError($err)
@@ -270,7 +270,7 @@ class QuotationController
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
-                $this->quoMdl->editData($get, $post);
+                $this->quoMdl->edit($get['id'], $post);
                 header('Location:./?id='.$company['id']);
                 //exit();
             }
