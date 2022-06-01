@@ -165,7 +165,7 @@ class CompaniesController
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
-                $this->cmpMdl->createData($post);
+                $this->cmpMdl->create($post);
                 header('Location:./');
                 //exit();
             }
@@ -261,7 +261,7 @@ class CompaniesController
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
-                $this->cmpMdl->updateData($get['id'], $post);
+                $this->cmpMdl->update($get['id'], $post);
                 header('Location:./');
                 //exit();
             }

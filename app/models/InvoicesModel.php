@@ -92,8 +92,8 @@ class InvoicesModel
         $getid = $getids->fetch();
         return $getid;
     }
-    
-    public function createData($id, $post, $no)
+
+    public function create($id, $post, $no)
     {
         $statement = $this->db->prepare('INSERT INTO invoices SET company_id=?,no=?,
             title=?, total=?, payment_deadline=?, date_of_issue=?, quotation_no=?, status=?, 
@@ -128,7 +128,7 @@ class InvoicesModel
     //     return $company;
     // }
 
-    public function updateData($id, $post)
+    public function update($id, $post)
     {
         $statement = $this->db->prepare('UPDATE invoices
             SET  title=?, total=?, payment_deadline=?, date_of_issue=?, status=?,

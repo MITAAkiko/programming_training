@@ -64,7 +64,7 @@ class CompaniesModel
         return $companies;
     }
     //add
-    public function createData($post)
+    public function create($post)
     {
         $statement = $this->db->prepare('INSERT INTO companies SET company_name=?, manager_name=?,phone_number=?,postal_code=?,prefecture_code=?,address=?,mail_address=?,prefix=?,created=NOW(),modified=NOW()');
         $statement->bindParam(1, $post['name'], \PDO::PARAM_STR);
@@ -88,7 +88,7 @@ class CompaniesModel
         $company = $companies -> fetch();
         return $company;
     }
-    public function updateData($id, $post)
+    public function update($id, $post)
     {
         $statement = $this->db->prepare('UPDATE companies 
         SET company_name=?, manager_name=?,phone_number=?,

@@ -158,7 +158,7 @@ class InvoicesController
                 $invoiceId = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
                 $no = $post['prefix'].'-i-'.$invoiceId;//請求番号
                 //登録実行
-                $this->invMdl->createData($get['id'], $post, $no);
+                $this->invMdl->create($get['id'], $post, $no);
                 header('Location:./?id='.h($post['return_id']));
             }
         }
@@ -265,7 +265,7 @@ class InvoicesController
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
-                $this->invMdl->updateData($get['id'], $post);
+                $this->invMdl->update($get['id'], $post);
                 header('Location:./?id='.$company['id']);
                 //exit();
             }
