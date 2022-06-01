@@ -155,28 +155,12 @@ class QuotationController
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
-                // $getids = $this->db->prepare('SELECT count(*)+1 AS getid FROM quotations WHERE company_id=?');//idを取得
-                // $getids->bindParam(1, $get['id'], \PDO::PARAM_INT);
-                // $getids->execute();
-                // $getid = $getids->fetch();
                 $getid = $this->quoMdl->addGetId($get);
-                $quotate_id = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
-                $no = $post['prefix'].'-q-'.$quotate_id;//見積番号
+                $quotateId = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
+                $no = $post['prefix'].'-q-'.$quotateId;//見積番号
 
                 $due = new \DateTime();
                 $due = $due->format('Y-m-d');
-                // $statement = $this->db->prepare('INSERT INTO quotations 
-                //     SET company_id=?,no=?,
-                //     title=?, total=?, validity_period=?, due_date=?, status=?, 
-                //     created=NOW(),modified=NOW()');
-                // $statement->bindParam(1, $get['id'], \PDO::PARAM_INT);
-                // $statement->bindParam(2, $no, \PDO::PARAM_STR);
-                // $statement->bindParam(3, $post['title'], \PDO::PARAM_STR);
-                // $statement->bindParam(4, $post['total'], \PDO::PARAM_INT);
-                // $statement->bindParam(5, $post['period'], \PDO::PARAM_INT);
-                // $statement->bindValue(6, $due, \PDO::PARAM_STR);
-                // $statement->bindParam(7, $post['status'], \PDO::PARAM_INT);
-                // $statement->execute();
                 $this->quoMdl->addData($get, $post, $due, $no);
                 header('Location:./?id='.$post['return_id']);
                 //exit();
@@ -190,11 +174,6 @@ class QuotationController
         }
         //会社名取得
         if (!empty($get)) {
-            // $companies = $db->prepare('SELECT company_name, prefix ,id
-            //     FROM companies WHERE id=?');
-            // $companies->bindParam(1, $get['id'], PDO::PARAM_INT);
-            // $companies->execute();
-            // $company = $companies->fetch();
             $company = $this->quoMdl->addGetCompanyName($get);
         }
         return [
