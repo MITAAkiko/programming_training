@@ -8,8 +8,10 @@ require_once('../app/controllers/CompaniesController.php');
 
  $cmp = new CompaniesController;
  $error = $cmp->add($_POST);
+ //error['postal_code'] = $this->blank($post['postal_code'], 'postal_code');
 
 
+var_dump($error);
 ?>
 
 <!DOCTYPE html>
@@ -102,6 +104,9 @@ require_once('../app/controllers/CompaniesController.php');
                         <p class="error">※正しく選択してください</p>
                     <?php endif; ?>
                     <?php if ($error['prefecture_code'] === 'type') : ?>
+                        <p class="error">※正しく選択してください</p>
+                    <?php endif; ?>
+                    <?php if ($error['prefecture_code'] === 'size') : ?>
                         <p class="error">※正しく選択してください</p>
                     <?php endif; ?>
                     <?php if ($error['prefecture_code'] === 'error') :?>
