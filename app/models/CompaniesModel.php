@@ -105,7 +105,7 @@ class CompaniesModel
         $statement->execute();
     }
     //delete
-    public function deleteData($id)
+    public function delete($id)
     {
          $del = $this->db->prepare('UPDATE companies SET deleted=NOW() WHERE id=?');
          $del -> bindParam(1, $id, \PDO::PARAM_INT);

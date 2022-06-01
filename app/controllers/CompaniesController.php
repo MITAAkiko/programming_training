@@ -279,7 +279,7 @@ class CompaniesController
             header('Location:./');
         } else {
             $id = $get['id'];
-            $this->cmpMdl->deleteData($id);
+            $this->cmpMdl->delete($id);
         
             header('Location:index.php');
             //exit();
