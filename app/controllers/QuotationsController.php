@@ -195,18 +195,8 @@ class QuotationController
         }
         //DBに接続する
         //会社名
-        // $companies = $this->db -> prepare('SELECT id, company_name, prefix
-        //     FROM companies WHERE id=?');
-        // $companies->bindParam(1, $get['cid'], \PDO::PARAM_INT);
-        // $companies -> execute();
-        // $company = $companies -> fetch();
         $company = $this->quoMdl->editGetCompanyName($get);
         //編集用
-        // $quotations = $this->db -> prepare('SELECT no, title, total, validity_period, due_date, status 
-        //     FROM quotations WHERE id = ?');
-        // $quotations ->bindParam(1, $get['id'], \PDO::PARAM_INT);
-        // $quotations -> execute();
-        // $quotation = $quotations -> fetch();
         $quotation = $this->quoMdl->editShowData($get);
         //バリデーションチェック
         //エラーチェック
@@ -279,17 +269,6 @@ class QuotationController
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
-                // $statement = $this->db->prepare('UPDATE quotations
-                //     SET  title=?, total=?, validity_period=?, due_date=?, status=?,
-                //     modified=NOW() WHERE id=?');
-                
-                // $statement->bindParam(1, $post['title'], \PDO::PARAM_STR);
-                // $statement->bindParam(2, $post['total'], \PDO::PARAM_INT);
-                // $statement->bindParam(3, $post['period'], \PDO::PARAM_INT);
-                // $statement->bindParam(4, $post['due'], \PDO::PARAM_INT);
-                // $statement->bindParam(5, $post['status'], \PDO::PARAM_INT);
-                // $statement->bindParam(6, $get['id'], \PDO::PARAM_INT);
-                // $statement->execute();
                 $this->quoMdl->editData($get, $post);
                 header('Location:./?id='.$company['id']);
                 //exit();
@@ -301,5 +280,23 @@ class QuotationController
             'error' => $error,
             'isError' => $isError,
         ];
+    }
+    public function delete($get)
+    {
+        if (empty($get)) {
+            header('Location:./');
+        } elseif ($get['id'] == '') {
+            header('Location:./');
+        } else {
+            $id = $get['id'];
+            $cid = $get['cid'];
+            //削除する
+            // $del = $this->db->prepare('UPDATE quotations SET deleted=NOW() WHERE id=?');
+            // $del -> bindParam(1, $id, \PDO::PARAM_INT);
+            // $del -> execute();
+            $this->quoMdl->delete($id);
+            header('Location:index.php?id='.$cid);
+            //exit();
+        }
     }
 }

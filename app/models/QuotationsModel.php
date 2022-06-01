@@ -116,4 +116,11 @@ class QuotationsModel
         $statement->bindParam(6, $get['id'], \PDO::PARAM_INT);
         $statement->execute();
     }
+    //delete
+    public function delete($id)
+    {
+        $del = $this->db->prepare('UPDATE quotations SET deleted=NOW() WHERE id=?');
+        $del -> bindParam(1, $id, \PDO::PARAM_INT);
+        $del -> execute();
+    }
 }
