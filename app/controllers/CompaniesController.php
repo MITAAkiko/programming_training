@@ -22,12 +22,11 @@ class CompaniesController
         }
         //maxPageを取得する
         if (!empty($get['search'])) {
-            $cnt = $this->cmpMdl->getMaxPageSearched($get['search']);
-            
+            $searched = '%'.$get['search'].'%' ;
+            $cnt = $this->cmpMdl->fetchMaxPageSearched($searched);
             $maxPage = ceil($cnt['cnt']/10);
         } else {
-            $cnt = $this->cmpMdl->getMaxPage();
-            
+            $cnt = $this->cmpMdl->fetchMaxPage();
             $maxPage = ceil($cnt['cnt']/10);
         }
 
@@ -50,15 +49,17 @@ class CompaniesController
         //DBに接続する用意
         if (!empty($get['search'])) {//GETでおくる
             if (($get['order'])>0) {
-                $companies = $this->cmpMdl->getDataSearchedASC($get, $start);
+                $searched = '%'.$get['search'].'%' ;
+                $companies = $this->cmpMdl->fetchDataSearchedASC($searched, $start);
             } else {
-                $companies = $this->cmpMdl->getDataSearchedDESC($get, $start);
+                $searched = '%'.$get['search'].'%' ;
+                $companies = $this->cmpMdl->fetchDataSearchedDESC($searched, $start);
             }
         } else {//検索なかった場合
             if (($get['order'])>0) {
-                $companies = $this->cmpMdl->getDataASC($start);
+                $companies = $this->cmpMdl->fetchDataASC($start);
             } else {
-                $companies = $this->cmpMdl->getDataDESC($start);
+                $companies = $this->cmpMdl->fetchDataDESC($start);
             }
         }
         return [
@@ -164,7 +165,7 @@ class CompaniesController
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
-                $this->cmpMdl->addData($post);
+                $this->cmpMdl->createData($post);
                 header('Location:./');
                 //exit();
             }
@@ -178,7 +179,7 @@ class CompaniesController
         if (empty($get)) {
             header('Location:./');
         }
-        $company = $this->cmpMdl->editShowData($get);
+        $company = $this->cmpMdl->fetchDataById($get['id']);
         
         // バリデーションチェック
         // エラーチェック
@@ -260,7 +261,7 @@ class CompaniesController
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
-                $this->cmpMdl->editData($get, $post);
+                $this->cmpMdl->updateData($get['id'], $post);
                 header('Location:./');
                 //exit();
             }
