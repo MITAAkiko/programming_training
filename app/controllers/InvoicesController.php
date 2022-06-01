@@ -62,7 +62,7 @@ class InvoicesController
         $company = $this->invMdl->showCompanyName($get);
         //idのない人を返す
         if (empty($get['id']) || $get['id']=='') {
-            header('Location:../companies/');
+            header('Location:../');
             //exit();
         }
         return [

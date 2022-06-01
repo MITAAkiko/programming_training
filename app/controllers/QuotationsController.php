@@ -65,7 +65,7 @@ class QuotationController
         }
         //idのない人を返す
         if (empty($get['id']) || $get['id']=='') {
-            header('Location:../companies/');
+            header('Location:../');
             //exit();
         }
         //データがない時とあるときの処理
