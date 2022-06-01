@@ -71,6 +71,7 @@ class QuotationController
         //データがない時とあるときの処理
         if (empty($quo)) {
             $quoCount = 0;
+            $quo = null;
         } else {
             $quoCount = count($quo);
         }
