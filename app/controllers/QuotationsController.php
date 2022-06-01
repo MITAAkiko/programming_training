@@ -291,9 +291,6 @@ class QuotationController
             $id = $get['id'];
             $cid = $get['cid'];
             //削除する
-            // $del = $this->db->prepare('UPDATE quotations SET deleted=NOW() WHERE id=?');
-            // $del -> bindParam(1, $id, \PDO::PARAM_INT);
-            // $del -> execute();
             $this->quoMdl->delete($id);
             header('Location:index.php?id='.$cid);
             //exit();
