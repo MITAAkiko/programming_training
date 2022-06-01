@@ -182,4 +182,124 @@ class QuotationController
             'isError' => $isError,
         ];
     }
+    public function edit($get, $post)
+    {
+        if (empty($get)) {
+            header('Location:./');
+        }
+        if ($get['id'] == '' || $get['cid'] == '') {
+            header('Location:./');
+        } else {
+            $id = $get['id'];
+            $cid = $get['cid'];
+        }
+        //DBに接続する
+        //会社名
+        // $companies = $this->db -> prepare('SELECT id, company_name, prefix
+        //     FROM companies WHERE id=?');
+        // $companies->bindParam(1, $get['cid'], \PDO::PARAM_INT);
+        // $companies -> execute();
+        // $company = $companies -> fetch();
+        $company = $this->quoMdl->editGetCompanyName($get);
+        //編集用
+        // $quotations = $this->db -> prepare('SELECT no, title, total, validity_period, due_date, status 
+        //     FROM quotations WHERE id = ?');
+        // $quotations ->bindParam(1, $get['id'], \PDO::PARAM_INT);
+        // $quotations -> execute();
+        // $quotation = $quotations -> fetch();
+        $quotation = $this->quoMdl->editShowData($get);
+        //バリデーションチェック
+        //エラーチェック
+        function isError($err)
+        {
+            $nonerror=[
+                'title' => '',
+                'total' => '',
+                'period' => '',
+                'due' => '',
+                'status' => ''
+            ];
+            return $err !== $nonerror;
+        }
+        //初期値
+        $error = [
+            'title' => '',
+            'total' => '',
+            'period' => '',
+            'due' => '',
+            'status' => ''
+        ];
+        $isError = '';
+
+        //エラーについて
+        if (!empty($post)) {
+            if (($post['title'])==='') {
+                $error['title']='blank';
+            } elseif (strlen($post['title'])>64) {
+                $error['title']='long';
+            }
+            if (($post['total'])==='') {
+                $error['total']='blank';
+            } elseif (!preg_match('/^[0-9]+$/', $post['total'])) { //空文字ダメの半角数値
+                $error['total']='type';
+            } elseif (strlen($post['total'])>10) {
+                $error['total']='long';
+            }
+            if (($post['period'])==='') {
+                $error['period']='blank';
+            } elseif (!preg_match('/^[0-9]{8}$/', $post['period'])) {
+                $error['period']='type';
+            } elseif (strtotime($post['period'])===false) {
+                $error['period']='check_date';
+            }
+            if (($post['due'])==='') {
+                $error['due']='blank';
+            } elseif (!preg_match('/^[0-9]{8}$/', $post['due'])) {
+                $error['due']='type';
+            } elseif (strtotime($post['period']) > strtotime($post['due'])) {
+                $error['due']='time';
+            } elseif (strtotime($post['due'])===false) {
+                $error['due']='check_date';
+            }
+            if (($post['status'])==='') {
+                $error['status']='blank';
+            } elseif (!preg_match("/^[0-9]+$/", $post['status'])) { //空文字ダメの半角数値
+                $error['status']='type';
+            } elseif (strlen($post['status'])>1) {
+                $error['status']='long';
+            }
+        }
+
+        //エラーがある.ファンクションそのまま使えないから変数に代入
+        $isError = isError($error);
+        //エラーがあったときに状態をもう一度選択する促し
+        if ($isError) {
+            $error['status']='iserr';
+        }
+        //エラーがない時にデータベースに登録する
+        if (!empty($post)) {
+            if (!$isError) {
+                // $statement = $this->db->prepare('UPDATE quotations
+                //     SET  title=?, total=?, validity_period=?, due_date=?, status=?,
+                //     modified=NOW() WHERE id=?');
+                
+                // $statement->bindParam(1, $post['title'], \PDO::PARAM_STR);
+                // $statement->bindParam(2, $post['total'], \PDO::PARAM_INT);
+                // $statement->bindParam(3, $post['period'], \PDO::PARAM_INT);
+                // $statement->bindParam(4, $post['due'], \PDO::PARAM_INT);
+                // $statement->bindParam(5, $post['status'], \PDO::PARAM_INT);
+                // $statement->bindParam(6, $get['id'], \PDO::PARAM_INT);
+                // $statement->execute();
+                $this->quoMdl->editData($get, $post);
+                header('Location:./?id='.$company['id']);
+                //exit();
+            }
+        }
+        return [
+            'company' => $company,
+            'quotation' => $quotation,
+            'error' => $error,
+            'isError' => $isError,
+        ];
+    }
 }
