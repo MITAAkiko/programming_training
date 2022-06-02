@@ -96,7 +96,12 @@ if (empty($_GET['id']) || $_GET['id']=='') {
     header('Location:../companies/');
     exit();
 }
-
+//データがない時とあるときの処理
+if (empty($quo)) {
+    $quo_count = 0;
+} else {
+    $quo_count = count($quo);
+}
 ?>
 
 <!DOCTYPE html>
@@ -147,8 +152,9 @@ if (empty($_GET['id']) || $_GET['id']=='') {
             <th class="status">状態</th><th class="q_edit">編集</th><th class="q_delete">削除</th>
         </tr>
 <!--配列に代入-->
+
         <?php if ($_GET['order']>0) :
-            for ($i=count($quo)-1-10*(h($page)-1); $i>count($quo)-1-10*(h($page)) && $i >=0; $i--) :
+            for ($i=$quo_count-1-10*(h($page)-1); $i>$quo_count-1-10*(h($page)) && $i >=0; $i--) :
                 ?><!--最大キー引く１０＊ページ数-->
                 <tr>
                     <td class="td"><?php echo h($quo[$i]['no']);?></td>
@@ -164,7 +170,7 @@ if (empty($_GET['id']) || $_GET['id']=='') {
                 </tr>
             <?php endfor; ?>
         <?php else : //初期昇順設定
-            for ($i=(h($page-1))*10; $i<(h($page))*10 && $i < count($quo); $i++) :
+            for ($i=(h($page-1))*10; $i<(h($page))*10 && $i < $quo_count; $i++) :
                 ?><!--0-9/10-19/-->
                 <tr>
                     <td class="td"><?php echo h($quo[$i]['no']);?></td>

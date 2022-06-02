@@ -1,20 +1,18 @@
 <?php
 namespace App\Controllers;
-// require_once('../app/models/CompaniesModel.php');
-// use App\Models\CompaniesModel;
 
-//require_once('../../dbconnect.php');
+//モデルのファイルを読み込む
+ require_once('../app/models/CompaniesModel.php');
+ use App\Models\CompaniesModel;
+
 class CompaniesController
 {
-
-    // private $cmpMdl;
-    private $db;
+    //Model\CompaniesModelにつなぐための変数
+    private $cmpMdl;
     public function __construct()
     {
-        // $this->cmpMdl = new CompaniesModel;
-        $this->db = new \PDO('mysql:dbname=programming_training;host=127.0.0.1;charset=utf8', 'root', 'P@ssw0rd');
+        $this->cmpMdl = new CompaniesModel;
     }
-    
     public function index($get, $post = null)
     {
         
@@ -22,26 +20,14 @@ class CompaniesController
         if (empty($get['order'])) {
             $get['order']=1;
         }
-
-
         //maxPageを取得する
         if (!empty($get['search'])) {
-            $searched = '%'.$get['search'].'%' ;
-            $counts = $this->db->prepare('SELECT COUNT(*) AS cnt FROM companies WHERE deleted IS NULL AND (company_name LIKE ? OR manager_name LIKE ?)');
-            $counts->bindParam(1, $searched, \PDO::PARAM_STR);
-            $counts->bindParam(2, $searched, \PDO::PARAM_STR);
-            $counts->execute();
-            $cnt = $counts->fetch();
+            $cnt = $this->cmpMdl->getMaxPageSearched($get['search']);
             
-            // $res = $this->cmpMdl->getMaxPageSearched($get);
-            // $cnt = $res['cnt'];
             $maxPage = ceil($cnt['cnt']/10);
         } else {
-            $counts = $this->db->prepare('SELECT COUNT(*) AS cnt FROM companies WHERE deleted IS NULL');
-            $counts->execute();
-            $cnt = $counts->fetch();
-            // $res = $this->cmpMdl->getMaxPage();
-            // $cnt = $res['cnt'];
+            $cnt = $this->cmpMdl->getMaxPage();
+            
             $maxPage = ceil($cnt['cnt']/10);
         }
 
@@ -64,50 +50,238 @@ class CompaniesController
         //DBに接続する用意
         if (!empty($get['search'])) {//GETでおくる
             if (($get['order'])>0) {
-                $searched = '%'.$get['search'].'%' ;
-                $companies=$this->db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
-                    FROM companies WHERE deleted IS NULL AND (company_name LIKE ? OR manager_name LIKE ?)
-                    ORDER BY id ASC LIMIT ?,10');
-                $companies->bindParam(1, $searched, \PDO::PARAM_STR);
-                $companies->bindParam(2, $searched, \PDO::PARAM_STR);
-                $companies->bindParam(3, $start, \PDO::PARAM_INT);
-                $companies->execute();
+                $companies = $this->cmpMdl->getDataSearchedASC($get, $start);
             } else {
-                $searched = '%'.$get['search'].'%' ;
-                $companies=$this->db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
-                    FROM companies WHERE deleted IS NULL AND (company_name LIKE ? OR manager_name LIKE ?)
-                    ORDER BY id DESC LIMIT ?,10');
-                $companies->bindParam(1, $searched, \PDO::PARAM_STR);
-                $companies->bindParam(2, $searched, \PDO::PARAM_STR);
-                $companies->bindParam(3, $start, \PDO::PARAM_INT);
-                $companies->execute();
+                $companies = $this->cmpMdl->getDataSearchedDESC($get, $start);
             }
         } else {//検索なかった場合
             if (($get['order'])>0) {
-                $companies=$this->db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
-                    FROM companies WHERE deleted IS NULL ORDER BY id ASC LIMIT ?,10');
-                $companies->bindParam(1, $start, \PDO::PARAM_INT);
-                $companies->execute();
+                $companies = $this->cmpMdl->getDataASC($start);
             } else {
-                $companies=$this->db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address 
-                    FROM companies WHERE deleted IS NULL ORDER BY id DESC LIMIT ?,10');
-                $companies->bindParam(1, $start, \PDO::PARAM_INT);
-                $companies->execute();
+                $companies = $this->cmpMdl->getDataDESC($start);
             }
         }
-
         return [
             'companies' => $companies,
             'maxPage' => $maxPage,
             'page' => $page,
+            'order' => $get['order']
         ];
     }
-}
+    public function add($post)
+    {
+        //バリデーションチェック
+        function isError($err)
+        {
+            $nonerror=[
+                'name' => '',
+                'manager' => '',
+                'phone' => '',
+                'postal_code' => '',
+                'prefecture_code' => '',
+                'address' => '',
+                'email' => '',
+                'prefix' => '',
+            ];
+            return $err !== $nonerror;
+        }
+        //初期値
+        $error = [
+            'name' => '',
+            'manager' => '',
+            'phone' => '',
+            'postal_code' => '',
+            'prefecture_code' => '',
+            'address' => '',
+            'email' => '',
+            'prefix' => '',
+        ];
+        $isError = '';
 
-// class CompaniesController
-// {
-//     public function hel()
-//     {
-//         echo 'こんにちは';
-//     }
-// }
+        //エラーについて
+        if (!empty($post)) {
+            if (($post['name'])==='') {
+                $error['name']='blank';
+            } elseif (strlen($post['name'])>64) {
+                $error['name']='long';
+            }
+
+            if (($post['manager'])==='') {
+                $error['manager']='blank';
+            } elseif (strlen($post['manager'])>32) {
+                $error['manager']='long';
+            }
+
+            if (($post['phone'])==='') {
+                $error['phone']='blank';
+            } elseif (!preg_match('/^[0-9]+$/', $post['phone'])) { //空文字ダメの半角数値
+                $error['phone']='type';
+            } elseif (strlen($post['phone'])>11) {
+                $error['phone']='long';
+            }
+
+            if (($post['postal_code'])==='') {
+                $error['postal_code']='blank';
+            } elseif (!preg_match("/^[0-9]+$/", $post['postal_code'])) { //空文字ダメの半角数値
+                $error['postal_code']='type';
+            } elseif (strlen($post['postal_code'])>7) {
+                $error['postal_code']='long';
+            }
+            if (($post['prefecture_code'])==='') {
+                $error['prefecture_code']='blank';
+            } elseif (($post['prefecture_code'])==="empty") {
+                $error['prefecture_code']='blank';
+            } elseif (!preg_match("/^[0-9]+$/", $post['prefecture_code'])) { //空文字ダメの半角数値
+                $error['prefecture_code']='type';
+            } elseif (($post['prefecture_code'])>47 || ($post['prefecture_code'])<1) {
+                $error['prefecture_code']='long47';
+            }
+            if (($post['address'])==='') {
+                $error['address']='blank';
+            } elseif (strlen($post['address'])>100) {
+                $error['address']='long';
+            }
+            if (($post['email'])==='') {
+                $error['email']='blank';
+            } elseif (!preg_match("/^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/", $post['email'])) {
+                $error['email']='type';
+            } elseif (strlen($post['email'])>100) {
+                $error['email']='long';
+            }
+
+            if (($post['prefix'])==='') {
+                $error['prefix']='blank';
+            } elseif (strlen($post['prefix'])>16) {
+                $error['prefix']='long';
+            } elseif (!preg_match("/^[0-9a-zA-Z]+$/", $post['prefix'])) {//半角英数字、空文字NG
+                $error['prefix']='type';
+            }
+        }
+
+        //エラーがある.ファンクションそのまま使えないから変数に代入
+        $isError = isError($error);
+
+        //エラーがない時にデータベースに登録する
+        if (!empty($post)) {
+            if (!$isError) {
+                $this->cmpMdl->addData($post);
+                header('Location:./');
+                //exit();
+            }
+        }
+        return $error;
+    }
+    public function edit($get, $post)
+    {
+
+        //idない場合は戻る
+        if (empty($get)) {
+            header('Location:./');
+        }
+        $company = $this->cmpMdl->editShowData($get);
+        
+        // バリデーションチェック
+        // エラーチェック
+        function isError2($err)
+        {
+            $nonerror=[
+                'name' => '',
+                'manager' => '',
+                'phone' => '',
+                'postal_code' => '',
+                'prefecture_code' => '',
+                'address' => '',
+                'email' => ''
+            ];
+            return $err !== $nonerror;
+        }
+        //初期値
+        $error = [
+            'name' => '',
+            'manager' => '',
+            'phone' => '',
+            'postal_code' => '',
+            'prefecture_code' => '',
+            'address' => '',
+            'email' => ''
+        ];
+        $isError = '';
+
+        //エラーについて
+        if (!empty($post)) {
+            if (($post['name'])==='') {
+                $error['name']='blank';
+            } elseif (strlen($post['name'])>64) {
+                $error['name']='long';
+            }
+            if (($post['manager'])==='') {
+                $error['manager']='blank';
+            } elseif (strlen($post['manager'])>32) {
+                $error['manager']='long';
+            }
+            if (($post['phone'])==='') {
+                $error['phone']='blank';
+            } elseif (!preg_match('/^[0-9]+$/', $post['phone'])) { //空文字ダメの半角数値
+                $error['phone']='type';
+            } elseif (strlen($post['phone'])>11) {
+                $error['phone']='long';
+            }
+            if (($post['postal_code'])==='') {
+                $error['postal_code']='blank';
+            } elseif (!preg_match("/^[0-9]+$/", $post['postal_code'])) { //空文字ダメの半角数値
+                $error['postal_code']='type';
+            } elseif (strlen($post['postal_code'])>7) {
+                $error['postal_code']='long';
+            }
+            if (($post['prefecture_code'])==='') {
+                $error['prefecture_code']='blank';
+            } elseif (!preg_match("/^[0-9]+$/", $post['prefecture_code'])) { //空文字ダメの半角数値
+                $error['prefecture_code']='type';
+            } elseif (($post['prefecture_code'])>47 || ($post['prefecture_code'])<1) {
+                $error['prefecture_code']='long47';
+            }
+            if (($post['address'])==='') {
+                $error['address']='blank';
+            } elseif (strlen($post['address'])>100) {
+                $error['address']='long';
+            }
+            if (($post['email'])==='') {
+                $error['email']='blank';
+            } elseif (!preg_match("/^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/", $post['email'])) {
+                $error['email']='type';
+            } elseif (strlen($post['email'])>100) {
+                $error['email']='long';
+            }
+        }
+
+        //エラーがある.ファンクションそのまま使えないから変数に代入
+        $isError = isError2($error);
+
+        //エラーがない時にデータベースに登録する
+        if (!empty($post)) {
+            if (!$isError) {
+                $this->cmpMdl->editData($get, $post);
+                header('Location:./');
+                //exit();
+            }
+        }
+        return [
+            'error' => $error ,
+            'company' => $company,
+        ];
+    }
+    public function delete($get)
+    {
+        if (empty($get)) {
+            header('Location:./');
+        } elseif ($get['id'] == '') {
+            header('Location:./');
+        } else {
+            $id = $get['id'];
+            $this->cmpMdl->deleteData($id);
+        
+            header('Location:index.php');
+            //exit();
+        }
+    }
+}

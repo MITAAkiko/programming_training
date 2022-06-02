@@ -1,121 +1,14 @@
 <?php
-//session_start();
-require('../dbconnect.php');
-require('../config.php');
-require('../functions.php');
 
-//バリデーションチェック
-//エラーチェック
-function isError($err)
-{
-    $nonerror=[
-        'name' => '',
-        'manager' => '',
-        'phone' => '',
-        'postal_code' => '',
-        'prefecture_code' => '',
-        'address' => '',
-        'email' => '',
-        'prefix' => '',
-    ];
-    return $err !== $nonerror;
-}
-//初期値
-$error = [
-    'name' => '',
-    'manager' => '',
-    'phone' => '',
-    'postal_code' => '',
-    'prefecture_code' => '',
-    'address' => '',
-    'email' => '',
-    'prefix' => '',
-];
-$isError = '';
+require_once('../config.php');
+require_once('../functions.php');
+require_once('../app/controllers/CompaniesController.php');
 
-//エラーについて
-if (!empty($_POST)) {
-    if (($_POST['name'])==='') {
-        $error['name']='blank';
-    } elseif (strlen($_POST['name'])>64) {
-        $error['name']='long';
-    }
+ use App\Controllers\CompaniesController;
 
-    if (($_POST['manager'])==='') {
-        $error['manager']='blank';
-    } elseif (strlen($_POST['manager'])>32) {
-        $error['manager']='long';
-    }
+ $cmp = new CompaniesController;
+ $error = $cmp->add($_POST);
 
-    if (($_POST['phone'])==='') {
-        $error['phone']='blank';
-    } elseif (!preg_match('/^[0-9]+$/', $_POST['phone'])) { //空文字ダメの半角数値
-        $error['phone']='type';
-    } elseif (strlen($_POST['phone'])>11) {
-        $error['phone']='long';
-    }
-
-    if (($_POST['postal_code'])==='') {
-        $error['postal_code']='blank';
-    } elseif (!preg_match("/^[0-9]+$/", $_POST['postal_code'])) { //空文字ダメの半角数値
-        $error['postal_code']='type';
-    } elseif (strlen($_POST['postal_code'])>7) {
-        $error['postal_code']='long';
-    }
-    if (($_POST['prefecture_code'])==='') {
-        $error['prefecture_code']='blank';
-    } elseif (($_POST['prefecture_code'])==="empty") {
-        $error['prefecture_code']='blank';
-    } elseif (!preg_match("/^[0-9]+$/", $_POST['prefecture_code'])) { //空文字ダメの半角数値
-        $error['prefecture_code']='type';
-    } elseif (($_POST['prefecture_code'])>47 || ($_POST['prefecture_code'])<1) {
-        $error['prefecture_code']='long47';
-    }
-    if (($_POST['address'])==='') {
-        $error['address']='blank';
-    } elseif (strlen($_POST['address'])>100) {
-        $error['address']='long';
-    }
-    if (($_POST['email'])==='') {
-        $error['email']='blank';
-    } elseif (!preg_match("/^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/", $_POST['email'])) {
-        $error['email']='type';
-    } elseif (strlen($_POST['email'])>100) {
-        $error['email']='long';
-    }
-
-    if (($_POST['prefix'])==='') {
-        $error['prefix']='blank';
-    } elseif (strlen($_POST['prefix'])>16) {
-        $error['prefix']='long';
-    } elseif (!preg_match("/^[0-9a-zA-Z]+$/", $_POST['prefix'])) {//半角英数字、空文字NG
-        $error['prefix']='type';
-    }
-}
-
-//エラーがある.ファンクションそのまま使えないから変数に代入
-$isError = isError($error);
-
-//エラーがない時にデータベースに登録する
-if (!empty($_POST)) {
-    if (!$isError) {
-        $statement = $db->prepare('INSERT INTO companies 
-            SET company_name=?, manager_name=?,phone_number=?,
-            postal_code=?,prefecture_code=?,address=?,
-            mail_address=?,prefix=?,created=NOW(),modified=NOW()');
-        $statement->bindParam(1, $_POST['name'], PDO::PARAM_STR);
-        $statement->bindParam(2, $_POST['manager'], PDO::PARAM_STR);
-        $statement->bindParam(3, $_POST['phone'], PDO::PARAM_STR);
-        $statement->bindParam(4, $_POST['postal_code'], PDO::PARAM_STR);
-        $statement->bindParam(5, $_POST['prefecture_code'], PDO::PARAM_STR);
-        $statement->bindParam(6, $_POST['address'], PDO::PARAM_STR);
-        $statement->bindParam(7, $_POST['email'], PDO::PARAM_STR);
-        $statement->bindParam(8, $_POST['prefix'], PDO::PARAM_STR);
-        echo $ret=$statement->execute();
-        header('Location:./');
-        exit();
-    }
-}
 
 ?>
 
