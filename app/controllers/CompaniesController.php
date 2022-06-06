@@ -5,10 +5,16 @@ namespace App\Controllers;
  require_once('../app/models/CompaniesModel.php');
  use App\Models\CompaniesModel;
 
+//リクエストのファイル読み込み
+require_once('../app/requests/Request.php');
+require_once('../app/requests/CompaniesAddRequest.php');
+use App\Requests\CompaniesAddRequest;
+
 class CompaniesController
 {
     //Model\CompaniesModelにつなぐための変数
     private $cmpMdl;
+    private $cmpError;
     public function __construct()
     {
         $this->cmpMdl = new CompaniesModel;
@@ -22,12 +28,11 @@ class CompaniesController
         }
         //maxPageを取得する
         if (!empty($get['search'])) {
-            $cnt = $this->cmpMdl->getMaxPageSearched($get['search']);
-            
+            $searched = '%'.$get['search'].'%' ;
+            $cnt = $this->cmpMdl->fetchMaxPageSearched($searched);
             $maxPage = ceil($cnt['cnt']/10);
         } else {
-            $cnt = $this->cmpMdl->getMaxPage();
-            
+            $cnt = $this->cmpMdl->fetchMaxPage();
             $maxPage = ceil($cnt['cnt']/10);
         }
 
@@ -50,15 +55,17 @@ class CompaniesController
         //DBに接続する用意
         if (!empty($get['search'])) {//GETでおくる
             if (($get['order'])>0) {
-                $companies = $this->cmpMdl->getDataSearchedASC($get, $start);
+                $searched = '%'.$get['search'].'%' ;
+                $companies = $this->cmpMdl->fetchDataSearchedASC($searched, $start);
             } else {
-                $companies = $this->cmpMdl->getDataSearchedDESC($get, $start);
+                $searched = '%'.$get['search'].'%' ;
+                $companies = $this->cmpMdl->fetchDataSearchedDESC($searched, $start);
             }
         } else {//検索なかった場合
             if (($get['order'])>0) {
-                $companies = $this->cmpMdl->getDataASC($start);
+                $companies = $this->cmpMdl->fetchDataASC($start);
             } else {
-                $companies = $this->cmpMdl->getDataDESC($start);
+                $companies = $this->cmpMdl->fetchDataDESC($start);
             }
         }
         return [
@@ -70,106 +77,26 @@ class CompaniesController
     }
     public function add($post)
     {
-        //バリデーションチェック
-        function isError($err)
-        {
-            $nonerror=[
-                'name' => '',
-                'manager' => '',
-                'phone' => '',
-                'postal_code' => '',
-                'prefecture_code' => '',
-                'address' => '',
-                'email' => '',
-                'prefix' => '',
-            ];
-            return $err !== $nonerror;
-        }
-        //初期値
-        $error = [
-            'name' => '',
-            'manager' => '',
-            'phone' => '',
-            'postal_code' => '',
-            'prefecture_code' => '',
-            'address' => '',
-            'email' => '',
-            'prefix' => '',
-        ];
-        $isError = '';
-
-        //エラーについて
+        // //バリデーションチェック
         if (!empty($post)) {
-            if (($post['name'])==='') {
-                $error['name']='blank';
-            } elseif (strlen($post['name'])>64) {
-                $error['name']='long';
-            }
-
-            if (($post['manager'])==='') {
-                $error['manager']='blank';
-            } elseif (strlen($post['manager'])>32) {
-                $error['manager']='long';
-            }
-
-            if (($post['phone'])==='') {
-                $error['phone']='blank';
-            } elseif (!preg_match('/^[0-9]+$/', $post['phone'])) { //空文字ダメの半角数値
-                $error['phone']='type';
-            } elseif (strlen($post['phone'])>11) {
-                $error['phone']='long';
-            }
-
-            if (($post['postal_code'])==='') {
-                $error['postal_code']='blank';
-            } elseif (!preg_match("/^[0-9]+$/", $post['postal_code'])) { //空文字ダメの半角数値
-                $error['postal_code']='type';
-            } elseif (strlen($post['postal_code'])>7) {
-                $error['postal_code']='long';
-            }
-            if (($post['prefecture_code'])==='') {
-                $error['prefecture_code']='blank';
-            } elseif (($post['prefecture_code'])==="empty") {
-                $error['prefecture_code']='blank';
-            } elseif (!preg_match("/^[0-9]+$/", $post['prefecture_code'])) { //空文字ダメの半角数値
-                $error['prefecture_code']='type';
-            } elseif (($post['prefecture_code'])>47 || ($post['prefecture_code'])<1) {
-                $error['prefecture_code']='long47';
-            }
-            if (($post['address'])==='') {
-                $error['address']='blank';
-            } elseif (strlen($post['address'])>100) {
-                $error['address']='long';
-            }
-            if (($post['email'])==='') {
-                $error['email']='blank';
-            } elseif (!preg_match("/^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/", $post['email'])) {
-                $error['email']='type';
-            } elseif (strlen($post['email'])>100) {
-                $error['email']='long';
-            }
-
-            if (($post['prefix'])==='') {
-                $error['prefix']='blank';
-            } elseif (strlen($post['prefix'])>16) {
-                $error['prefix']='long';
-            } elseif (!preg_match("/^[0-9a-zA-Z]+$/", $post['prefix'])) {//半角英数字、空文字NG
-                $error['prefix']='type';
-            }
+            $this->cmpError = new CompaniesAddRequest;
+            $isError = $this->cmpError->checkIsError($post);
+            $error = $this->cmpError->getError();
         }
-
-        //エラーがある.ファンクションそのまま使えないから変数に代入
-        $isError = isError($error);
+        //都道府県はエラーサイズに
 
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
-                $this->cmpMdl->addData($post);
+                $this->cmpMdl->create($post);
                 header('Location:./');
                 //exit();
+            } else {
+                //エラーがあったとき、選択項目をもう一度選択してもらう
+                $error['prefecture_code'] = 'error';
+                return $error;
             }
         }
-        return $error;
     }
     public function edit($get, $post)
     {
@@ -178,7 +105,7 @@ class CompaniesController
         if (empty($get)) {
             header('Location:./');
         }
-        $company = $this->cmpMdl->editShowData($get);
+        $company = $this->cmpMdl->fetchDataById($get['id']);
         
         // バリデーションチェック
         // エラーチェック
@@ -260,7 +187,7 @@ class CompaniesController
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
-                $this->cmpMdl->editData($get, $post);
+                $this->cmpMdl->update($get['id'], $post);
                 header('Location:./');
                 //exit();
             }
@@ -278,7 +205,7 @@ class CompaniesController
             header('Location:./');
         } else {
             $id = $get['id'];
-            $this->cmpMdl->deleteData($id);
+            $this->cmpMdl->delete($id);
         
             header('Location:index.php');
             //exit();

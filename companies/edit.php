@@ -40,8 +40,7 @@ $company = $res['company'];
                 } ?>">
                 <?php if ($error['name']==='blank') : ?>
                     <p class="error">※会社名を入力してください</p>
-                <?php endif; ?>
-                <?php if ($error['name']==='long') : ?>
+                <?php elseif ($error['name']==='long') : ?>
                     <p class="error">※64文字以内で入力してください</p>
                 <?php endif; ?>
             </td>
@@ -57,8 +56,7 @@ $company = $res['company'];
                 } ?>">
                 <?php if ($error['manager']==='blank') : ?>
                     <p class="error">※担当者名を入力してください</p>
-                <?php endif; ?>
-                <?php if ($error['manager']==='long') : ?>
+                <?php elseif ($error['manager']==='long') : ?>
                     <p class="error">※32文字以内で入力してください</p>
                 <?php endif; ?>
             </td>
@@ -74,13 +72,10 @@ $company = $res['company'];
                 } ?>">
                     <?php if ($error['phone']==='blank') : ?>
                         <p class="error">※電話番号を入力してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['phone'] === 'type') :?>
+                    <?php elseif ($error['phone'] === 'type') :?>
                         <p class="error">※半角数字で入力してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['phone'] === 'long') :?>
+                    <?php elseif ($error['phone'] === 'long') :?>
                         <p class="error">※11字以内で入力してください</p>
-                        <p><?php echo "エラー:".h($error['phone']); ?>
                     <?php endif; ?>
             </td>
         </tr>
@@ -94,11 +89,9 @@ $company = $res['company'];
             } ?>">
                     <?php if ($error['postal_code']==='blank') : ?>
                         <p class="error">※郵便番号を入力してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['postal_code'] === 'type') : ?>
+                    <?php elseif ($error['postal_code'] === 'type') : ?>
                         <p class="error">※半角数字で入力してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['postal_code'] === 'long') : ?> 
+                    <?php elseif ($error['postal_code'] === 'long') : ?> 
                         <p class="error">※7字で入力してください</p>
                     <?php endif; ?>
             </td>
@@ -111,11 +104,9 @@ $company = $res['company'];
                     </select>
                     <?php if ($error['prefecture_code']==='blank') : ?>
                         <p class="error">※選択してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['prefecture_code'] === 'long') : ?>
+                    <?php elseif ($error['prefecture_code'] === 'long') : ?>
                         <p class="error">※正しく選択してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['prefecture_code'] === 'type') : ?>
+                    <?php elseif ($error['prefecture_code'] === 'type') : ?>
                         <p class="error">※正しく選択してください</p>
                     <?php endif; ?>
                 </td>
@@ -129,8 +120,7 @@ $company = $res['company'];
             } ?>">
                     <?php if ($error['address']==='blank') : ?>
                         <p class="error">※市区町村を入力してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['address']==='long') : ?>
+                    <?php elseif ($error['address']==='long') : ?>
                         <p class="error">※100文字以内で入力してください</p>
                     <?php endif; ?>
                 </td>
@@ -146,11 +136,9 @@ $company = $res['company'];
                 } ?>">
                     <?php if ($error['email']==='blank') : ?>
                         <p class="error">※メールアドレスを入力してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['email'] === 'long') : ?>
+                    <?php elseif ($error['email'] === 'long') : ?>
                         <p class="error">※長すぎるため使用できません</p>
-                    <?php endif; ?>
-                    <?php if ($error['email'] === 'type') : ?>
+                    <?php elseif ($error['email'] === 'type') : ?>
                         <p class="error">※正しく入力してください</p>
                     <?php endif; ?>
             </td>

@@ -22,10 +22,10 @@ class InvoicesController
         }
         //maxPage
         if (!empty($get['search'])) {
-            $cnt = $this->invMdl->getMaxpageSearched($get);
+            $cnt = $this->invMdl->fetchMaxpageSearched($get);
             $maxPage = ceil($cnt['cnt']/10);
         } else {
-            $cnt = $this->invMdl->getMaxpage($get);
+            $cnt = $this->invMdl->fetchMaxpageById($get['id']);
             $maxPage = ceil($cnt['cnt']/10);
         }
         //page
@@ -47,19 +47,19 @@ class InvoicesController
         //絞り込みあり
         if (!empty($get['search'])) {
             if (($get['order'])>0) {
-                $invoices = $this->invMdl->showDataSearchedASC($get, $start);
+                $invoices = $this->invMdl->fetchDataSearchedASC($get, $start);
             } else {
-                $invoices = $this->invMdl->showDataSearchedDESC($get, $start);
+                $invoices = $this->invMdl->fetchDataSearchedDESC($get, $start);
             }
         } else {
             if (($get['order'])>0) {
-                $invoices = $this->invMdl->showDataASC($get, $start);
+                $invoices = $this->invMdl->fetchDataASCById($get['id'], $start);
             } else {
-                $invoices = $this->invMdl->showDataDESC($get, $start);
+                $invoices = $this->invMdl->fetchDataDESCById($get['id'], $start);
             }
         }
         //会社名を表示させる（見積がないときなど）
-        $company = $this->invMdl->showCompanyName($get);
+        $company = $this->invMdl->fetchCompanyNameById($get['id']);
         //idのない人を返す
         if (empty($get['id']) || $get['id']=='') {
             header('Location:../');
@@ -154,11 +154,11 @@ class InvoicesController
         if (!empty($post)) {
             if (!$isError) {
                 //id取得
-                $getid = $this->invMdl->addGetId($get);
+                $getid = $this->invMdl->fetchId($get['id']);
                 $invoiceId = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
                 $no = $post['prefix'].'-i-'.$invoiceId;//請求番号
                 //登録実行
-                $this->invMdl->addData($get, $post, $no);
+                $this->invMdl->create($get['id'], $post, $no);
                 header('Location:./?id='.h($post['return_id']));
             }
         }
@@ -169,9 +169,7 @@ class InvoicesController
             // exit();
         }
         //会社名取得
-        //if (!empty($get)) {//いらない？
-            $company = $this->invMdl->addGetCompanyName($get);
-       // }
+            $company = $this->invMdl->fetchCompanyNameById($get['id']);
         return [
             'error' => $error,
             'company' => $company,
@@ -192,9 +190,9 @@ class InvoicesController
         }
         //DBに接続する
         //会社名
-        $company = $this->invMdl->editGetCompanyName($get);
+        $company = $this->invMdl->fetchCompanyNameById($cid);
         //編集用
-        $invoice = $this->invMdl->editGetData($get);
+        $invoice = $this->invMdl->fetchDataById($id);
 
         //バリデーションチェック
         //エラーチェック
@@ -267,7 +265,7 @@ class InvoicesController
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
-                $this->invMdl->editData($get, $post);
+                $this->invMdl->update($get['id'], $post);
                 header('Location:./?id='.$company['id']);
                 //exit();
             }

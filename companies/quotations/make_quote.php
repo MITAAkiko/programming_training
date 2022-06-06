@@ -39,8 +39,7 @@ $isError = $res['isError'];
                        } ?>">
                 <?php if ($error['title']==='blank') : ?>
                     <p class="error">※見積名を入力してください</p>
-                <?php endif; ?>
-                <?php if ($error['title']==='long') : ?>
+                <?php elseif ($error['title']==='long') : ?>
                     <p class="error">※64文字以内で入力してください</p>
                 <?php endif; ?>
             </td>
@@ -56,11 +55,9 @@ $isError = $res['isError'];
                        } ?>"> 円
                     <?php if ($error['total']==='blank') : ?>
                         <p class="error">※金額を入力してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['total'] === 'type') :?>
+                    <?php elseif ($error['total'] === 'type') :?>
                         <p class="error">※半角数字のみで入力してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['total'] === 'long') :?>
+                    <?php elseif ($error['total'] === 'long') :?>
                         <p class="error">※10桁以内で入力してください</p>
                     <?php endif; ?>
             </td>
@@ -73,11 +70,9 @@ $isError = $res['isError'];
                        } ?>">
                     <?php if ($error['period']==='blank') : ?>
                         <p class="error">※日付を入力してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['period'] === 'type') : ?>
+                    <?php elseif ($error['period'] === 'type') : ?>
                         <p class="error">※半角数字のみで入力してください（例:20210525）</p>
-                    <?php endif; ?>
-                    <?php if ($error['period']==='check_date') : ?>
+                    <?php elseif ($error['period']==='check_date') : ?>
                         <p class="error">※正しい日付を入力してください</p>
                     <?php endif; ?>
             </td>
@@ -90,14 +85,11 @@ $isError = $res['isError'];
                        } ?>">
                     <?php if ($error['due']==='blank') : ?>
                         <p class="error">※納期を入力してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['due'] === 'time') : ?>
+                    <?php elseif ($error['due'] === 'time') : ?>
                         <p class="error">※見積書有効期限より後に設定してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['due'] === 'type') : ?>
+                    <?php elseif ($error['due'] === 'type') : ?>
                         <p class="error">※半角数字のみで入力してください（例:20210525）</p>
-                    <?php endif; ?>
-                    <?php if ($error['due']==='check_date') : ?>
+                    <?php elseif ($error['due']==='check_date') : ?>
                         <p class="error">※正しい日付を入力してください</p>
                     <?php endif; ?>
             </td>
@@ -111,14 +103,11 @@ $isError = $res['isError'];
                 </select>
                     <?php if ($error['status']==='blank') : ?>
                         <p class="error">※選択してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['status']==='type') : ?>
+                    <?php elseif ($error['status']==='type') : ?>
                         <p class="error">※正しく選択してください</p>
-                    <?php endif; ?>
-                    <?php if ($error['status']==='long') : ?>
+                    <?php elseif ($error['status']==='long') : ?>
                         <p class="error">※正しく選択してください</p>
-                    <?php endif; ?>
-                    <?php if ($isError) : ?>
+                    <?php elseif ($isError) : ?>
                         <p class="error">※もう一度選択してください</p>
                     <?php endif; ?>
             </td>

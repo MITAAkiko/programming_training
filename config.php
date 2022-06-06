@@ -71,3 +71,8 @@ define('STATUSES', [
 
 /*一覧で表示
  <td class="td"><?php echo h(STATUSES[$quotation['status']]);?></td>*/
+
+define('ORDER', [
+    1 => 'ASC',
+    -1 => 'DESC'
+]);
