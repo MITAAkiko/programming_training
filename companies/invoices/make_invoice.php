@@ -100,7 +100,7 @@ $isError = $res['isError'];
                 value="<?php if (!empty($_POST['quo'])) {
                         echo h($_POST['quo']);
                        } ?>">
-                    <?php if ($error['quo']==='quo') : ?>
+                    <?php if ($error['quo']==='blank') : ?>
                         <p class="error">※見積番号を入力してください</p>
                     <?php elseif ($error['quo'] === 'long') : ?>
                         <p class="error">※100文字以内で入力してください</p>
