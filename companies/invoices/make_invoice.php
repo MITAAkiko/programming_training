@@ -105,7 +105,7 @@ $isError = $res['isError'];
                     <?php elseif ($error['quo'] === 'long') : ?>
                         <p class="error">※100文字以内で入力してください</p>
                     <?php elseif ($error['quo'] === 'type') : ?>
-                        <p class="error">※半角英数字のみで入力してください（例:20210525）</p>
+                        <p class="error">※半角英数字のみで入力してください</p>
                     <?php endif; ?>
             </td>
         </tr>

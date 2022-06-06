@@ -190,9 +190,9 @@ class InvoicesController
         }
         //DBに接続する
         //会社名
-        $company = $this->invMdl->fetchCompanyNameById($get['cid']);
+        $company = $this->invMdl->fetchCompanyNameById($cid);
         //編集用
-        $invoice = $this->invMdl->fetchDataById($get['id']);
+        $invoice = $this->invMdl->fetchDataById($id);
 
         //バリデーションチェック
         //エラーチェック
