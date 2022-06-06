@@ -46,23 +46,20 @@ require_once('../app/controllers/CompaniesController.php');
     <table id='companies_list'>
  <!--   <thead>-->
         <tr class="table_heading">
-        <form action='index.php' method=get>
-
-            <?php if (!empty($_GET['search'])) : ?>
-                <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
-            <?php endif; ?>
-            <input type='hidden' name='order' value="<?php echo h($_GET['order'] *= -1) ?>" >
-            <th class="th ID">会社番号　<input class="ascdesc" type="submit" value="▼"></th>
-
-        </form>
+            <form action='index.php' method=get>
+                <?php if (!empty($_GET['search'])) : ?>
+                    <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
+                <?php endif; ?>
+                <input type='hidden' name='order' value="<?php echo h($_GET['order'] *= -1) ?>" >
+                <th class="th ID">会社番号　<input class="ascdesc" type="submit" value="▼"></th>
+            </form>
 
             <th class="th name">会社名</th><th class="th PIC">担当者名</th><th class="th tel">電話番号</th>
             <th class="th address">住所</th><th class="th email">メールアドレス</th>
             <th class="th quotation">見積一覧</th><th class="th invoice">請求一覧</th>
             <th class="th edit">編集</th><th class="th delete">削除</th>
         </tr>
-<!--    </thead>
-    <tbody>    -->
+
         <?php foreach ($companies as $company) : ?>
                 <tr>
                     <td class="td"><?php echo h($company['id']);?></td>
@@ -78,7 +75,7 @@ require_once('../app/controllers/CompaniesController.php');
                     <td class="td"><a class="edit_delete" href="./delete.php?id=<?php echo h($company['id']); ?>" onclick="return cfm()">削除</a></td>
                 </tr>
         <?php endforeach; ?>
-<!--    </tbody>-->
+
     </table>
 <hr>
 <div class="paging">

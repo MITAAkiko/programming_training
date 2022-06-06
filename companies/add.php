@@ -8,8 +8,6 @@ require_once('../app/controllers/CompaniesController.php');
 
  $cmp = new CompaniesController;
  $error = $cmp->add($_POST);
- //error['postal_code'] = $this->blank($post['postal_code'], 'postal_code');
-
 
 var_dump($error);
 ?>

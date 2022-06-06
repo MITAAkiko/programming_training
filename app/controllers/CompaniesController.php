@@ -6,8 +6,8 @@ namespace App\Controllers;
  use App\Models\CompaniesModel;
 
 //リクエストのファイル読み込み
-require_once(/*dirname(__FILE__).*/'../app/requests/Request.php');
-require_once(/*dirname(__FILE__).*/'../app/requests/CompaniesAddRequest.php');
+require_once('../app/requests/Request.php');
+require_once('../app/requests/CompaniesAddRequest.php');
 use App\Requests\CompaniesAddRequest;
 
 class CompaniesController
