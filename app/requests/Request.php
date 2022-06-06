@@ -33,6 +33,14 @@ namespace App\Requests
                 return '';
             }
         }
+        public function digit($value, $length)
+        {
+            if (strlen($value)!==$length) {
+                return 'long';
+            } else {
+                return '';
+            }
+        }
         public function size($value, $maxSize, $minSize)
         {
             if ($value>$maxSize || $value<$minSize) {
@@ -40,6 +48,17 @@ namespace App\Requests
             } else {
                 return '';
             }
+        }
+        //項目のエラーチェック
+        public function errors($errors)
+        {
+            foreach ($errors as $error) {
+                if ($error !== '') {
+                    return $error;
+                }
+            }
+            $error = '';
+            return $error;
         }
     }
 }
