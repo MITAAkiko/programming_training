@@ -9,7 +9,6 @@ require_once('../app/controllers/CompaniesController.php');
  $cmp = new CompaniesController;
  $error = $cmp->add($_POST);
 
-var_dump($error);
 ?>
 
 <!DOCTYPE html>
