@@ -38,7 +38,7 @@ require_once('../app/controllers/CompaniesController.php');
         <input class="search_btn" type="submit" value="検索">
         <input class="text_search" type="text" name="search" value="<?php
         if (!empty($_GET['search'])) {
-             echo h($_GET['search']);
+            echo h($_GET['search']);
         } ?>">
     </form>
     <br><br>

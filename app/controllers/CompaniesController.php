@@ -186,7 +186,6 @@ class CompaniesController
             }
             return $error;
         }
-        
     }
     public function edit($get, $post)
     {
