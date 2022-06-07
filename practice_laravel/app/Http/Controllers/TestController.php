@@ -10,7 +10,7 @@ class TestController extends Controller
     private $cmpMdl;
     public function __construct()
     {
-        $this->cmpMdl = new Company;
+        $this->cmpMdl = new Company;//モデル
     }
     public function func()
     {
