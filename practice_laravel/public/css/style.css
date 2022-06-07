@@ -1,0 +1,181 @@
+.home{
+    margin: 13px 0px;
+}
+
+.contents{
+    width:93%;
+    margin:auto;
+}
+
+hr{
+    margin-bottom: 20px;
+}
+
+table{
+    border-collapse: collapse;
+    width: 100%;
+}
+/*列*/
+table th ,table td{
+    border: solid 1px whitesmoke;
+    text-align: left;
+    font-size:5px;
+}
+/*データ部分*/
+.td{
+    padding: 6px 10px;
+}
+/*見出し*/
+.table_heading ,table th{
+    background-color: #EE0000;
+    color : white;
+    font-weight: normal;
+    padding:10px;
+}
+/*テーブルデータ部分の背景を2色に*/
+.table_bg_gray{
+    background-color: rgb(224, 223, 223);
+}
+
+
+/*カラムの幅*/
+    .ID{
+        width:8%;
+    }
+    .name{
+        width:21%;
+    }
+    .PIC{
+        width:7%;
+    }
+    .tel{
+        width: 8%;
+    }
+    .address{
+        width: 18%;
+    }
+    .email{
+        width:10%;
+    }
+    .quotation{
+        width: 9%;
+    }
+    .invoice{
+        width: 9%;
+    }
+    .edit{
+        width: 4%;
+    }
+    .delete{
+        width: 4%;
+    }
+
+/*四角・赤枠・白背景・赤文字*/
+.btn{
+    background-color: white;
+    color: #EE0000;
+    border-width:medium;
+    padding:6px 14px;
+    border-radius: 5px;
+    /*下線を消す*/
+    text-decoration: none;
+    /*ボーダー見えるように*/
+    border: 2px solid;
+    font-size: 11px;
+    font-weight: bold;
+    float: right;
+    margin-right: 5px;
+}
+/*丸い・赤背景・白文字*/
+.long_btn{
+    background-color: #EE0000;
+    color: white;
+    font-weight:bold;
+    font-size: 13px;
+    border-radius: 30px;
+    border: 0px;
+    padding:6px 40px;
+    /*下線を消す*/
+    text-decoration: none;
+}
+
+/*検索・絞り込みエリア*/
+.text_search{
+    border: 1px solid;
+    border-color: rgb(217, 217, 217);
+    background-color: whitesmoke;
+    height:28px;
+    margin-right: 5px;
+    float: right;
+    padding: 0px 10px;
+    font-size: 12px;
+    
+}
+/*検索ボタン*/
+.search_btn{
+    background-color: white;
+    border: 1px solid;
+    border-color: rgb(193, 193, 193);
+    border-radius: 5px;
+    float: right;
+    padding: 5px 20px;
+    font-size: 12px;
+}
+/*丸い・白背景・赤文字・見積/請求一覧のボタン*/
+.list_btn{
+    background-color: #ffffff;
+    color: #EE0000;
+    font-size: 5px;
+    font-weight: bolder;
+    border-radius: 30px;
+    padding:2px 18px;
+    /*下線を消す*/
+    text-decoration: none;
+    /*ボーダー見えるように*/
+    border: 1.5px solid;
+}
+/*編集・削除ボタン*/
+.edit_delete{
+    /*下線を消す*/
+    text-decoration: none;
+    color: #EE0000;
+}
+
+.error{
+    color:#EE0000;
+    font-size: 5px;
+}
+
+.paging{
+    text-align: center;
+}
+.pgbtn{
+    background-color: white;
+    border: 1px solid;
+    border-color: rgb(193, 193, 193);
+    border-radius: 5px;
+    padding: 3px 18px;
+    /*下線を消す*/
+    text-decoration: none;
+    color: black;
+    font-size: 13px;
+}
+
+.company_name{
+    float: right;
+    margin-right: 10px;
+    margin-top:3px;
+    font-size: 20px;
+}
+
+.ascdesc{
+    background-color: #EE0000;
+    color: white;
+    border: 0px;
+    float: right;
+    padding: 0px 0px;
+}
+.ascdesc:hover{
+    color: rgb(191, 191, 191);
+    
+}
