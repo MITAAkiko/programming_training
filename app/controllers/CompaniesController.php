@@ -10,6 +10,9 @@ require_once('../app/requests/Request.php');
 require_once('../app/requests/CompaniesAddRequest.php');
 use App\Requests\CompaniesAddRequest;
 
+//定数ファイル読み込み
+require_once('../config.php');
+
 class CompaniesController
 {
     //Model\CompaniesModelにつなぐための変数
@@ -19,7 +22,7 @@ class CompaniesController
     {
         $this->cmpMdl = new CompaniesModel;
     }
-    public function index($get, $post = null)
+    public function index($get)
     {
         
         //初期値
@@ -52,20 +55,20 @@ class CompaniesController
         //ページ
         $start = ($page - 1) * 10;
 
-        //DBに接続する用意
+        //DBに接続する用意　ここ
         if (!empty($get['search'])) {//GETでおくる
-            if (($get['order'])>0) {
-                $searched = '%'.$get['search'].'%' ;
-                $companies = $this->cmpMdl->fetchDataSearchedASC($searched, $start);
-            } else {
+            if (ORDER[$get['order']]==='DESC') {
                 $searched = '%'.$get['search'].'%' ;
                 $companies = $this->cmpMdl->fetchDataSearchedDESC($searched, $start);
+            } else {
+                $searched = '%'.$get['search'].'%' ;
+                $companies = $this->cmpMdl->fetchDataSearchedASC($searched, $start);
             }
         } else {//検索なかった場合
-            if (($get['order'])>0) {
-                $companies = $this->cmpMdl->fetchDataASC($start);
-            } else {
+            if (ORDER[$get['order']]==='DESC') {
                 $companies = $this->cmpMdl->fetchDataDESC($start);
+            } else {
+                $companies = $this->cmpMdl->fetchDataASC($start);
             }
         }
         return [
