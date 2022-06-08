@@ -21,14 +21,15 @@ class Company extends Model
     }
     public function fetchDataSearched($search)
     {
+        $src = '%' . addcslashes($search, '%_\\') . '%';
         $company = new Company;
             $datas = $company
                 // ->offset(0)//スタート位置 ページ数から出来るよう調整
                 // ->limit(10)
                 ->where([
                     ['deleted', null],
-                    ['company_name', 'like', '%'.$search.'%'],
-                    ['manager_name', 'like', '%'.$search.'%'],
+                    ['company_name', 'like', $src],
+                    ['manager_name', 'like', $src],
                     ])
                 ->paginate(10);
               //  ->get();
