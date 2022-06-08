@@ -26,26 +26,30 @@
             <th class="th quotation">見積一覧</th><th class="th invoice">請求一覧</th>
             <th class="th edit">編集</th><th class="th delete">削除</th>
         </tr>
-
-    <?php foreach ($datas as $data) : ?>
+    @foreach ($datas as $data) 
         <tr>
-            <td class="td"><?php echo ($data['id']);?></td>
-            <td class="td"><?php echo ($data['company_name']);?></td>
-            <td class="td"><?php echo ($data['manager_name']);?></td>
-            <td class="td"><?php echo ($data['phone_number']);?></td>
-            <td class="td"><?php echo ($data['postal_code']);?><br>
-            <!-- <?php //echo (PREFECTURES[$data['prefecture_code']]).($company['address']);?></td> -->
-            <?php echo $prefecture[$data["prefecture_code"]].($data['address']); ?></td>
-            <td class="td"><?php echo ($data['mail_address']);?></td>
-            <td class="td"><a class="list_btn" href="quotations/index.php?id=<?php echo ($data['id']); ?>">見積一覧</a></td>
-            <td class="td"><a class="list_btn" href="invoices/index.php?id=<?php echo ($data['id']); ?>">請求一覧</a></td>
+            <td class="td">{{ ($data['id']) }}</td>
+            <td class="td">{{ ($data['company_name']) }}</td>
+            <td class="td">{{ ($data['manager_name']) }}</td>
+            <td class="td">{{ ($data['phone_number']) }}</td>
+            <td class="td">{{ ($data['postal_code']) }}<br>
+            {{ $prefecture[$data["prefecture_code"]].($data['address']) }}</td>
+            <td class="td">{{ ($data['mail_address']) }}</td>
+            <td class="td"><a class="list_btn">見積(仮)</a></td>
+            <td class="td"><a class="list_btn">請求(仮)</a></td>
             <td class="td"><a class="edit_delete" href="./edit.php?id=<?php echo ($data['id']); ?>">編集</a></td>
             <td class="td"><a class="edit_delete" href="./delete.php?id=<?php echo ($data['id']); ?>" onclick="return cfm()">削除</a></td>
         </tr>
-    <?php endforeach ?>
+    @endforeach
     </table>
     <hr>
-
+    <div class="paging">
+    <!-- {{ $datas->links() }} -->
+    <!-- 前後で5件のリンク取得 -->
+    <span class='center'>
+    {{ $datas->onEachSide(5)->links() }}
+    </span>
+    </div>
   </body>
 </html> 
 

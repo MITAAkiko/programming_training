@@ -179,3 +179,15 @@ table th ,table td{
     color: rgb(191, 191, 191);
     
 }
+li{
+    width:100%;
+    text-align: center;
+}
+ul {
+    width:10%;
+    display: flex;
+    float:center;
+    margin: 0px 10px;
+    list-style-type: none;
+    padding: 0% 45%; /* 幅10%の真ん中は5%で、両端に45%ずつの隙間を作る*/
+  }
