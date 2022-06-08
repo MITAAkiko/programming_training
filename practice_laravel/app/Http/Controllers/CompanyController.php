@@ -12,77 +12,36 @@ class CompanyController extends Controller
     {
         $this->cmpMdl = new Company;//モデル
     }
-    public function index()
+    public function index(Request $get)
     {
         $datas = $this->cmpMdl->fetchData();
         $prefecture = config('config.PREFECTURES');
-        return view('index', compact('datas', 'prefecture'));
-    }
-    // //GET送る
-    // public function get(){
-    //     return view('sample');
-    // }
- //GET受ける
-    // public function getSearch(Request $get)
-    // {
-    //     $search = $get->input('search');
-    //     //return view('sample')->with('searched', $search);
-    //     return view('sample', compact('search'));
-    // }
- // public function index($get, $post = null)
-    // {
         
-    //     //初期値
-    //     if (empty($get['order'])) {
-    //         $get['order']=1;
-    //     }
-    //     //maxPageを取得する
-    //     if (!empty($get['search'])) {
-    //         $searched = '%'.$get['search'].'%' ;
-    //         $cnt = $this->cmpMdl->fetchMaxPageSearched($searched);
-    //         $maxPage = ceil($cnt['cnt']/10);
-    //     } else {
-    //         $cnt = $this->cmpMdl->fetchMaxPage();
-    //         $maxPage = ceil($cnt['cnt']/10);
-    //     }
+        $search = $get->input('search');
+        if ($get->has('search')) {
+            $datas = $this->cmpMdl->fetchDataSearched($search);
+        }
 
-    //     $page = 0;
-    //     if (!empty($get['page'])) {
-    //         $page= $get['page'];
-    //         if ($page == '') {
-    //             $page=1;
-    //         }
-    //     } else {
-    //         $page = 1;
-    //     }
-    //     //最小値
-    //     $page = max($page, 1);
-    //     //最大値
-    //     $page = min($page, $maxPage);
-    //     //ページ
-    //     $start = ($page - 1) * 10;
+        return view('index', compact('datas', 'prefecture', 'search'));
+    }
 
-    //     //DBに接続する用意
-    //     if (!empty($get['search'])) {//GETでおくる
-    //         if (($get['order'])>0) {
-    //             $searched = '%'.$get['search'].'%' ;
-    //             $companies = $this->cmpMdl->fetchDataSearchedASC($searched, $start);
-    //         } else {
-    //             $searched = '%'.$get['search'].'%' ;
-    //             $companies = $this->cmpMdl->fetchDataSearchedDESC($searched, $start);
-    //         }
-    //     } else {//検索なかった場合
-    //         if (($get['order'])>0) {
-    //             $companies = $this->cmpMdl->fetchDataASC($start);
-    //         } else {
-    //             $companies = $this->cmpMdl->fetchDataDESC($start);
-    //         }
-    //     }
-    //     return [
-    //         'companies' => $companies,
-    //         'maxPage' => $maxPage,
-    //         'page' => $page,
-    //         'order' => $get['order']
-    //     ];
-    // }
+    public function add(Request $post)
+    {
+        $posts = [
+            'name' => $post->input('name'),
+            'manager' => $post->input('manager'),
+            'phone' => $post->input('phone'),
+            'postal' => $post->input('postal_code'),
+            'prefecture_code' => $post->input('prefecture_code'),
+            'address' => $post->input('address'),
+            'email' => $post->input('email'),
+            'prefix' => $post->input('prefix'),
+        ];
+        if (!empty($post)) {
+           // $error = $this->cmpMdl->
+        }
+
+        $prefecture = config('config.PREFECTURES');
+        return view('add', compact('prefecture', $posts));
+    }
 }
