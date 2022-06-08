@@ -9,16 +9,16 @@
   <main>
     <div class="contents">
     <h2 class="home" href='./'>会社一覧</h2>
-    <!-- @if (!empty($search))
-      {{ $search }}
-    @endif -->
+
     <hr>
     <a href="{{ route('add') }}" class="long_btn">新規登録</a>
-    <input class="search_btn" type="submit" value="検索">
-    <input class="text_search" type="text" name="search" value="<?php
-    if (!empty($search)) {
-        echo ($search);
-    } ?>">
+    <form action="./" method="get">
+      <input class="search_btn" type="submit" value="検索">
+      <input class="text_search" type="text" name="search" value="<?php
+        if (!empty($search)) {
+            echo ($search);
+        } ?>">
+    </form>
     <br><br>
     <table id='companies_list'>
  

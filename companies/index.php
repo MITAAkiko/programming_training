@@ -34,7 +34,7 @@ require_once('../app/controllers/CompaniesController.php');
     <hr>
     <a href="./add.php" class="long_btn">新規登録</a>
     <!--検索フォーム-->
-    <form action="index.php" method="get" href='./?search=<?php echo h($_GET['search']) ?>'>
+    <form action="index.php" method="get">
         <input class="search_btn" type="submit" value="検索">
         <input class="text_search" type="text" name="search" value="<?php
         if (!empty($_GET['search'])) {
