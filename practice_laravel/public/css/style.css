@@ -147,6 +147,8 @@ table th ,table td{
 }
 
 .paging{
+    margin:0px;
+    padding: 0px;
     text-align: center;
 }
 .pgbtn{
@@ -179,15 +181,31 @@ table th ,table td{
     color: rgb(191, 191, 191);
     
 }
+.center{
+   
+}
 li{
-    width:100%;
-    text-align: center;
+    margin: 1px;
+    background-color: white;
+    border: 1px solid;
+    border-color: rgb(193, 193, 193);
+    border-radius: 5px;
+    padding: 3px 1.5%;
+    /*下線を消す*/
+    text-decoration: none;
+    color: black;
+    font-size: 13px;
+    width:15%;
+    
+    
 }
 ul {
-    width:10%;
-    display: flex;
-    float:center;
-    margin: 0px 10px;
+    padding: 0px;
+    display:flex;
     list-style-type: none;
-    padding: 0% 45%; /* 幅10%の真ん中は5%で、両端に45%ずつの隙間を作る*/
+
+    /*width:10%; /*幅決める*/
+    /*padding: 0% 30%;  /*幅10%の真ん中は5%で、両端に45%ずつの隙間を作る*/
+    width:19%;
+    margin:0 auto; /*真ん中に配置*/
   }
