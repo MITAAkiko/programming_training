@@ -17,7 +17,8 @@ use App\Http\Controllers\TestController;
 //Route::get('/test/func', 'App\Http\Controllers\TestController@func');
 Route::get('/test/func', [TestController::class,'func']);
 //GETリクエスト
-// Route::get('get', 'App\Http\Controllers\TestController@get');//送
+//Route::get('/test/func?', 'App\Http\Controllers\TestController@getSearch');//
+ 
 // Route::get('receive', 'App\Http\Controllers\TestController@receive');//受
 
 // Route::get('/test/func', [TestController::class,'index']);

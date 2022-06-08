@@ -9,12 +9,15 @@
   <main>
     <div class="contents">
     <h2 class="home" href='./'>会社一覧</h2>
+    <!-- @if (!empty($search))
+      {{ $search }}
+    @endif -->
     <hr>
     <a href="./add.php" class="long_btn">新規登録</a>
     <input class="search_btn" type="submit" value="検索">
     <input class="text_search" type="text" name="search" value="<?php
     if (!empty($_GET['search'])) {
-        echo h($_GET['search']);
+        echo ($_GET['search']);
     } ?>">
     <br><br>
     <table id='companies_list'>
@@ -43,6 +46,7 @@
     @endforeach
     </table>
     <hr>
+
     <div class="paging">
     <!-- {{ $datas->links() }} -->
     <!-- 前後で5件のリンク取得 -->
