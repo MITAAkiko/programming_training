@@ -15,7 +15,7 @@ use App\Http\Controllers\CompanyController;
 */
 
 //Route::get('/test/func', 'App\Http\Controllers\TestController@func');
-Route::get('/test/func', [CompanyController::class,'func']);
+Route::get('/index', [CompanyController::class,'index']);
 //GETリクエスト
 //Route::get('/test/func?', 'App\Http\Controllers\TestController@getSearch');//
  

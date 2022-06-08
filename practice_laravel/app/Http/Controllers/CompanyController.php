@@ -12,7 +12,7 @@ class CompanyController extends Controller
     {
         $this->cmpMdl = new Company;//モデル
     }
-    public function func()
+    public function index()
     {
         $datas = $this->cmpMdl->fetchData();
         $prefecture = config('config.PREFECTURES');
