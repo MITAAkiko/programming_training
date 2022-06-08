@@ -16,7 +16,7 @@ class TestController extends Controller
     {
         $datas = $this->cmpMdl->fetchData();
         $prefecture = config('config.PREFECTURES');
-        return view('sample', compact('datas', 'prefecture'));
+        return view('index', compact('datas', 'prefecture'));
     }
     // //GET送る
     // public function get(){
