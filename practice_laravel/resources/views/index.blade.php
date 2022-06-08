@@ -12,7 +12,7 @@
 
     <hr>
     <a href="{{ route('add') }}" class="long_btn">新規登録</a>
-    <form action="./" method="get">
+    <form action="{{route('index')}}" method="get">
       <input class="search_btn" type="submit" value="検索">
       <input class="text_search" type="text" name="search" value="<?php
         if (!empty($search)) {
