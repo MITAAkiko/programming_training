@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\CompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +15,7 @@ use App\Http\Controllers\TestController;
 */
 
 //Route::get('/test/func', 'App\Http\Controllers\TestController@func');
-Route::get('/test/func', [TestController::class,'func']);
+Route::get('/test/func', [CompanyController::class,'func']);
 //GETリクエスト
 //Route::get('/test/func?', 'App\Http\Controllers\TestController@getSearch');//
  

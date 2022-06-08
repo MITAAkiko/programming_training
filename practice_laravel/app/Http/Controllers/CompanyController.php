@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;//getやpostを受け取れる？
 use App\Models\Company;
 
-class TestController extends Controller
+class CompanyController extends Controller
 {
     private $cmpMdl;
     public function __construct()
