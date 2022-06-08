@@ -19,4 +19,19 @@ class Company extends Model
               //  ->get();
         return $datas;
     }
+    public function fetchDataSearched($search)
+    {
+        $company = new Company;
+            $datas = $company
+                // ->offset(0)//スタート位置 ページ数から出来るよう調整
+                // ->limit(10)
+                ->where([
+                    ['deleted', null],
+                    ['company_name', 'like', '%'.$search.'%'],
+                    ['manager_name', 'like', '%'.$search.'%'],
+                    ])
+                ->paginate(10);
+              //  ->get();
+        return $datas;
+    }
 }
