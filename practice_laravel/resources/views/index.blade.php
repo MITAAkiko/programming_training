@@ -51,7 +51,7 @@
     <!-- {{ $datas->links() }} -->
     <!-- 前後で5件のリンク取得 -->
     <span class='center'>
-    {{ $datas->onEachSide(5)->links() }}
+    {{ $datas->onEachSide(5)->appends(request()->query())->links() }}
     </span>
     </div>
   </body>
