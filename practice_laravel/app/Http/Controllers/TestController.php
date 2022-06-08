@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request;//getやpostを受け取れる？
 use App\Models\Company;
 
 class TestController extends Controller
@@ -22,13 +22,14 @@ class TestController extends Controller
     // public function get(){
     //     return view('sample');
     // }
-    // //GET受ける
-    // public function receive(Request $request){
-    //     return view('sample', ['name' => $request->name]);
+ //GET受ける
+    // public function getSearch(Request $get)
+    // {
+    //     $search = $get->input('search');
+    //     //return view('sample')->with('searched', $search);
+    //     return view('sample', compact('search'));
     // }
-
-    // // コピペ
-    // public function index($get, $post = null)
+ // public function index($get, $post = null)
     // {
         
     //     //初期値
