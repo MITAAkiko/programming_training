@@ -23,15 +23,18 @@ class Company extends Model
     {
         $src = '%' . addcslashes($search, '%_\\') . '%';
         $company = new Company;
-            $datas = $company
-                // ->offset(0)//スタート位置 ページ数から出来るよう調整
-                // ->limit(10)
-                ->where([
-                    ['deleted', null],
-                    ['company_name', 'like', $src],
-                    ['manager_name', 'like', $src],
-                    ])
-                ->paginate(10);
+        $datas = $company
+            // ->offset(0)//スタート位置 ページ数から出来るよう調整
+            // ->limit(10)
+            ->where(function ($query) {
+                $query->where('deleted', null);
+            })
+            ->where(function ($query) use ($src) {
+                $query->where('company_name', 'like', $src)
+                      ->orWhere('manager_name', 'like', $src);
+            })
+            ->paginate(10)
+            ;
               //  ->get();
         return $datas;
     }

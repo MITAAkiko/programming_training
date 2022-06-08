@@ -25,9 +25,23 @@ class CompanyController extends Controller
         return view('index', compact('datas', 'prefecture', 'search'));
     }
 
-    public function add()
+    public function add(Request $post)
     {
+        $posts = [
+            'name' => $post->input('name'),
+            'manager' => $post->input('manager'),
+            'phone' => $post->input('phone'),
+            'postal' => $post->input('postal_code'),
+            'prefecture_code' => $post->input('prefecture_code'),
+            'address' => $post->input('address'),
+            'email' => $post->input('email'),
+            'prefix' => $post->input('prefix'),
+        ];
+        if (!empty($post)) {
+           // $error = $this->cmpMdl->
+        }
+
         $prefecture = config('config.PREFECTURES');
-        return view('add', compact('prefecture'));
+        return view('add', compact('prefecture', $posts));
     }
 }

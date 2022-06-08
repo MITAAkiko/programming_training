@@ -58,10 +58,10 @@ class CompaniesController
         //DBに接続する用意　ここ
         if (!empty($get['search'])) {//GETでおくる
             if (ORDER[$get['order']]==='DESC') {
-                $searched = '%'.$get['search'].'%' ;
+                $searched = '%' . addcslashes($get['search'], '%_\\') . '%' ;
                 $companies = $this->cmpMdl->fetchDataSearchedDESC($searched, $start);
             } else {
-                $searched = '%'.$get['search'].'%' ;
+                $searched = '%' . addcslashes($get['search'], '%_\\') . '%' ;
                 $companies = $this->cmpMdl->fetchDataSearchedASC($searched, $start);
             }
         } else {//検索なかった場合
