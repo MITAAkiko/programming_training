@@ -25,7 +25,6 @@ class CompanyController extends Controller
         return view('index', compact('datas', 'prefecture', 'search'));
     }
 
-
     public function add()
     {
         $prefecture = config('config.PREFECTURES');
