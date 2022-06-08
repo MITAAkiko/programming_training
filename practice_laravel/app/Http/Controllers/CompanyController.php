@@ -12,11 +12,15 @@ class CompanyController extends Controller
     {
         $this->cmpMdl = new Company;//モデル
     }
-    public function index()
+    public function index(Request $get)
     {
         $datas = $this->cmpMdl->fetchData();
         $prefecture = config('config.PREFECTURES');
-        return view('index', compact('datas', 'prefecture'));
+        //if ($get->has('search')) {
+            $search = $get->input('search');
+        //}
+
+        return view('index', compact('datas', 'prefecture', 'search'));
     }
     // //GET送る
         // public function get(){
