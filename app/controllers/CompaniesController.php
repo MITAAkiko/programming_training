@@ -200,14 +200,13 @@ class CompaniesController
             'company' => $company,
         ];
     }
-    public function delete($get)
+    public function delete($id)
     {
-        if (empty($get)) {
+        if (empty($id)) {
             header('Location:./');
-        } elseif ($get['id'] == '') {
+        } elseif ($id == '') {
             header('Location:./');
         } else {
-            $id = $get['id'];
             $this->cmpMdl->delete($id);
         
             header('Location:index.php');

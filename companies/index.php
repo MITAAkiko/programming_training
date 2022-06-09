@@ -75,7 +75,12 @@ require_once('../app/controllers/CompaniesController.php');
                 <td class="td"><a class="list_btn" href="quotations/index.php?id=<?php echo h($company['id']); ?>">見積一覧</a></td>
                 <td class="td"><a class="list_btn" href="invoices/index.php?id=<?php echo h($company['id']); ?>">請求一覧</a></td>
                 <td class="td"><a class="edit_delete" href="./edit.php?id=<?php echo h($company['id']); ?>">編集</a></td>
-                <td class="td"><a class="edit_delete" href="./delete.php?id=<?php echo h($company['id']); ?>" onclick="return cfm()">削除</a></td>
+                <form action='delete.php' method=post>
+                <td class="td">
+                    <a href="./delete.php"><input type='submit' class="edit_delete" onclick="return cfm()" value='削除'></a>
+                    <input type='hidden' name='delete_id' value="<?php echo h($company['id']); ?>">
+                </td>
+                </form>
             </tr>
         <?php endforeach; ?>
 
