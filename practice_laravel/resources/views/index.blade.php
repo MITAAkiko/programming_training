@@ -42,7 +42,7 @@
             <td class="td"><a class="list_btn" href="">請求(仮)</a></td>
             <td class="td"><a class="edit_delete" href="{{ route('edit', ['id' => $data['id']]) }}">編集</a></td>
             <!-- ./edit?id='. { $data['id'] }  または　{route('edit?id='.$data['id'])} -->
-            <td class="td"><a class="edit_delete" href="./delete.php?id=<?php echo ($data['id']); ?>" onclick="return cfm()">削除</a></td>
+            <td class="td"><a class="edit_delete" href="{{ route('delete', ['id' => $data['id']]) }}" onclick="return cfm()">削除</a></td>
         </tr>
     @endforeach
     </table>
@@ -52,9 +52,14 @@
     <!-- {{ $datas->links() }} -->
     <!-- 前後で5件のリンク取得 -->
     <span class='center'>
-    {{ $datas->onEachSide(5)->appends(request()->query())->links() }}
+    {{ $datas->onEachSide(3)->appends(request()->query())->links() }}
     </span>
     </div>
+    <script>
+      function cfm(){
+          return confirm('本当に削除しますか');
+      }
+    </script>
   </body>
 </html> 
 

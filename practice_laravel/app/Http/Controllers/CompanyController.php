@@ -46,7 +46,10 @@ class CompanyController extends Controller
     {
         $this->cmpMdl->updateData($id, $post->safe()->all());
         return redirect('/index');
-        //view('index', compact('datas', 'prefecture'));
-        //route('index');
+    }
+    public function delete($id)
+    {
+        $this->cmpMdl->deleteData($id);
+        return redirect('/index');
     }
 }

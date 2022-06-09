@@ -78,4 +78,10 @@ class Company extends Model
         ])
         ;
     }
+    public function deleteData($id)
+    {
+        DB::table('companies')
+        ->where('id', $id)
+        ->update([ 'deleted' => NOW() ]);
+    }
 }

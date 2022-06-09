@@ -25,6 +25,8 @@ Route::get('/edit/{id}', [CompanyController::class, 'edit'])->name('edit');
 // Route::match(['get', 'post'], '/edit/{id}', [CompanyController::class, 'editValidation']);
 Route::post('/edit/{id}', [CompanyController::class, 'editValidation']);
 
+Route::get('/index/{id}', [CompanyController::class, 'delete'])->name('delete');
+
 Route::get('/', function () {
     return view('welcome');
 });
