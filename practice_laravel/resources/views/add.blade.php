@@ -49,7 +49,7 @@
                 </select>
                 @if (!empty($errors->add->first('prefecture_code')))
                     <p class="error">{{ $errors->add->first('prefecture_code') }}</p>
-                @elseif (!empty($errors))
+                @elseif ($errors->add->any()) <!--エラーメッセージがあればtrue、なければfalseを戻します。-->
                     <p class="error">もう一度選択してください</p>
                 @endif
             </td>
@@ -73,8 +73,8 @@
     </table>
     <hr>
     <input type="submit" value="新規登録" class="long_btn">
+
 </form>
-{{dd($errors->add)}}
 </div>
 </main>
 </body>

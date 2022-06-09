@@ -67,16 +67,19 @@ class CompanyController extends Controller
             'alpha_num' => '英数字で入寮してください',
             'digits_between' => '11桁以内で入力してください',
         ]);
+        //$validator->validate();
+
         if ($validator->fails()) {
             return redirect('/add')
             ->withErrors($validator, 'add')//addという名前を付けると$errors->add->で使える
             ->withInput();//oldにいれる
         } else {
-            $validated = $post->validated();
-            $validated = $post->safe()->all();//これをSQLに登録
-            $this->cmpMdl->create($validated);
-            dd($validated);
-            return view('index');
+            $validated = $post->all();//$validated = $request->safe()->all();のsafeが使えない
+             $this->cmpMdl->create($validated);
+             //dd($post->all());
+            $datas = $this->cmpMdl->fetchData();
+            $prefecture = config('config.PREFECTURES');
+            return view('index', compact('datas', 'prefecture'));
         }
     }
 }
