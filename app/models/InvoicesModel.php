@@ -17,6 +17,14 @@ class InvoicesModel
         $check = $check -> fetch();
         return $check;
     }
+    public function checkInvoiceId($id)
+    {
+        $check = $this->db->prepare('SELECT id FROM invoices WHERE id=? AND deleted IS NULL');
+        $check -> bindParam(1, $id, \PDO::PARAM_INT);
+        $check -> execute();
+        $check = $check -> fetch();
+        return $check;
+    }
     public function fetchMaxpageSearched($get)
     {
         $counts = $this->db->prepare('SELECT COUNT(*) AS cnt FROM invoices WHERE company_id=? AND deleted IS NULL AND status=?');

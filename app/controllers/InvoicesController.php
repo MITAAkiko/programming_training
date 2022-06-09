@@ -188,8 +188,9 @@ class InvoicesController
     public function edit($get, $post)
     {
         //idがない時はindex.phpに返す
-        $check = $this->invMdl->checkId($get['id']);
-        if (!$check) {
+        $check = $this->invMdl->checkId($get['cid']);
+        $check_invoice_id = $this->invMdl->checkInvoiceId($get['id']);
+        if (!$check || !$check_invoice_id) {
             header('Location:../');
         } else {
             $id = $get['id'];
