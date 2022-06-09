@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Company extends Model
 {
@@ -37,5 +38,21 @@ class Company extends Model
             ;
               //  ->get();
         return $datas;
+    }
+    public function create($value)
+    {
+        DB::table('companies')->insert([
+
+            'company_name' => $value['name'],
+            'manager_name' => $value['manager'],
+            'phone_number' => $value['phone'],
+            'postal_code' => $value['postal'],
+            'prefecture_code' => $value['prefecture_code'],
+            'address' => $value['address'],
+            'mail_address' => $value['email'],
+            'prefix' => $value['prefix'],
+            'created' => NOW(),
+            'modified' => NOW()
+        ]);
     }
 }
