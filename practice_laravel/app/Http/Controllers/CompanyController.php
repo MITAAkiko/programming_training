@@ -37,9 +37,7 @@ class CompanyController extends Controller
             'email' => $post->input('email'),
             'prefix' => $post->input('prefix'),
         ];
-        if (!empty($post)) {
-           // $error = $this->cmpMdl->
-        }
+        
         $prefecture = config('config.PREFECTURES');
         return view('add', compact('prefecture', $posts));
     }
@@ -79,7 +77,7 @@ class CompanyController extends Controller
             return view('index', compact('datas', 'prefecture'));
         }
     }
-    public function edit($id)
+    public function edit($id, Request $post)
     {
         $datas = $this->cmpMdl->fetchDataById($id);
         $prefecture = config('config.PREFECTURES');

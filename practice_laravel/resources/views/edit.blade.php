@@ -73,7 +73,7 @@
     </table>
     @endforeach
     <hr>
-    <input type="submit" value="新規登録" class="long_btn">
+    <input type="submit" value="編集" class="long_btn">
 
 </form>
 </div>
