@@ -31,7 +31,7 @@ class CompaniesController
         }
         //maxPageを取得する
         if (!empty($get['search'])) {
-            $searched = '%'.$get['search'].'%' ;
+            $searched = '%' . addcslashes($get['search'], '%_\\') . '%';
             $cnt = $this->cmpMdl->fetchMaxPageSearched($searched);
             $maxPage = ceil($cnt['cnt']/10);
         } else {
