@@ -208,9 +208,7 @@ class CompaniesController
             header('Location:./');
         } else {
             $this->cmpMdl->delete($id);
-        
             header('Location:index.php');
-            //exit();
         }
     }
 }

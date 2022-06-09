@@ -282,15 +282,13 @@ class QuotationController
             'isError' => $isError,
         ];
     }
-    public function delete($get)
+    public function delete($id, $cid)
     {
-        if (empty($get)) {
+        if (empty($id) || empty($cid)) {
             header('Location:./');
-        } elseif ($get['id'] == '') {
+        } elseif ($id === '' || $cid==='') {
             header('Location:./');
         } else {
-            $id = $get['id'];
-            $cid = $get['cid'];
             //削除する
             $this->quoMdl->delete($id);
             header('Location:index.php?id='.$cid);

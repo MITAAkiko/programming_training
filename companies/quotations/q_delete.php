@@ -4,4 +4,4 @@ require('../../app/controllers/QuotationsController.php');
 use App\Controllers\QuotationController;
 
 $cmp = new QuotationController;
-$res = $cmp->delete($_GET);
+$cmp->delete($_POST['delete_id'], $_POST['cid']);
