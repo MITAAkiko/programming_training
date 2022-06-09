@@ -65,6 +65,7 @@
         </tr>
         <tr><th>プレフィックス</th> 
             <td>{{ $data['prefix'] }}</td>
+            <input type="hidden" name="prefix" value="{{ $data['prefix'] }}">
         </tr>
     </table>
     <hr>

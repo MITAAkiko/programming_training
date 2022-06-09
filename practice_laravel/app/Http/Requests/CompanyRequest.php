@@ -32,7 +32,6 @@ class CompanyRequest extends FormRequest
         'address' => 'required|max:100',
         'email' => 'required|email:rfc,dns',
         'prefix' => 'required|alpha_num|max:16'//一旦全角OK
-            //
         ];
     }
     public function messages()

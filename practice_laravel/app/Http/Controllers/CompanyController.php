@@ -33,9 +33,7 @@ class CompanyController extends Controller
     public function addValidation(CompanyRequest $post)
     {
         $this->cmpMdl->create($post->safe()->all());
-        $datas = $this->cmpMdl->fetchData();
-        $prefecture = config('config.PREFECTURES');
-        return view('index', compact('datas', 'prefecture'));
+        return redirect('/index');
     }
     public function edit($id, Request $post)
     {
@@ -47,9 +45,8 @@ class CompanyController extends Controller
     public function editValidation($id, CompanyRequest $post)
     {
         $this->cmpMdl->updateData($id, $post->safe()->all());
-        
-        $datas = $this->cmpMdl->fetchData();
-        $prefecture = config('config.PREFECTURES');
-        return view('index', compact('datas', 'prefecture'));
+        return redirect('/index');
+        //view('index', compact('datas', 'prefecture'));
+        //route('index');
     }
 }
