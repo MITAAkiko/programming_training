@@ -16,16 +16,18 @@ class CompanyController extends Controller
     }
     public function index(Request $get)
     {
-        $datas = $this->cmpMdl->fetchData();
-        $prefecture = config('config.PREFECTURES');
-        
+        $order = 'ASC';
         $search = $get->input('search');
-        if ($get->has('search')) {
-            $datas = $this->cmpMdl->fetchDataSearched($search);
+        $order = $get->input('order');
+        if ($get->has('search')) {//検索あり
+            $datas = $this->cmpMdl->fetchSearchedDatas($search, $order);
+        } else {//検索なし
+            $datas = $this->cmpMdl->fetchDatas($order);
         }
-        return view('index', compact('datas', 'prefecture', 'search'));//.blade.phpは省略
+        $prefecture = config('config.PREFECTURES');
+        return view('index', compact('datas', 'prefecture', 'search', 'order'));//.blade.phpは省略
     }
-    public function add(Request $post)
+    public function add()
     {
         $prefecture = config('config.PREFECTURES');
         return view('add', compact('prefecture'));
@@ -35,7 +37,7 @@ class CompanyController extends Controller
         $this->cmpMdl->create($post->safe()->all());
         return redirect('/index');
     }
-    public function edit($id, Request $post)
+    public function edit($id)
     {
         $data = $this->cmpMdl->fetchDataById($id);
         $prefecture = config('config.PREFECTURES');

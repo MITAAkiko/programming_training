@@ -9,30 +9,50 @@ use Illuminate\Support\Facades\DB;
 class Company extends Model
 {
     use HasFactory;
-    public function fetchData()
+    public function fetchDatas($order = null)
     {
         $company = new Company;
-        $datas = $company
+        if ($order === 'DESC') {
+            $datas = $company
+            ->orderBy('id', 'desc')
             ->where('deleted', null)
             ->paginate(10);
+        } else {
+            $datas = $company
+            ->where('deleted', null)
+            ->paginate(10);
+        }
         return $datas;
     }
-    public function fetchDataSearched($search)
+    public function fetchSearchedDatas($search, $order = null)
     {
         $src = '%' . addcslashes($search, '%_\\') . '%';
         $company = new Company;
-        $datas = $company
-            // ->offset(0)//スタート位置 ページ数から出来るよう調整
-            // ->limit(10)
+
+        if ($order === 'DESC') {
+            $datas = $company
+            ->orderBy('id', 'desc')
             ->where(function ($query) {
                 $query->where('deleted', null);
             })
             ->where(function ($query) use ($src) {
                 $query->where('company_name', 'like', $src)
-                      ->orWhere('manager_name', 'like', $src);
+                    ->orWhere('manager_name', 'like', $src);
             })
             ->paginate(10)
             ;
+        } else {
+            $datas = $company
+            ->where(function ($query) {
+                $query->where('deleted', null);
+            })
+            ->where(function ($query) use ($src) {
+                $query->where('company_name', 'like', $src)
+                    ->orWhere('manager_name', 'like', $src);
+            })
+            ->paginate(10)
+            ;
+        }
               //  ->get();
         return $datas;
     }

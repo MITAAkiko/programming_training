@@ -23,7 +23,15 @@
     <table id='companies_list'>
  
         <tr class="table_heading">
-            <th class="th ID">会社番号　<input class="ascdesc" type="submit" value="▼"></th>
+            <form action="./index" method="get"> 
+              <th class="th ID">会社番号　<input class="ascdesc" type="submit" value="▼"></th>
+              @if ($order === 'DESC')
+                <?php $order = 'ASC'; ?>
+              @else <!-- 初期設定 -->
+                <?php $order = 'DESC'; ?>
+              @endif
+              <input type='hidden' name="order" value="{{$order}}">
+            <form>
             <th class="th name">会社名</th><th class="th PIC">担当者名</th><th class="th tel">電話番号</th>
             <th class="th address">住所</th><th class="th email">メールアドレス</th>
             <th class="th quotation">見積一覧</th><th class="th invoice">請求一覧</th>
