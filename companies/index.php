@@ -88,7 +88,7 @@ require_once('../app/controllers/CompaniesController.php');
         if (!empty($_GET['search'])) {
             echo '&search='.h($_GET['search']) ;
         }/*昇順降順*/
-        if (!empty($order)) {
+        if (!empty($_GET['order'])) {
             echo '&order='.h($_GET['order']) ;
         } ?>">←前へ</a></span>
     <?php endif; ?>
@@ -98,7 +98,7 @@ require_once('../app/controllers/CompaniesController.php');
         if (!empty($_GET['search'])) {
             echo '&search='.h($_GET['search']) ;
         }/*昇順降順*/
-        if (!empty($order)) {
+        if (!empty($_GET['order'])) {
             echo '&order='.h($_GET['order']) ;
         } ?>">次へ→</a></span>
     <?php endif; ?>
