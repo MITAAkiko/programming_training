@@ -19,10 +19,11 @@ use App\Http\Controllers\CompanyController;
 Route::get('/index', [CompanyController::class,'index'])->name('index');//URI,class(上でuse),function名->ルート名
 
 Route::get('/add', [CompanyController::class,'add'])->name('add');
-Route::post('/add', [CompanyController::class, 'validation']);
+Route::post('/add', [CompanyController::class, 'addValidation']);
 
-ROute::get('/edit/{id}', [CompanyController::class, 'edit'])->name('edit');
-Route::match(['post','get'], '/edit', [CompanyController::class, 'validation']); //get,postなど複数ある場合match
+Route::get('/edit/{id}', [CompanyController::class, 'edit'])->name('edit');
+// Route::match(['get', 'post'], '/edit/{id}', [CompanyController::class, 'editValidation']);
+Route::post('/edit/{id}', [CompanyController::class, 'editValidation']);
 
 Route::get('/', function () {
     return view('welcome');

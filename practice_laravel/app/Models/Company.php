@@ -12,12 +12,9 @@ class Company extends Model
     public function fetchData()
     {
         $company = new Company;
-            $datas = $company
-                // ->offset(0)//スタート位置 ページ数から出来るよう調整
-                // ->limit(10)
-                ->where('deleted', null)
-                ->paginate(10);
-              //  ->get();
+        $datas = $company
+            ->where('deleted', null)
+            ->paginate(10);
         return $datas;
     }
     public function fetchDataSearched($search)
@@ -42,7 +39,6 @@ class Company extends Model
     public function create($value)
     {
         DB::table('companies')->insert([
-
             'company_name' => $value['name'],
             'manager_name' => $value['manager'],
             'phone_number' => $value['phone'],
@@ -60,7 +56,26 @@ class Company extends Model
         $company = new Company;
             $datas = $company
                 ->where('id', $id)
-                ->get();
+                ->get()
+                ->first()
+                ;
         return $datas;
+    }
+    public function updateData($id, $value)
+    {
+        DB::table('companies')
+        ->where('id', $id)
+        ->update([
+            'company_name' => $value['name'],
+            'manager_name' => $value['manager'],
+            'phone_number' => $value['phone'],
+            'postal_code' => $value['postal'],
+            'prefecture_code' => $value['prefecture_code'],
+            'address' => $value['address'],
+            'mail_address' => $value['email'],
+            'prefix' => $value['prefix'],
+            'modified' => NOW()
+        ])
+        ;
     }
 }
