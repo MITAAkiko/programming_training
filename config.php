@@ -47,30 +47,12 @@ define('PREFECTURES', [
         "46" => '鹿児島県',
         "47" => '沖縄県',
     ]);
-/*
-<?php foreach(PREFECTURES as $number => $value): ?>
-<option value="<?php $number ?>"><?php echo $value ?></option>
-<?php endforeach; ?>
-*/
 
 define('STATUSES', [
     '1' => '下書き',
     '2' => '発行済み',
     '9' => '破棄'
 ]);
-
-/*入力時
-<?php foreach(STATUSES as $number => $value): ?>
-<option value="<?php echo $number ?>"><?php echo $value ?></option>
-<?php endforeach; ?>
-*/
-
-/*編集時の初期の値
-<option value="<?php echo $quotation['status'] ?>"><?php echo STATUSES[$quotation['status']] ?></option>
-*/
-
-/*一覧で表示
- <td class="td"><?php echo h(STATUSES[$quotation['status']]);?></td>*/
 
 define('ORDER', [
     1 => 'ASC',

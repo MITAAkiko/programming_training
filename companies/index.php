@@ -22,11 +22,8 @@ require_once('../app/controllers/CompaniesController.php');
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="../style.css">
 
-
-
 <title>プログラミング実習</title>
 </head>
-
 <body>
 <main>
     <div class="contents">
@@ -42,7 +39,6 @@ require_once('../app/controllers/CompaniesController.php');
         } ?>">
     </form>
     <br><br>
-
     <table id='companies_list'>
         <tr class="table_heading">
             <form action='index.php' method=get>
@@ -83,7 +79,6 @@ require_once('../app/controllers/CompaniesController.php');
                 </form>
             </tr>
         <?php endforeach; ?>
-
     </table>
 <hr>
 <div class="paging">

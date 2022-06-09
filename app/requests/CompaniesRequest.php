@@ -19,11 +19,12 @@ class CompaniesRequest extends Request
         'prefix' => '',
     ];
     private $error = '';
+
     public function __construct()
     {
         $this->error = $this->nonerror;
     }
-
+    //エラーがあるか
     public function checkIsError($post)
     {
         $this->managerIsError($post['manager']);
@@ -34,15 +35,15 @@ class CompaniesRequest extends Request
         $this->emailIsError($post['email']);
         $this->nameIsError($post['name']);
         $this->prefixIsError($post['prefix']);
-
         //エラーチェック
         return $this->isError($this->error, $this->nonerror);
     }
+    //エラー内容は何か
     public function getError()
     {
         return $this->error;
     }
-
+    //各エラーチェック
     private function nameIsError($input)
     {
         $errors=[

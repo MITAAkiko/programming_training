@@ -1,5 +1,4 @@
 <?php
-//idがない時はindex.phpに返す
 require('../../dbconnect.php');
 require_once('../../config.php');
 require_once('../../functions.php');
@@ -49,7 +48,6 @@ $isError = $res['isError'];
                 <?php endif; ?>
             </td>
         </tr>
-<!--会社名取得-->
         <tr><th>会社名</th> 
             <td><?php echo h($company['company_name']) ?></td>
         </tr>

@@ -96,10 +96,10 @@ $isError = $res['isError'];
         </tr>
         <tr><th>状態</th>
             <td><select class="select_status" name="status">
-                        <option value="">選択してください</option>
-                        <?php foreach (STATUSES as $number => $value) : ?>
-                        <option value="<?php echo $number ?>"><?php echo $value ?></option>
-                        <?php endforeach; ?>
+                    <option value="">選択してください</option>
+                    <?php foreach (STATUSES as $number => $value) : ?>
+                    <option value="<?php echo $number ?>"><?php echo $value ?></option>
+                    <?php endforeach; ?>
                 </select>
                     <?php if ($error['status']==='blank') : ?>
                         <p class="error">※選択してください</p>

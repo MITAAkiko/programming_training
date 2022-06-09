@@ -86,13 +86,13 @@ $company = $res['company'];
             } else {
                 echo h($company['postal_code']);
             } ?>">
-                    <?php if ($error['postal_code']==='blank') : ?>
-                        <p class="error">※郵便番号を入力してください</p>
-                    <?php elseif ($error['postal_code'] === 'type') : ?>
-                        <p class="error">※半角数字で入力してください</p>
-                    <?php elseif ($error['postal_code'] === 'long') : ?> 
-                        <p class="error">※7字で入力してください</p>
-                    <?php endif; ?>
+                <?php if ($error['postal_code']==='blank') : ?>
+                    <p class="error">※郵便番号を入力してください</p>
+                <?php elseif ($error['postal_code'] === 'type') : ?>
+                    <p class="error">※半角数字で入力してください</p>
+                <?php elseif ($error['postal_code'] === 'long') : ?> 
+                    <p class="error">※7字で入力してください</p>
+                <?php endif; ?>
             </td>
         </tr>
             <tr><td>都道府県<select class="select_address" name="prefecture_code">
@@ -119,11 +119,11 @@ $company = $res['company'];
             } else {
                 echo h($company['address']);
             } ?>">
-                    <?php if ($error['address']==='blank') : ?>
-                        <p class="error">※市区町村を入力してください</p>
-                    <?php elseif ($error['address']==='long') : ?>
-                        <p class="error">※100文字以内で入力してください</p>
-                    <?php endif; ?>
+                <?php if ($error['address']==='blank') : ?>
+                    <p class="error">※市区町村を入力してください</p>
+                <?php elseif ($error['address']==='long') : ?>
+                    <p class="error">※100文字以内で入力してください</p>
+                <?php endif; ?>
                 </td>
             </tr>
         <tr><th>メールアドレス</th> 
@@ -135,13 +135,13 @@ $company = $res['company'];
                 } else {
                     echo h($company['mail_address']);
                 } ?>">
-                    <?php if ($error['email']==='blank') : ?>
-                        <p class="error">※メールアドレスを入力してください</p>
-                    <?php elseif ($error['email'] === 'long') : ?>
-                        <p class="error">※長すぎるため使用できません</p>
-                    <?php elseif ($error['email'] === 'type') : ?>
-                        <p class="error">※正しく入力してください</p>
-                    <?php endif; ?>
+                <?php if ($error['email']==='blank') : ?>
+                    <p class="error">※メールアドレスを入力してください</p>
+                <?php elseif ($error['email'] === 'long') : ?>
+                    <p class="error">※長すぎるため使用できません</p>
+                <?php elseif ($error['email'] === 'type') : ?>
+                    <p class="error">※正しく入力してください</p>
+                <?php endif; ?>
             </td>
         </tr>
         <tr><th>プレフィックス</th> 

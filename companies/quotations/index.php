@@ -94,7 +94,7 @@ $_GET['order'] = $res['order'];
                     <td class="td"><?php echo h($quo[$i]['no']);?></td>
                     <td class="td"><?php echo h($quo[$i]['title']);?></td>
                     <td class="td"><?php echo h($quo[$i]['manager']);?></td>
-                    <td class="td"><?php echo h($quo[$i]['total']);?>円</td><!--カンマをつける-->
+                    <td class="td"><?php echo h($quo[$i]['total']);?>円</td>
                     <td class="td"><?php echo h($quo[$i]['period']);?><br>
                     <td class="td"><?php echo h($quo[$i]['due']);?></td>
                     <td class="td"><?php echo h($quo[$i]['status']);?></td>
@@ -106,7 +106,6 @@ $_GET['order'] = $res['order'];
                             <input type='hidden' name='delete_id' value="<?php echo h($quo[$i]['id']);?>">
                         </td>
                     </form>
-                    <?php // var_dump($quo) ?>
                 </tr>
             <?php endfor; ?>
         <?php endif; ?>        
@@ -138,23 +137,12 @@ $_GET['order'] = $res['order'];
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>
-
 </main>
 </body>
-
-
 <script>
 function cfm()
 {
     return confirm('本当に削除しますか');
 }
 </script>
-
-
 </html>
-
-
-
-
-
-

@@ -98,7 +98,6 @@ class CompaniesController
             }
         }
     }
-    //editもリクエストファイルに
     public function edit($get, $post)
     {
         //idない場合は戻る
@@ -109,7 +108,6 @@ class CompaniesController
         if (!$company) {//id:該当するデータがない場合、戻す
             header('Location:./');
         }
-
         //バリデーションチェック
         if (!empty($post)) {
             $this->cmpError = new CompaniesRequest;
@@ -139,7 +137,7 @@ class CompaniesController
     {
         if (empty($id)) {
             header('Location:./');
-        } elseif ($id == '') {
+        } elseif ($id === '') {
             header('Location:./');
         } else {
             $this->cmpMdl->delete($id);

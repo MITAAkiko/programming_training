@@ -91,9 +91,8 @@ class CompaniesModel
     public function update($id, $post)
     {
         $statement = $this->db->prepare('UPDATE companies 
-        SET company_name=?, manager_name=?,phone_number=?,
-        postal_code=?,prefecture_code=?,address=?,
-        mail_address=?,modified=NOW() WHERE id=?');
+            SET company_name=?, manager_name=?,phone_number=?,postal_code=?,prefecture_code=?,address=?,mail_address=?,
+            modified=NOW() WHERE id=?');
         $statement->bindParam(1, $post['name'], \PDO::PARAM_STR);
         $statement->bindParam(2, $post['manager'], \PDO::PARAM_STR);
         $statement->bindParam(3, $post['phone'], \PDO::PARAM_INT);
