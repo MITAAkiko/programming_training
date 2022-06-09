@@ -209,7 +209,7 @@ class QuotationController
         $quotation = $this->quoMdl->fetchDataByQuotationId($id);
         //バリデーションチェック
         //エラーチェック
-        function isError($err)
+        function isError2($err)
         {
             $nonerror=[
                 'title' => '',
@@ -270,7 +270,7 @@ class QuotationController
         }
 
         //エラーがある.ファンクションそのまま使えないから変数に代入
-        $isError = isError($error);
+        $isError = isError2($error);
         //エラーがあったときに状態をもう一度選択する促し
         if ($isError) {
             $error['status']='iserr';

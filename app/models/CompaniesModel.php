@@ -82,7 +82,7 @@ class CompaniesModel
     {
         //DBに接続する用意
         $companies = $this->db ->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address, prefix  
-            FROM companies WHERE id=?');
+            FROM companies WHERE id=? AND deleted IS NULL');
         $companies -> bindParam(1, $id, \PDO::PARAM_INT);
         $companies -> execute();
         $company = $companies -> fetch();

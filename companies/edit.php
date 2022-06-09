@@ -107,6 +107,8 @@ $company = $res['company'];
                         <p class="error">※正しく選択してください</p>
                     <?php elseif ($error['prefecture_code'] === 'type') : ?>
                         <p class="error">※正しく選択してください</p>
+                    <?php elseif ($error['prefecture_code'] === 'error') :?>
+                        <p class="error">※変更の際はもう一度入力してください</p>
                     <?php endif; ?>
                 </td>
             </tr>
@@ -144,6 +146,7 @@ $company = $res['company'];
         </tr>
         <tr><th>プレフィックス</th> 
             <td><?php echo h($company['prefix']); ?></td>
+            <input type="hidden" name="prefix" value="<?php echo h($company['prefix']); ?>">
         </tr>
     </table>
     <hr>

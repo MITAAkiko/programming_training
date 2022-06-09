@@ -5,7 +5,7 @@ namespace App\Requests;
 require_once('Request.php');
 use App\Requests\Request;
 
-class CompaniesAddRequest extends Request
+class CompaniesRequest extends Request
 {
     //初期値
     private $nonerror=[
