@@ -109,6 +109,9 @@ class CompaniesController
             header('Location:./');
         }
         $company = $this->cmpMdl->fetchDataById($get['id']);
+        if (!$company) {//idい該当するデータがない場合、戻す
+            header('Location:./');
+        }
         
         // バリデーションチェック
         // エラーチェック

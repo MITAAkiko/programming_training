@@ -10,7 +10,6 @@ $cmp = new CompaniesController;
 $res = $cmp->edit($_GET, $_POST);
 $error = $res['error'];
 $company = $res['company'];
-
 ?>
 
 <!DOCTYPE html>
