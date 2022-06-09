@@ -31,6 +31,9 @@
                 <?php $order = 'DESC'; ?>
               @endif
               <input type='hidden' name="order" value="{{$order}}">
+              @if (!empty($search))
+                <input type='hidden' name="search" value="{{$search}}">
+              @endif
             <form>
             <th class="th name">会社名</th><th class="th PIC">担当者名</th><th class="th tel">電話番号</th>
             <th class="th address">住所</th><th class="th email">メールアドレス</th>
