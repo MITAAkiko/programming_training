@@ -12,7 +12,7 @@ require_once('../app/controllers/CompaniesController.php');
  $companies = $res['companies'];
  $maxPage = $res['maxPage'];
  $page = $res['page'];
- $_GET['order'] = $res['order'];
+ $order = $res['order'];
 
 ?>
 
@@ -44,16 +44,19 @@ require_once('../app/controllers/CompaniesController.php');
     <br><br>
 
     <table id='companies_list'>
- <!--   <thead>-->
         <tr class="table_heading">
             <form action='index.php' method=get>
                 <?php if (!empty($_GET['search'])) : ?>
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
-                <input type='hidden' name='order' value="<?php echo h($_GET['order'] *= -1) ?>" >
+                <?php if ($order === 'DESC') :?>
+                    <?php $order = 'ASC' ?><!--ここはボタンの値を決める。-->
+                <?php else : ?>
+                    <?php $order = 'DESC'?><!--初期値はASCでボタンはDESC-->
+                <?php endif; ?>
+                <input type='hidden' name='order' value="<?php echo h($order) ?>">
                 <th class="th ID">会社番号　<input class="ascdesc" type="submit" value="▼"></th>
             </form>
-
             <th class="th name">会社名</th><th class="th PIC">担当者名</th><th class="th tel">電話番号</th>
             <th class="th address">住所</th><th class="th email">メールアドレス</th>
             <th class="th quotation">見積一覧</th><th class="th invoice">請求一覧</th>
@@ -61,19 +64,19 @@ require_once('../app/controllers/CompaniesController.php');
         </tr>
 
         <?php foreach ($companies as $company) : ?>
-                <tr>
-                    <td class="td"><?php echo h($company['id']);?></td>
-                    <td class="td"><?php echo h($company['company_name']);?></td>
-                    <td class="td"><?php echo h($company['manager_name']);?></td>
-                    <td class="td"><?php echo h($company['phone_number']);?></td>
-                    <td class="td"><?php echo h($company['postal_code']);?><br>
-                    <?php echo h(PREFECTURES[$company['prefecture_code']]).h($company['address']);?></td>
-                    <td class="td"><?php echo h($company['mail_address']);?></td>
-                    <td class="td"><a class="list_btn" href="quotations/index.php?id=<?php echo h($company['id']); ?>">見積一覧</a></td>
-                    <td class="td"><a class="list_btn" href="invoices/index.php?id=<?php echo h($company['id']); ?>">請求一覧</a></td>
-                    <td class="td"><a class="edit_delete" href="./edit.php?id=<?php echo h($company['id']); ?>">編集</a></td>
-                    <td class="td"><a class="edit_delete" href="./delete.php?id=<?php echo h($company['id']); ?>" onclick="return cfm()">削除</a></td>
-                </tr>
+            <tr>
+                <td class="td"><?php echo h($company['id']);?></td>
+                <td class="td"><?php echo h($company['company_name']);?></td>
+                <td class="td"><?php echo h($company['manager_name']);?></td>
+                <td class="td"><?php echo h($company['phone_number']);?></td>
+                <td class="td"><?php echo h($company['postal_code']);?><br>
+                <?php echo h(PREFECTURES[$company['prefecture_code']]).h($company['address']);?></td>
+                <td class="td"><?php echo h($company['mail_address']);?></td>
+                <td class="td"><a class="list_btn" href="quotations/index.php?id=<?php echo h($company['id']); ?>">見積一覧</a></td>
+                <td class="td"><a class="list_btn" href="invoices/index.php?id=<?php echo h($company['id']); ?>">請求一覧</a></td>
+                <td class="td"><a class="edit_delete" href="./edit.php?id=<?php echo h($company['id']); ?>">編集</a></td>
+                <td class="td"><a class="edit_delete" href="./delete.php?id=<?php echo h($company['id']); ?>" onclick="return cfm()">削除</a></td>
+            </tr>
         <?php endforeach; ?>
 
     </table>
@@ -85,8 +88,8 @@ require_once('../app/controllers/CompaniesController.php');
         if (!empty($_GET['search'])) {
             echo '&search='.h($_GET['search']) ;
         }/*昇順降順*/
-        if (!empty($_GET['order'])) {
-            echo '&order='.h($_GET['order'])*-1 ;
+        if (!empty($order)) {
+            echo '&order='.h($_GET['order']) ;
         } ?>">←前へ</a></span>
     <?php endif; ?>
     <span class="pgbtn nowpage"><?php print(h($page)); ?></span>
@@ -95,8 +98,8 @@ require_once('../app/controllers/CompaniesController.php');
         if (!empty($_GET['search'])) {
             echo '&search='.h($_GET['search']) ;
         }/*昇順降順*/
-        if (!empty($_GET['order'])) {
-            echo '&order='.h($_GET['order'])*-1 ;
+        if (!empty($order)) {
+            echo '&order='.h($_GET['order']) ;
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>
