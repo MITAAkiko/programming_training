@@ -45,8 +45,10 @@
         <td class="td">{{ ($data['company_name']) }}</td>
         <td class="td">{{ ($data['manager_name']) }}</td>
         <td class="td">{{ ($data['phone_number']) }}</td>
-        <td class="td">{{ ($data['postal_code']) }}<br>
-        {{ $prefecture[$data["prefecture_code"]].($data['address']) }}</td>
+        <td class="td">
+          {{ ($data['postal_code']) }}<br>
+          {{ $prefecture[$data["prefecture_code"]].($data['address']) }}
+        </td>
         <td class="td">{{ ($data['mail_address']) }}</td>
         <td class="td"><a class="list_btn">見積(仮)</a></td>
         <td class="td"><a class="list_btn" href="">請求(仮)</a></td>
