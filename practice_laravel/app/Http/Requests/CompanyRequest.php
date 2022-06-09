@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\AlphaNumCheck;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
 
 class CompanyRequest extends FormRequest
 {
@@ -31,19 +33,20 @@ class CompanyRequest extends FormRequest
         'prefecture_code' => 'required|max:47|min:1',//エラー文字登録していない
         'address' => 'required|max:100',
         'email' => 'required|email:rfc,dns',
-        'prefix' => 'required|alpha_num|max:16'//一旦全角OK
+        'prefix' => 'required|max:16',
+        'prefix' => [new AlphaNumCheck()]//英数字チェック
         ];
     }
+    
     public function messages()
     {
         return[
             'required' => '入力してください',
             'max' => ':max 文字で入力してください',
             'integer' => '数字で入力してください',
-            'digits' => ':digits 桁の数字で入力してください',
+            'digits' => ':digits 桁の半角数字で入力してください',
             'size' => ':size 文字で入力してください',
             'email' => '正しく入力してください',
-            'alpha_num' => '英数字で入寮してください',
             'digits_between' => '11桁以内で入力してください',
         ];
     }
