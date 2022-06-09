@@ -23,9 +23,8 @@ class CompanyController extends Controller
             $datas = $this->cmpMdl->fetchDataSearched($search);
         }
 
-        return view('index', compact('datas', 'prefecture', 'search'));
+        return view('index', compact('datas', 'prefecture', 'search'));//.blade.phpは省略
     }
-
     public function add(Request $post)
     {
         $posts = [
@@ -41,11 +40,9 @@ class CompanyController extends Controller
         if (!empty($post)) {
            // $error = $this->cmpMdl->
         }
-
         $prefecture = config('config.PREFECTURES');
         return view('add', compact('prefecture', $posts));
     }
-
     public function validation(Request $post)
     {
         $validator = Validator::make($post->all(), [//第1引数input　第２引数ルール　第３引数メッセージ　第４引数:attributeの中に入れる文字の設定
@@ -81,5 +78,12 @@ class CompanyController extends Controller
             $prefecture = config('config.PREFECTURES');
             return view('index', compact('datas', 'prefecture'));
         }
+    }
+    public function edit($id)
+    {
+        $datas = $this->cmpMdl->fetchDataById($id);
+        $prefecture = config('config.PREFECTURES');
+    // dd($data);
+        return view('edit', compact('prefecture', 'datas'));
     }
 }

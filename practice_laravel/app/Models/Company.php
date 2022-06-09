@@ -55,4 +55,12 @@ class Company extends Model
             'modified' => NOW()
         ]);
     }
+    public function fetchDataById($id)
+    {
+        $company = new Company;
+            $datas = $company
+                ->where('id', $id)
+                ->get();
+        return $datas;
+    }
 }

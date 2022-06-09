@@ -39,8 +39,9 @@
             {{ $prefecture[$data["prefecture_code"]].($data['address']) }}</td>
             <td class="td">{{ ($data['mail_address']) }}</td>
             <td class="td"><a class="list_btn">見積(仮)</a></td>
-            <td class="td"><a class="list_btn">請求(仮)</a></td>
-            <td class="td"><a class="edit_delete" href="./edit.php?id=<?php echo ($data['id']); ?>">編集</a></td>
+            <td class="td"><a class="list_btn" href="">請求(仮)</a></td>
+            <td class="td"><a class="edit_delete" href="{{ route('edit', ['id' => $data['id']]) }}">編集</a></td>
+            <!-- ./edit?id='. { $data['id'] }  または　{route('edit?id='.$data['id'])} -->
             <td class="td"><a class="edit_delete" href="./delete.php?id=<?php echo ($data['id']); ?>" onclick="return cfm()">削除</a></td>
         </tr>
     @endforeach

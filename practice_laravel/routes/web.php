@@ -17,15 +17,13 @@ use App\Http\Controllers\CompanyController;
 
 //Route::get('/test/func', 'App\Http\Controllers\TestController@func');
 Route::get('/index', [CompanyController::class,'index'])->name('index');//URI,class(上でuse),function名->ルート名
+
 Route::get('/add', [CompanyController::class,'add'])->name('add');
 Route::post('/add', [CompanyController::class, 'validation']);
-//Route::match('post', '/add', [CompanyController::class, 'validation']); //get,postなど複数ある場合match
-//GETリクエスト
-//Route::get('/test/func?', 'App\Http\Controllers\TestController@getSearch');//
- 
-// Route::get('receive', 'App\Http\Controllers\TestController@receive');//受
 
-// Route::get('/test/func', [TestController::class,'index']);
+ROute::get('/edit/{id}', [CompanyController::class, 'edit'])->name('edit');
+Route::match(['post','get'], '/edit', [CompanyController::class, 'validation']); //get,postなど複数ある場合match
+
 Route::get('/', function () {
     return view('welcome');
 });
