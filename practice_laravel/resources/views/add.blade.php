@@ -72,7 +72,6 @@
     </table>
     <hr>
     <input type="submit" value="新規登録" class="long_btn">
-
 </form>
 </div>
 </main>

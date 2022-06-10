@@ -24,14 +24,14 @@ class CompaniesController
     }
     public function index($get)
     {
-        
         //初期値
-        if (empty($get['order'])) {
-            $get['order']=1;
+        $order = 'ASC';
+        if (!empty($get['order'])) {
+            $order = $get['order'];
         }
         //maxPageを取得する
         if (!empty($get['search'])) {
-            $searched = '%'.$get['search'].'%' ;
+            $searched = '%' . addcslashes($get['search'], '%_\\') . '%';
             $cnt = $this->cmpMdl->fetchMaxPageSearched($searched);
             $maxPage = ceil($cnt['cnt']/10);
         } else {
@@ -57,7 +57,7 @@ class CompaniesController
 
         //DBに接続する用意　ここ
         if (!empty($get['search'])) {//GETでおくる
-            if (ORDER[$get['order']]==='DESC') {
+            if ($order==='DESC') {
                 $searched = '%' . addcslashes($get['search'], '%_\\') . '%' ;
                 $companies = $this->cmpMdl->fetchDataSearchedDESC($searched, $start);
             } else {
@@ -65,7 +65,7 @@ class CompaniesController
                 $companies = $this->cmpMdl->fetchDataSearchedASC($searched, $start);
             }
         } else {//検索なかった場合
-            if (ORDER[$get['order']]==='DESC') {
+            if ($order==='DESC') {
                 $companies = $this->cmpMdl->fetchDataDESC($start);
             } else {
                 $companies = $this->cmpMdl->fetchDataASC($start);
@@ -75,7 +75,7 @@ class CompaniesController
             'companies' => $companies,
             'maxPage' => $maxPage,
             'page' => $page,
-            'order' => $get['order']
+            'order' => $order
         ];
     }
     public function add($post)

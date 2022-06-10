@@ -2,30 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CompanyRequest;
-use Illuminate\Http\Request;//getやpostを受け取れる？
-use App\Models\Company;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\CompanyRequest;//バリデーションの設定
+use Illuminate\Http\Request;//getやpostを受け取れる
+use App\Models\Company;//モデル
 
 class CompanyController extends Controller
 {
     private $cmpMdl;
     public function __construct()
     {
-        $this->cmpMdl = new Company;//モデル
+        $this->cmpMdl = new Company;//モデルのインスタンス生成
     }
     public function index(Request $get)
     {
-        $order = 'ASC';
+        $prefecture = config('config.PREFECTURES');
+        $order = 'ASC';//初期設定
         $search = $get->input('search');
         $order = $get->input('order');
+
         if ($get->has('search')) {//検索あり
             $datas = $this->cmpMdl->fetchSearchedDatas($search, $order);
         } else {//検索なし
             $datas = $this->cmpMdl->fetchDatas($order);
         }
-        $prefecture = config('config.PREFECTURES');
-        return view('index', compact('datas', 'prefecture', 'search', 'order'));//.blade.phpは省略
+        return view('index', compact('datas', 'prefecture', 'search', 'order'));
     }
     public function add()
     {
@@ -35,13 +35,12 @@ class CompanyController extends Controller
     public function addValidation(CompanyRequest $post)
     {
         $this->cmpMdl->create($post->safe()->all());
-        return redirect('/index');
+        return redirect('/index');//ただ画面に戻る場合はredirect
     }
     public function edit($id)
     {
         $data = $this->cmpMdl->fetchDataById($id);
         $prefecture = config('config.PREFECTURES');
-    // dd($data);
         return view('edit', compact('prefecture', 'data'));
     }
     public function editValidation($id, CompanyRequest $post)

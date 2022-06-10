@@ -12,24 +12,24 @@ class Company extends Model
     public function fetchDatas($order = null)
     {
         $company = new Company;
-        if ($order === 'DESC') {
+        if ($order === 'DESC') {//降順
             $datas = $company
             ->orderBy('id', 'desc')
             ->where('deleted', null)
             ->paginate(10);
-        } else {
+        } else {//昇順
             $datas = $company
             ->where('deleted', null)
             ->paginate(10);
         }
         return $datas;
     }
-    public function fetchSearchedDatas($search, $order = null)
+    public function fetchSearchedDatas($search, $order = null)//検索あり
     {
         $src = '%' . addcslashes($search, '%_\\') . '%';
         $company = new Company;
 
-        if ($order === 'DESC') {
+        if ($order === 'DESC') {//降順
             $datas = $company
             ->orderBy('id', 'desc')
             ->where(function ($query) {
@@ -41,7 +41,7 @@ class Company extends Model
             })
             ->paginate(10)
             ;
-        } else {
+        } else {//昇順
             $datas = $company
             ->where(function ($query) {
                 $query->where('deleted', null);
@@ -53,7 +53,16 @@ class Company extends Model
             ->paginate(10)
             ;
         }
-              //  ->get();
+        return $datas;
+    }
+    public function fetchDataById($id)//１つ分のデータ
+    {
+        $company = new Company;
+            $datas = $company
+                ->where('id', $id)
+                ->get()
+                ->first()
+                ;
         return $datas;
     }
     public function create($value)
@@ -70,16 +79,6 @@ class Company extends Model
             'created' => NOW(),
             'modified' => NOW()
         ]);
-    }
-    public function fetchDataById($id)
-    {
-        $company = new Company;
-            $datas = $company
-                ->where('id', $id)
-                ->get()
-                ->first()
-                ;
-        return $datas;
     }
     public function updateData($id, $value)
     {
