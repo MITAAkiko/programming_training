@@ -108,25 +108,6 @@ class InvoicesModel
         $statement->bindParam(8, $post['status'], \PDO::PARAM_INT);
         $statement->execute();
     }
-    // public function fetchCompanyNameById($id)
-    // {
-    //     $companies = $this->db->prepare('SELECT company_name, prefix ,id
-    //         FROM companies WHERE id=?');
-    //     $companies->bindParam(1, $id, \PDO::PARAM_INT);
-    //     $companies->execute();
-    //     $company = $companies->fetch();
-    //     return $company;
-    // }
-    //edit
-    // public function editGetCompanyName($get)
-    // {
-    //     $companies = $this->db -> prepare('SELECT id, company_name, prefix
-    //         FROM companies WHERE id=?');
-    //     $companies -> bindParam(1, $get['cid'], \PDO::PARAM_INT);
-    //     $companies -> execute();
-    //     $company = $companies -> fetch();
-    //     return $company;
-    // }
 
     public function update($id, $post)
     {

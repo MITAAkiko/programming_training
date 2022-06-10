@@ -77,7 +77,13 @@ $_GET['order'] = $res['order'];
                     <td class="td"><?php echo h($quo[$i]['due']);?></td>
                     <td class="td"><?php echo h($quo[$i]['status']);?></td>
                     <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo[$i]['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
-                    <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quo[$i]['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
+                    <form action='q_delete.php' method=post>
+                        <td class="td">
+                            <a href="q_delete.php"><input type='submit' class="edit_delete" onclick="return cfm()" value='削除'></a>
+                            <input type='hidden' name='cid' value="<?php echo h($company['id']) ?>">
+                            <input type='hidden' name='delete_id' value="<?php echo h($quo[$i]['id']);?>">
+                        </td>
+                    </form>
                     <?php // var_dump($quo) ?>
                 </tr>
             <?php endfor; ?>
@@ -93,7 +99,13 @@ $_GET['order'] = $res['order'];
                     <td class="td"><?php echo h($quo[$i]['due']);?></td>
                     <td class="td"><?php echo h($quo[$i]['status']);?></td>
                     <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo[$i]['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
-                    <td class="td"><a class="edit_delete" href="q_delete.php?id=<?php echo h($quo[$i]['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
+                    <form action='q_delete.php' method=post>
+                        <td class="td">
+                            <a href="q_delete.php"><input type='submit' class="edit_delete" onclick="return cfm()" value='削除'></a>
+                            <input type='hidden' name='cid' value="<?php echo h($company['id']) ?>">
+                            <input type='hidden' name='delete_id' value="<?php echo h($quo[$i]['id']);?>">
+                        </td>
+                    </form>
                     <?php // var_dump($quo) ?>
                 </tr>
             <?php endfor; ?>

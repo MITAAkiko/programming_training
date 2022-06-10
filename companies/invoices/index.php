@@ -76,7 +76,14 @@ $_GET['order'] = $res['order'];
                     <td class="td"><?php echo h($invoice['quotation_no']);?></td>
                     <td class="td"><?php echo h(STATUSES[$invoice['status']]);?></td>
                     <td class="td"><a class="edit_delete" href="i_edit.php?id=<?php echo h($invoice['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
-                    <td class="td"><a class="edit_delete" href="i_delete.php?id=<?php echo h($invoice['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td>
+                    <!-- <td class="td"><a class="edit_delete" href="i_delete.php?id=<?php echo h($invoice['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td> -->
+                    <form action='i_delete.php' method=post>
+                        <td class="td">
+                            <a href="i_delete.php"><input type='submit' class="edit_delete" onclick="return cfm()" value='削除'></a>
+                            <input type='hidden' name='cid' value="<?php echo h($company['id']) ?>">
+                            <input type='hidden' name='delete_id' value="<?php echo h($invoice['id']);?>">
+                        </td>
+                    </form>
                 </tr>
         <?php endforeach; ?>
             <!--==koko-->       

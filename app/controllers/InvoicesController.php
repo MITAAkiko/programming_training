@@ -276,15 +276,13 @@ class InvoicesController
             'company' => $company,
         ];
     }
-    public function delete($get)
+    public function delete($id, $cid)
     {
-        if (empty($get)) {
+        if (empty($cid) || empty($id)) {
             header('Location:./');
-        } elseif ($get['id'] == '') {
+        } elseif ($id === '' || $cid === '') {
             header('Location:./');
         } else {
-            $id = $get['id'];
-            $cid = $get['cid'];
             //削除する
             $this->invMdl->delete($id);
             header('Location:index.php?id='.$cid);
