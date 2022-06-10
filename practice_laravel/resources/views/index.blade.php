@@ -23,7 +23,18 @@
     <table id='companies_list'>
  
         <tr class="table_heading">
-            <th class="th ID">会社番号　<input class="ascdesc" type="submit" value="▼"></th>
+            <form action="./index" method="get"> 
+              <th class="th ID">会社番号　<input class="ascdesc" type="submit" value="▼"></th>
+              @if ($order === 'DESC')
+                <?php $order = 'ASC'; ?>
+              @else <!-- 初期設定 -->
+                <?php $order = 'DESC'; ?>
+              @endif
+              <input type='hidden' name="order" value="{{$order}}">
+              @if (!empty($search))
+                <input type='hidden' name="search" value="{{$search}}">
+              @endif
+            <form>
             <th class="th name">会社名</th><th class="th PIC">担当者名</th><th class="th tel">電話番号</th>
             <th class="th address">住所</th><th class="th email">メールアドレス</th>
             <th class="th quotation">見積一覧</th><th class="th invoice">請求一覧</th>
@@ -39,9 +50,10 @@
             {{ $prefecture[$data["prefecture_code"]].($data['address']) }}</td>
             <td class="td">{{ ($data['mail_address']) }}</td>
             <td class="td"><a class="list_btn">見積(仮)</a></td>
-            <td class="td"><a class="list_btn">請求(仮)</a></td>
-            <td class="td"><a class="edit_delete" href="./edit.php?id=<?php echo ($data['id']); ?>">編集</a></td>
-            <td class="td"><a class="edit_delete" href="./delete.php?id=<?php echo ($data['id']); ?>" onclick="return cfm()">削除</a></td>
+            <td class="td"><a class="list_btn" href="">請求(仮)</a></td>
+            <td class="td"><a class="edit_delete" href="{{ route('edit', ['id' => $data['id']]) }}">編集</a></td>
+            <!-- ./edit?id='. { $data['id'] }  または　{route('edit?id='.$data['id'])} -->
+            <td class="td"><a class="edit_delete" href="{{ route('delete', ['id' => $data['id']]) }}" onclick="return cfm()">削除</a></td>
         </tr>
     @endforeach
     </table>
@@ -51,9 +63,14 @@
     <!-- {{ $datas->links() }} -->
     <!-- 前後で5件のリンク取得 -->
     <span class='center'>
-    {{ $datas->onEachSide(5)->appends(request()->query())->links() }}
+    {{ $datas->onEachSide(3)->appends(request()->query())->links() }}
     </span>
     </div>
+    <script>
+      function cfm(){
+          return confirm('本当に削除しますか');
+      }
+    </script>
   </body>
 </html> 
 
