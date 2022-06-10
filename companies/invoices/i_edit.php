@@ -10,6 +10,7 @@ $res = $cmp->edit($_GET, $_POST);
 $invoice = $res['invoice'];
 $error = $res['error'];
 $company = $res['company'];
+
 ?>
 
 <!DOCTYPE html>

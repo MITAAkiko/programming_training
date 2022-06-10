@@ -15,6 +15,10 @@ class InvoicesController
     }
     public function index($get, $post = null)
     {
+        $check = $this->invMdl->checkId($get['id']);
+        if (!$check) {
+            header('Location:../');
+        }
         //初期値
         $page = 1;
         if (empty($get['order'])) {
@@ -75,6 +79,10 @@ class InvoicesController
     }
     public function add($get, $post)
     {
+        $check = $this->invMdl->checkId($get['id']);
+        if (!$check) {
+            header('Location:../');
+        }
                 //エラーチェック
         function isError($err)
         {
@@ -174,16 +182,16 @@ class InvoicesController
             'error' => $error,
             'company' => $company,
             'isError' => $isError,
+            'check' => $check
         ];
     }
     public function edit($get, $post)
     {
         //idがない時はindex.phpに返す
-        if (empty($get)) {
-            header('Location:./');
-        }
-        if ($get['id'] == '' || $get['cid'] == '') {
-            header('Location:./');
+        $check = $this->invMdl->checkId($get['cid']);
+        $check_invoice_id = $this->invMdl->checkInvoiceId($get['id']);
+        if (!$check || !$check_invoice_id) {
+            header('Location:../');
         } else {
             $id = $get['id'];
             $cid = $get['cid'];

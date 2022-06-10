@@ -8,6 +8,23 @@ class QuotationsModel
     {
         $this->db = new \PDO('mysql:dbname=programming_training;host=127.0.0.1;charset=utf8', 'root', 'P@ssw0rd');
     }
+    //check id
+    public function checkId($id)
+    {
+        $check = $this->db ->prepare('SELECT id FROM companies WHERE id=? AND deleted IS NULL');
+        $check -> bindParam(1, $id, \PDO::PARAM_INT);
+        $check -> execute();
+        $check = $check -> fetch();
+        return $check;
+    }
+    public function checkQuotationId($id)
+    {
+        $check = $this->db->prepare('SELECT id FROM quotations WHERE id=? AND deleted IS NULL');
+        $check -> bindParam(1, $id, \PDO::PARAM_INT);
+        $check -> execute();
+        $check = $check -> fetch();
+        return $check;
+    }
     //index
     public function fetchMaxpageSearched($get)
     {

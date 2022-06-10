@@ -14,6 +14,11 @@ class QuotationController
     }
     public function index($get)
     {
+        $check = $this->quoMdl->checkId($get['id']);
+        if (!$check) {
+            header('Location:../');
+        }
+
         //初期値
         if (empty($get['order'])) {
             $get['order']=1;
@@ -86,7 +91,10 @@ class QuotationController
     }
     public function add($get, $post)
     {
-                
+        $check = $this->quoMdl->checkId($get['id']);
+        if (!$check) {
+            header('Location:../');
+        }
         //エラーチェック
         function isError($err)
         {
@@ -185,11 +193,11 @@ class QuotationController
     }
     public function edit($get, $post)
     {
-        if (empty($get)) {
-            header('Location:./');
-        }
-        if ($get['id'] == '' || $get['cid'] == '') {
-            header('Location:./');
+        //idがない時はindex.phpに返す
+        $check = $this->quoMdl->checkId($get['cid']);
+        $check_quotation_id = $this->quoMdl->checkQuotationId($get['id']);
+        if (!$check || !$check_quotation_id) {
+            header('Location:../');
         } else {
             $id = $get['id'];
             $cid = $get['cid'];
