@@ -44,6 +44,7 @@ class InvoicesModel
         return $cnt;
     }
     //fetch datas
+    //Searched
     public function fetchDataSearchedASC($get, $start)
     {
         $invoices = $this->db -> prepare('SELECT   i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
@@ -64,6 +65,29 @@ class InvoicesModel
         $invoices -> execute();
         return $invoices;
     }
+    //請求日から並び変え
+    public function fetchDataSearchedDayDESC($get, $start)
+    {
+        $invoices = $this->db -> prepare('SELECT   i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
+            FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL AND i.status=? ORDER BY i.date_of_issue DESC LIMIT ?,10');
+        $invoices -> bindParam(1, $get['id'], \PDO::PARAM_INT);
+        $invoices -> bindParam(2, $get['search'], \PDO::PARAM_INT);
+        $invoices -> bindParam(3, $start, \PDO::PARAM_INT);
+        $invoices -> execute();
+        return $invoices;
+    }
+    public function fetchDataSearchedDayASC($get, $start)
+    {
+        $invoices = $this->db -> prepare('SELECT   i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
+            FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL AND i.status=? ORDER BY i.date_of_issue ASC LIMIT ?,10');
+        $invoices -> bindParam(1, $get['id'], \PDO::PARAM_INT);
+        $invoices -> bindParam(2, $get['search'], \PDO::PARAM_INT);
+        $invoices -> bindParam(3, $start, \PDO::PARAM_INT);
+        $invoices -> execute();
+        return $invoices;
+    }
+    //検索なし
+    //IDから並び変え
     public function fetchDataASCById($id, $start)
     {
         $invoices = $this->db -> prepare('SELECT  i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
@@ -82,6 +106,26 @@ class InvoicesModel
         $invoices -> execute();
         return $invoices;
     }
+    //請求日から並び変え
+    public function fetchDataDayASCById($id, $start)
+    {
+        $invoices = $this->db -> prepare('SELECT  i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
+            FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL ORDER BY i.date_of_issue ASC LIMIT ?,10');
+        $invoices -> bindParam(1, $id, \PDO::PARAM_INT);
+        $invoices -> bindParam(2, $start, \PDO::PARAM_INT);
+        $invoices -> execute();
+        return $invoices;
+    }
+    public function fetchDataDayDESCById($id, $start)
+    {
+        $invoices = $this->db -> prepare('SELECT  i.id, i.no, i.title, c.manager_name ,i.total, i.payment_deadline, i.date_of_issue, i.quotation_no, i.status, c.company_name
+            FROM companies c , invoices i WHERE c.id=? AND i.company_id = c.id AND i.deleted IS NULL ORDER BY i.date_of_issue DESC LIMIT ?,10');
+        $invoices -> bindParam(1, $id, \PDO::PARAM_INT);
+        $invoices -> bindParam(2, $start, \PDO::PARAM_INT);
+        $invoices -> execute();
+        return $invoices;
+    }
+    //IDから並び変え
     public function fetchDataById($id)
     {
         $invoices = $this->db -> prepare('SELECT no, title, total, payment_deadline, date_of_issue, quotation_no, status 
