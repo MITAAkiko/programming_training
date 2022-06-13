@@ -5,6 +5,10 @@ namespace App\Controllers;
 require_once('../../app/models/QuotationsModel.php');
 use App\Models\QuotationsModel;
 
+require_once('../../app/requests/Request.php');
+require_once('../../app/requests/QuotationsRequest.php');
+use App\Requests\QuotationsRequest;
+
 class QuotationController
 {
     private $quoMdl;
@@ -106,97 +110,123 @@ class QuotationController
         if (!$check) {
             header('Location:../');
         }
-        
         //会社名取得
-        if (!empty($get)) {
-            $company = $this->quoMdl->fetchCompanyNameById($get['id']);
-        }
-
-        //エラーチェック
-        function isError($err)
-        {
-            $nonerror=[
-                'title' => '',
-                'name' => '',
-                'total' => '',
-                'period' => '',
-                'due' => '',
-                'status' => ''
-            ];
-            return $err !== $nonerror;
-        }
-        //初期値
-        $error = [
-            'title' => '',
-            'name' => '',
-            'total' => '',
-            'period' => '',
-            'due' => '',
-            'status' => ''
-        ];
-        $isError = '';
-
-        //エラーについて
+        $company = $this->quoMdl->fetchCompanyNameById($get['id']);
+        //バリデーションチェック
         if (!empty($post)) {
-            if (($post['title'])==='') {
-                $error['title']='blank';
-            } elseif (strlen($post['title'])>64) {
-                $error['title']='long';
-            }
-            if (($post['total'])==='') {
-                $error['total']='blank';
-            } elseif (!preg_match('/^[0-9]+$/', $post['total'])) { //空文字ダメの半角数値
-                $error['total']='type';
-            } elseif (strlen($post['total'])>10) {
-                $error['total']='long';
-            }
-            if (($post['period'])==='') {
-                $error['period']='blank';
-            } elseif (!preg_match('/^[0-9]{8}$/', $post['period'])) {
-                $error['period']='type';
-            } elseif (strtotime($post['period'])===false) {
-                $error['period']='check_date';
-            }
-            if (strtotime($post['period']) > strtotime($post['due'])) {
-                $error['due']='time';
-            } elseif (($post['due'])==='') {
-                $error['due']='blank';
-            } elseif (!preg_match('/^[0-9]{8}$/', $post['due'])) {
-                $error['due']='type';
-            } elseif (strtotime($post['due'])===false) {
-                $error['due']='check_date';
-            }
-            if (!preg_match("/^[0-9]+$/", $post['status'])) { //空文字ダメの半角数値
-                $error['status']='type';
-            } elseif (strlen($post['status'])>1) {
-                $error['status']='long';
-            } elseif (($post['status'])==='') {
-                $error['status']='blank';
-            }
-        }
-
-        //エラーがある.ファンクションそのまま使えないから変数に代入
-        $isError = isError($error);
-
-        //エラーがない時にデータベースに登録する
-        if (!empty($post)) {
+            $this->quoError = new QuotationsRequest;
+            $isError = $this->quoError->checkIsError($post);
+            $error = $this->quoError->getError();
+            //エラーがない時にデータベースに登録する
             if (!$isError) {
                 $getid = $this->quoMdl->fetchId($get['id']);
                 $quotateId = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
                 $no = $post['prefix'].'-q-'.$quotateId;//見積番号
-
                 $due = new \DateTime();
                 $due = $due->format('Y-m-d');
                 $this->quoMdl->create($get['id'], $post, $due, $no);
                 header('Location:./?id='.$post['return_id']);
-                //exit();
+            } else {//エラーがあったとき、選択項目をもう一度選択してもらう
+                if (empty($error['status'])) {
+                    $error['status'] = 'error';
+                }
+                return [
+                    'company' => $company,
+                    'isError' => $isError,
+                    'error' => $error,
+                ];
             }
         }
-        return [
-            'error' => $error,
+        return [//最初読み込んだ時
+            'error' => null,
             'company' => $company,
-            'isError' => $isError,//記入欄の選択項目のみリセットされるため、メッセージ残す。
+            'isError' => null,
         ];
+        // //エラーチェック
+        // function isError($err)
+        // {
+        //     $nonerror=[
+        //         'title' => '',
+        //        // 'name' => '',
+        //         'total' => '',
+        //         'period' => '',
+        //         'due' => '',
+        //         'status' => ''
+        //     ];
+        //     return $err !== $nonerror;
+        // }
+        // //初期値
+        // $error = [
+        //     'title' => '',
+        //     //'name' => '',
+        //     'total' => '',
+        //     'period' => '',
+        //     'due' => '',
+        //     'status' => ''
+        // ];
+        // $isError = '';
+
+        // //エラーについて
+        // if (!empty($post)) {
+        //     if (($post['title'])==='') {
+        //         $error['title']='blank';
+        //     } elseif (strlen($post['title'])>64) {
+        //         $error['title']='long';
+        //     }
+        //     if (($post['total'])==='') {
+        //         $error['total']='blank';
+        //     } elseif (!preg_match('/^[0-9]+$/', $post['total'])) { //空文字ダメの半角数値
+        //         $error['total']='type';
+        //     } elseif (strlen($post['total'])>10) {
+        //         $error['total']='long';
+        //     }
+        //     if (($post['period'])==='') {
+        //         $error['period']='blank';
+        //     } elseif (!preg_match('/^[0-9]{8}$/', $post['period'])) {
+        //         $error['period']='type';
+        //     } elseif (strtotime($post['period'])===false) {
+        //         $error['period']='check_date';
+        //     }
+        //     if (strtotime($post['period']) > strtotime($post['due'])) {
+        //         $error['due']='time';
+        //     } elseif (($post['due'])==='') {
+        //         $error['due']='blank';
+        //     } elseif (!preg_match('/^[0-9]{8}$/', $post['due'])) {
+        //         $error['due']='type';
+        //     } elseif (strtotime($post['due'])===false) {
+        //         $error['due']='check_date';
+        //     }
+        //     if (!preg_match("/^[0-9]+$/", $post['status'])) { //空文字ダメの半角数値
+        //         $error['status']='type';
+        //     } elseif (strlen($post['status'])>1) {
+        //         $error['status']='long';
+        //     } elseif (($post['status'])==='') {
+        //         $error['status']='blank';
+        //     }
+        // }
+
+        // //エラーがある.ファンクションそのまま使えないから変数に代入
+        // $isError = isError($error);
+
+        //エラーがない時にデータベースに登録する
+        // if (!empty($post)) {
+        //     if (!$isError) {
+        //         $getid = $this->quoMdl->fetchId($get['id']);
+        //         $quotateId = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
+        //         $no = $post['prefix'].'-q-'.$quotateId;//見積番号
+
+        //         $due = new \DateTime();
+        //         $due = $due->format('Y-m-d');
+        //         $this->quoMdl->create($get['id'], $post, $due, $no);
+        //         header('Location:./?id='.$post['return_id']);
+        //         //exit();
+        //     }
+        // }
+        // return [
+        //     'error' => $error,
+        //     'company' => $company,
+        //     'isError' => $isError,//記入欄の選択項目のみリセットされるため、メッセージ残す。
+        // ];
     }
     public function edit($get, $post)
     {

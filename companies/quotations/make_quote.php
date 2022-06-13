@@ -12,6 +12,8 @@ $res = $cmp->add($_GET, $_POST);
 $company = $res['company'];
 $error = $res['error'];
 $isError = $res['isError'];
+//var_dump($error);
+var_dump($_POST);
 ?>
 
 <!DOCTYPE html>
