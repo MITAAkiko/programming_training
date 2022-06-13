@@ -11,7 +11,7 @@ $maxPage = $res['maxPage'];
 $invoices = $res['invoices'];
 $company = $res['company'];
 $page = $res['page'];
-$_GET['order'] = $res['order'];
+$order = $res['order'];
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +54,7 @@ $_GET['order'] = $res['order'];
                 <?php if (!empty($_GET['search'])) : ?>
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
-                <input type='hidden' name='order' value="<?php echo h($_GET['order'] *= -1) ?>" >
+                <input type='hidden' name='order' value="<?php echo h($order * -1) ?>" >
                 <th class="no">請求番号　<input class="ascdesc" type="submit" value="▼"></th>
 
             </form>
@@ -76,7 +76,6 @@ $_GET['order'] = $res['order'];
                     <td class="td"><?php echo h($invoice['quotation_no']);?></td>
                     <td class="td"><?php echo h(STATUSES[$invoice['status']]);?></td>
                     <td class="td"><a class="edit_delete" href="i_edit.php?id=<?php echo h($invoice['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
-                    <!-- <td class="td"><a class="edit_delete" href="i_delete.php?id=<?php echo h($invoice['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td> -->
                     <form action='i_delete.php' method=post>
                         <td class="td">
                             <a href="i_delete.php"><input type='submit' class="edit_delete" onclick="return cfm()" value='削除'></a>
@@ -86,7 +85,6 @@ $_GET['order'] = $res['order'];
                     </form>
                 </tr>
         <?php endforeach; ?>
-            <!--==koko-->       
     </table>
 <hr>
 <div class="paging">
@@ -96,7 +94,7 @@ $_GET['order'] = $res['order'];
              echo '&search='.h($_GET['search']) ;
         }
         if (!empty($_GET['order'])) {
-            echo '&order='.h($_GET['order']*-1) ;
+            echo '&order='.h($_GET['order']) ;
         } ?>">←前</a></span>
     <?php endif; ?>
     <span class="pgbtn nowpage"><?php print h($page); ?></span>
@@ -106,7 +104,7 @@ $_GET['order'] = $res['order'];
              echo '&search='.h($_GET['search']) ;
         }
         if (!empty($_GET['order'])) {
-            echo '&order='.h($_GET['order']*-1) ;
+            echo '&order='.h($_GET['order']) ;
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>

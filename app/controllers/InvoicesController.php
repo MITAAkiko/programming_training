@@ -21,8 +21,9 @@ class InvoicesController
             header('Location:../');
         }
         $page = 1;
-        if (empty($get['order'])) {
-            $get['order']=1;
+        $order = 1;
+        if (!empty($get['order'])) {
+            $order = $get['order'];
         }
         //maxPage
         if (!empty($get['search'])) {
@@ -49,13 +50,13 @@ class InvoicesController
 
         //DBに接続する用意
         if (!empty($get['search'])) {//絞り込みあり
-            if (($get['order'])>0) {
+            if ($order > 0) {
                 $invoices = $this->invMdl->fetchDataSearchedASC($get, $start);
             } else {
                 $invoices = $this->invMdl->fetchDataSearchedDESC($get, $start);
             }
         } else {//絞り込みなし
-            if (($get['order'])>0) {
+            if ($order > 0) {
                 $invoices = $this->invMdl->fetchDataASCById($get['id'], $start);
             } else {
                 $invoices = $this->invMdl->fetchDataDESCById($get['id'], $start);
@@ -72,7 +73,7 @@ class InvoicesController
             'invoices' => $invoices,
             'company' => $company,
             'page' => $page,
-            'order' => $get['order']
+            'order' => $order,
         ];
     }
     public function add($get, $post)

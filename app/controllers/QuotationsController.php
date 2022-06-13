@@ -20,8 +20,9 @@ class QuotationController
         }
 
         //初期値
-        if (empty($get['order'])) {
-            $get['order']=1;
+        $order = 1;
+        if (!empty($get['order'])) {
+            $order = $get['order'];
         }
         $page = 1;
 
@@ -83,7 +84,7 @@ class QuotationController
             'page' => $page,
             'maxPage' => $maxPage,
             'quo' => $quo,
-            'order' => $get['order'],
+            'order' => $order,
         ];
     }
     public function add($get, $post)

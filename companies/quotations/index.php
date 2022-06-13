@@ -13,7 +13,7 @@ $page = $res['page'];
 $maxPage = $res['maxPage'];
 $quo = $res['quo'];
 $quo_count = $res['quoCount'];
-$_GET['order'] = $res['order'];
+$order = $res['order'];
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +57,7 @@ $_GET['order'] = $res['order'];
                 <?php if (!empty($_GET['search'])) : ?>
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
-                <input type='hidden' name='order' value="<?php echo h($_GET['order'] *= -1) ?>" >
+                <input type='hidden' name='order' value="<?php echo h($order * -1) ?>" >
                 <th class="no">見積番号　<input class="ascdesc" type="submit" value="▼"></th>
                 
             </form>
@@ -66,8 +66,7 @@ $_GET['order'] = $res['order'];
             <th class="status">状態</th><th class="q_edit">編集</th><th class="q_delete">削除</th>
         </tr>
 <!--配列に代入-->
-
-        <?php if ($_GET['order']>0) :
+        <?php if (ORDER[$order] === 'DESC') :
             for ($i=$quo_count-1-10*(h($page)-1); $i>$quo_count-1-10*(h($page)) && $i >=0; $i--) :
                 ?><!--最大キー引く１０＊ページ数-->
                 <tr>
@@ -123,7 +122,7 @@ $_GET['order'] = $res['order'];
             echo '&search='.h($_GET['search']) ;
         }
         if (!empty($_GET['order'])) {
-            echo '&order='.h($_GET['order'])*-1 ;
+            echo '&order='.h($_GET['order']);
         } ?>">←前</a></span>
     <?php endif; ?>
     <!--今のページ-->
@@ -135,7 +134,7 @@ $_GET['order'] = $res['order'];
             echo '&search='.h($_GET['search']) ;
         }
         if (!empty($_GET['order'])) {
-            echo '&order='.h($_GET['order'])*-1 ;
+            echo '&order='.h($_GET['order']);
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>
