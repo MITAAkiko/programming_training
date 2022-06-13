@@ -162,87 +162,33 @@ class InvoicesController
         $company = $this->invMdl->fetchCompanyNameById($cid);
         //編集用
         $invoice = $this->invMdl->fetchDataById($id);
-
         //バリデーションチェック
-        //エラーチェック
-        function isError2($err)
-        {
-            $nonerror=[
-                'title' => '',
-                'total' => '',
-                'pay' => '',
-                'date' => '',
-                'status' => ''
-            ];
-            return $err !== $nonerror;
-        }
-        //初期値
-        $error = [
-            'title' => '',
-            'total' => '',
-            'pay' => '',
-            'date' => '',
-            'status' => ''
-        ];
-        $isError = '';
-
-        //エラーについて
         if (!empty($post)) {
-            if (($post['title'])==='') {
-                $error['title']='blank';
-            } elseif (strlen($post['title'])>64) {
-                $error['title']='long';
-            }
-            if (($post['total'])==='') {
-                $error['total']='blank';
-            } elseif (!preg_match('/^[0-9]+$/', $post['total'])) { //空文字ダメの半角数値
-                $error['total']='type';
-            } elseif (strlen($post['total'])>10) {
-                $error['total']='long';
-            }
-            if (($post['pay'])==='') {
-                $error['pay']='blank';
-            } elseif (!preg_match('/^[0-9]{8}$/', $post['pay'])) {
-                $error['pay']='type';
-            } elseif (strtotime($post['pay']) < strtotime($post['date'])) {
-                $error['pay']='time';
-            } elseif (strtotime($post['pay'])===false) {
-                $error['pay']='check_date';
-            }
-            if (($post['date'])==='') {
-                $error['date']='blank';
-            } elseif (!preg_match('/^[0-9]{8}$/', $post['date'])) {
-                $error['date']='type';
-            } elseif (strtotime($post['date'])===false) {
-                $error['date']='check_date';
-            }
-            if (($post['status'])==='') {
-                $error['status']='blank';
-            } elseif (!preg_match("/^[0-9]+$/", $post['status'])) { //空文字ダメの半角数値
-                $error['status']='type';
-            } elseif (strlen($post['status'])>1) {
-                $error['status']='long';
-            }
-        }
-
-        //エラーがある.ファンクションそのまま使えないから変数に代入
-        $isError = isError2($error);
-        //エラーがあったときに状態をもう一度選択する促し
-        if ($isError) {
-            $error['status']='iserr';
-        }
-        //エラーがない時にデータベースに登録する
-        if (!empty($post)) {
+            $this->invError = new InvoicesRequest;
+            $isError = $this->invError->checkIsError($post);
+            $error = $this->invError->getError();
+            //エラーがない時にデータベースに登録する
             if (!$isError) {
+                //登録実行
                 $this->invMdl->update($get['id'], $post);
                 header('Location:./?id='.$company['id']);
-                //exit();
+            } else {//エラーがあったとき、選択項目をもう一度選択してもらう
+                if (empty($error['status'])) {
+                    $error['status'] = 'error';
+                }
+                return [
+                    'invoice' => $invoice,
+                    'company' => $company,
+                    'isError' => $isError,
+                    'error' => $error,
+                ];
             }
         }
         return [
             'invoice' => $invoice,
-            'error' => $error,
             'company' => $company,
+            'error' =>null,
+            'isError' => null,
         ];
     }
     public function delete($id, $cid)

@@ -8,9 +8,9 @@ use App\Controllers\InvoicesController;
 $cmp = new InvoicesController;
 $res = $cmp->edit($_GET, $_POST);
 $invoice = $res['invoice'];
-$error = $res['error'];
 $company = $res['company'];
-
+$error = $res['error'];
+$isError = $res['isError'];
 ?>
 
 <!DOCTYPE html>
@@ -41,9 +41,9 @@ $company = $res['company'];
                            } else {
                                echo $invoice['title'];
                            } ?>">
-                <?php if ($error['title']==='blank') : ?>
+                <?php if ($error['title'] === 'blank') : ?>
                     <p class="error">※請求名を入力してください</p>
-                <?php elseif ($error['title']==='long') : ?>
+                <?php elseif ($error['title'] === 'long') : ?>
                     <p class="error">※64文字以内で入力してください</p>
                 <?php endif; ?>
             </td>
@@ -59,7 +59,7 @@ $company = $res['company'];
                        } else {
                             echo h($invoice['total']);
                        } ?>"> 円
-                    <?php if ($error['total']==='blank') : ?>
+                    <?php if ($error['total'] === 'blank') : ?>
                         <p class="error">※金額を入力してください</p>
                     <?php elseif ($error['total'] === 'type') :?>
                         <p class="error">※半角数字で入力してください</p>
@@ -76,13 +76,13 @@ $company = $res['company'];
                        } else {
                            echo str_replace('-', '', h($invoice['payment_deadline']));
                        } ?>">
-                <?php if ($error['pay']==='blank') : ?>
+                <?php if ($error['pay'] === 'blank') : ?>
                     <p class="error">※日付を入力してください</p>
                 <?php elseif ($error['pay'] === 'type') : ?>
                     <p class="error">※半角数字のみで入力してください（例:20210525）</p>
                 <?php elseif ($error['pay'] === 'time') : ?>
                     <p class="error">※請求日より後に設定してください</p>
-                <?php elseif ($error['pay']==='check_date') : ?>
+                <?php elseif ($error['pay'] === 'check_date') : ?>
                         <p class="error">※正しい日付を入力してください</p>
                 <?php endif; ?>
             </td>
@@ -95,17 +95,18 @@ $company = $res['company'];
                        } else {
                            echo str_replace('-', '', h($invoice['date_of_issue']));
                        }?>">
-                    <?php if ($error['date']==='blank') : ?>
+                    <?php if ($error['date'] === 'blank') : ?>
                         <p class="error">※請求日を入力してください</p>
                     <?php elseif ($error['date'] === 'type') : ?>
                         <p class="error">※半角数字のみで入力してください（例:20210525）</p>
-                    <?php elseif ($error['date']==='check_date') : ?>
+                    <?php elseif ($error['date'] === 'check_date') : ?>
                         <p class="error">※正しい日付を入力してください</p>
                     <?php endif; ?>
             </td>
         </tr>
         <tr><th>見積番号</th> 
             <td><?php echo h($invoice['quotation_no']) ?></td>
+            <input type='hidden' name='quo' value='<?php echo h($invoice['quotation_no']) ?>'>
         </tr>
         <tr><th>状態</th>
             <td><select class="select_status" name="status">
@@ -114,14 +115,14 @@ $company = $res['company'];
                         <option value="<?php echo $number ?>"><?php echo $value ?></option>
                         <?php endforeach; ?>
                 </select>
-                    <?php if ($error['status']==='blank') : ?>
+                    <?php if ($error['status'] === 'blank') : ?>
                         <p class="error">※選択してください</p>
-                    <?php elseif ($error['status']==='type') : ?>
+                    <?php elseif ($error['status'] === 'type') : ?>
                         <p class="error">※正しく選択してください</p>
-                    <?php elseif ($error['status']==='long') : ?>
+                    <?php elseif ($error['status'] === 'long') : ?>
                         <p class="error">※正しく選択してください</p>
-                    <?php elseif ($error['status']==='iserr') : ?>
-                        <p class="error">※もう一度選択してください</p>
+                    <?php elseif ($error['status'] === 'error') : ?>
+                        <p class="error">※変更する場合もう一度選択してください</p>
                     <?php endif; ?>
             </td>
         </tr>
