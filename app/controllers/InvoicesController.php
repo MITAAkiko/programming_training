@@ -21,11 +21,17 @@ class InvoicesController
         if (!$check) {
             header('Location:../');
         }
+        //昇順降順
         $page = 1;
         $order = 1;
+        $order2 = -1;
         if (!empty($get['order'])) {
             $order = $get['order'];
         }
+        if (!empty($get['order2'])) {
+            $order2 = $get['order2'];
+        }
+
         //maxPage
         if (!empty($get['search'])) {
             $cnt = $this->invMdl->fetchMaxpageSearched($get);
@@ -51,16 +57,32 @@ class InvoicesController
 
         //DBに接続する用意
         if (!empty($get['search'])) {//絞り込みあり
-            if (ORDER[$order] === 'DESC') {
-                $invoices = $this->invMdl->fetchDataSearchedDESC($get, $start);
-            } else {
-                $invoices = $this->invMdl->fetchDataSearchedASC($get, $start);
+            if (!empty($get['order2'])) {//日付で昇順降順指定あるか
+                if (ORDER[$order2] === 'DESC') {
+                    $invoices = $this->invMdl->fetchDataSearchedDayDESC($get, $start);
+                } else {
+                    $invoices = $this->invMdl->fetchDataSearchedDayASC($get, $start);
+                }
+            } else {//idで昇順降順指定あるか
+                if (ORDER[$order] === 'DESC') {
+                    $invoices = $this->invMdl->fetchDataSearchedDESC($get, $start);
+                } else {
+                    $invoices = $this->invMdl->fetchDataSearchedASC($get, $start);
+                }
             }
         } else {//絞り込みなし
-            if (ORDER[$order] === 'DESC') {
-                $invoices = $this->invMdl->fetchDataDESCById($get['id'], $start);
-            } else {
-                $invoices = $this->invMdl->fetchDataASCById($get['id'], $start);
+            if (!empty($get['order2'])) {//日付で昇順降順指定あるか
+                if (ORDER[$order2] === 'DESC') {
+                    $invoices = $this->invMdl->fetchDataDayDESCById($get['id'], $start);
+                } else {
+                    $invoices = $this->invMdl->fetchDataDayASCById($get['id'], $start);
+                }
+            } else {//idで昇順降順指定あるか
+                if (ORDER[$order] === 'DESC') {
+                    $invoices = $this->invMdl->fetchDataDESCById($get['id'], $start);
+                } else {
+                    $invoices = $this->invMdl->fetchDataASCById($get['id'], $start);
+                }
             }
         }
         //会社名を表示させる（見積がないときなど）
@@ -75,6 +97,7 @@ class InvoicesController
             'company' => $company,
             'page' => $page,
             'order' => $order,
+            'order2' => $order2,
         ];
     }
     public function add($get, $post)

@@ -11,7 +11,8 @@ $maxPage = $res['maxPage'];
 $invoices = $res['invoices'];
 $company = $res['company'];
 $page = $res['page'];
-$order = $res['order'];
+$order = $res['order'];//IDでの昇順降順
+$order2 = $res['order2'];//請求日での昇順降順
 ?>
 
 <!DOCTYPE html>
@@ -50,19 +51,27 @@ $order = $res['order'];
     <table>
         <tr class="table_heading">
             <form action='index.php' method=get>
-
-                <input type='hidden' name='id' value="<?php echo h($_GET['id']); ?>" >
+                <input type='hidden' name='id' value="<?php echo h($_GET['id']); ?>">
                 <?php if (!empty($_GET['search'])) : ?>
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
                 <input type='hidden' name='order' value="<?php echo h($order * -1) ?>" >
                 <th class="no">請求番号　<input class="ascdesc" type="submit" value="▼"></th>
-
             </form>
-                
-            <th class="title">請求名</th><th class="manager">担当者名</th><th class="total">金額</th>
-            <th class="pay">支払期限</th><th class="date">請求日</th><th class="quo">見積番号</th>
-            <th class="status">状態</th><th class="i_edit">編集</th><th class="i_delete">削除</th>
+    
+            <th class="title">請求名</th><th class="manager">担当者名</th><th class="total">金額</th><th class="pay">支払期限</th>
+
+            <form action='index.php' method=get>
+                <input type='hidden' name='id' value="<?php echo h($_GET['id']); ?>">
+                <?php if (!empty($_GET['search'])) : ?>
+                    <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
+                <?php endif; ?>
+                <input type='hidden' name='order2' value="<?php echo h($order2 * -1) ?>" >
+                <th class="date">請求日<input class="ascdesc" type="submit" value="▼"></th>
+                <!-- $_GET['id']と$_GET['search']の値は渡すが、IDと請求日の値をお互いに渡さないことで上書き？ -->
+            </form>
+
+            <th class="quo">見積番号</th><th class="status">状態</th><th class="i_edit">編集</th><th class="i_delete">削除</th>
             
         </tr>
         
@@ -96,6 +105,8 @@ $order = $res['order'];
         }
         if (!empty($_GET['order'])) {
             echo '&order='.h($_GET['order']) ;
+        } elseif (!empty($_GET['order2'])) {
+            echo '&order2='.h($_GET['order2']) ;
         } ?>">←前</a></span>
     <?php endif; ?>
     <span class="pgbtn nowpage"><?php print h($page); ?></span>
@@ -106,6 +117,8 @@ $order = $res['order'];
         }
         if (!empty($_GET['order'])) {
             echo '&order='.h($_GET['order']) ;
+        } elseif (!empty($_GET['order2'])) {
+            echo '&order2='.h($_GET['order2']) ;
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>
@@ -117,9 +130,3 @@ function cfm(){
 }
 </script>
 </html>
-
-
-
-
-
-
