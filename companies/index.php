@@ -29,16 +29,17 @@ require_once('../app/controllers/CompaniesController.php');
     <div class="contents">
     <h2 class="home" href='./'>会社一覧</h2>
     <hr>
-    <a href="./add.php" class="long_btn">新規登録</a>
+
     <!--検索フォーム-->
     <form action="index.php" method="get">
+    <a href="./add.php" class="long_btn">新規登録</a>
         <input class="search_btn" type="submit" value="検索">
         <input class="text_search" type="text" name="search" value="<?php
         if (!empty($_GET['search'])) {
             echo h($_GET['search']);
         } ?>">
     </form>
-    <br><br>
+    <br>
     <table id='companies_list'>
         <tr class="table_heading">
             <form action='index.php' method=get>

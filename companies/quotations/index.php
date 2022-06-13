@@ -29,11 +29,13 @@ $_GET['order'] = $res['order'];
 <main>
     <div class="contents">
     <h2 class="home">見積一覧 <a href="../" class="btn">会社一覧へ戻る</a>
-        <span class="company_name"><?php echo h($company['company_name']) ?></span></h2>
+        <span class="company_name"><?php echo h($company['company_name']) ?></span>
+    </h2>
     <hr>
-    <a href="./make_quote.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">見積作成</a>
+   
     <!--絞り込み-->
     <form action='./' method="get" href='./?id=<?php echo h($_GET['id']) ?>&search=<?php echo h($_GET['search']) ?>'>
+    <a href="./make_quote.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">見積作成</a>
         <input class="search_btn" type="submit" value="検索">
         <select class="text_search" name="search">
         <?php if (!empty($_GET['search'])) :?>
@@ -46,7 +48,7 @@ $_GET['order'] = $res['order'];
         </select>
         <input type='hidden' name='id' value="<?php echo h($_GET['id']) ?>" >
     </form>
-    <br><br>
+    <br>
     <table>
         <tr class="table_heading">
             <form action='index.php' method=get>
