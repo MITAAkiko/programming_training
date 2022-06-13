@@ -93,7 +93,9 @@ class CompaniesController
                 //exit();
             } else {
                 //エラーがあったとき、選択項目をもう一度選択してもらう
-                $error['prefecture_code'] = 'error';
+                if (empty($error['prefecture_code'])) {
+                    $error['prefecture_code'] = 'error';
+                }
                 return $error;
             }
         }

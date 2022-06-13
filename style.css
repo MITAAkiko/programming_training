@@ -1,7 +1,11 @@
 .home{
     margin: 20px 0px;
 }
-
+.index{
+    color: black;
+    /*下線を消す*/
+    text-decoration: none;
+}
 .contents{
     width:93%;
     margin:auto;

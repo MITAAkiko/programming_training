@@ -27,7 +27,7 @@ require_once('../app/controllers/CompaniesController.php');
 <body>
 <main>
     <div class="contents">
-    <h2 class="home" href='./'>会社一覧</h2>
+    <h2 class="home"><a class="index" href='./'>会社一覧</a></h2>
     <hr>
 
     <!--検索フォーム-->
