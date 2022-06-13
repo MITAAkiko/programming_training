@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+require_once('../../config.php');
 //モデルのファイルを読み込む
 require_once('../../app/models/InvoicesModel.php');
 use App\Models\InvoicesModel;
@@ -13,7 +14,7 @@ class InvoicesController
     {
         $this->invMdl = new InvoicesModel;
     }
-    public function index($get, $post = null)
+    public function index($get)
     {
         //idチェック
         $check = $this->invMdl->checkId($get['id']);
@@ -50,16 +51,16 @@ class InvoicesController
 
         //DBに接続する用意
         if (!empty($get['search'])) {//絞り込みあり
-            if ($order > 0) {
-                $invoices = $this->invMdl->fetchDataSearchedASC($get, $start);
-            } else {
+            if (ORDER[$order] === 'DESC') {
                 $invoices = $this->invMdl->fetchDataSearchedDESC($get, $start);
+            } else {
+                $invoices = $this->invMdl->fetchDataSearchedASC($get, $start);
             }
         } else {//絞り込みなし
-            if ($order > 0) {
-                $invoices = $this->invMdl->fetchDataASCById($get['id'], $start);
-            } else {
+            if (ORDER[$order] === 'DESC') {
                 $invoices = $this->invMdl->fetchDataDESCById($get['id'], $start);
+            } else {
+                $invoices = $this->invMdl->fetchDataASCById($get['id'], $start);
             }
         }
         //会社名を表示させる（見積がないときなど）
