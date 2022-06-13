@@ -12,7 +12,6 @@ $error = $res['error'];
 $company = $res['company'];
 $isError = $res['isError'];
 ?>
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
