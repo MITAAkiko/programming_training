@@ -83,15 +83,25 @@ require_once('../app/controllers/CompaniesController.php');
     </table>
 <hr>
 <div class="paging">
-    <?php if ($page > 2) :  ?>
-        <span><a class="pgbtn" href="index.php?page=1<?php
+    <?php if ($page > 1) :  ?>
+        <span><a class="pgbtn" href="index.php?page=<?php print(h($page) -1);
         /*検索結果あり*/
         if (!empty($_GET['search'])) {
             echo '&search='.h($_GET['search']) ;
         }/*昇順降順*/
         if (!empty($_GET['order'])) {
             echo '&order='.h($_GET['order']) ;
-        } ?>">&laquo</a></span>
+        } ?>">&lsaquo;</a></span>
+    <?php endif; ?>
+    <?php if ($page > 2) :  ?>
+        <span><a class="pgbtn" href="index.php?page=<?php print(h($page) -2);
+        /*検索結果あり*/
+        if (!empty($_GET['search'])) {
+            echo '&search='.h($_GET['search']) ;
+        }/*昇順降順*/
+        if (!empty($_GET['order'])) {
+            echo '&order='.h($_GET['order']) ;
+        } ?>"><?php print(h($page) -2)?></a></span>
     <?php endif; ?>
     <?php if ($page > 1) :  ?>
         <span><a class="pgbtn" href="index.php?page=<?php print(h($page) -1);
@@ -114,13 +124,22 @@ require_once('../app/controllers/CompaniesController.php');
         } ?>"><?php print(h($page) + 1)?></a></span>
     <?php endif; ?>
     <?php if ($page < $maxPage-1) : ?>
-        <span><a class="pgbtn" href="index.php?page=<?php print(h($maxPage));
+        <span><a class="pgbtn" href="index.php?page=<?php print(h($page) + 2);
         if (!empty($_GET['search'])) {
             echo '&search='.h($_GET['search']) ;
         }/*昇順降順*/
         if (!empty($_GET['order'])) {
             echo '&order='.h($_GET['order']) ;
-        } ?>">&raquo</a></span>
+        } ?>"><?php print(h($page) + 2)?></a></span>
+    <?php endif; ?>
+    <?php if ($page < $maxPage) : ?>
+        <span><a class="pgbtn" href="index.php?page=<?php print(h($page) + 1);
+        if (!empty($_GET['search'])) {
+            echo '&search='.h($_GET['search']) ;
+        }/*昇順降順*/
+        if (!empty($_GET['order'])) {
+            echo '&order='.h($_GET['order']) ;
+        } ?>">&rsaquo;</a></span>
     <?php endif; ?>
 </div>
 

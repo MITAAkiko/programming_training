@@ -11,15 +11,15 @@
     <h2 class="home" href='./'>会社一覧</h2>
 
     <hr>
-    <a href="{{ route('add') }}" class="long_btn">新規登録</a>
     <form action="{{route('index')}}" method="get">
+    <a href="{{ route('add') }}" class="long_btn">新規登録</a>
       <input class="search_btn" type="submit" value="検索">
       <input class="text_search" type="text" name="search" value="<?php
         if (!empty($search)) {
             echo ($search);
         } ?>">
     </form>
-    <br><br>
+    <br>
     <table id='companies_list'>
       <tr class="table_heading">
         <form action="./index" method="get"> 
@@ -59,7 +59,7 @@
     </table>
     <hr>
     <div class="paging">
-    {{ $datas->onEachSide(3)->appends(request()->query())->links() }}
+    {{ $datas->onEachSide(2)->appends(request()->query())->links() }}
     </div>
     <script>
       function cfm(){
