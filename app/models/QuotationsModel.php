@@ -52,10 +52,28 @@ class QuotationsModel
         $quotations -> execute();
         return $quotations;
     }
+    //請求日から並べ替え
+    public function fetchDataSearchedDay($get)
+    {
+        $quotations = $this->db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
+            FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL AND q.status=? ORDER BY q.due_date ASC ');//LIMIT ?,10
+        $quotations -> bindParam(1, $get['id'], \PDO::PARAM_INT);
+        $quotations -> bindParam(2, $get['search'], \PDO::PARAM_INT);
+        $quotations -> execute();
+        return $quotations;
+    }
     public function fetchDataById($id)
     {
         $quotations = $this->db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
             FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL ORDER BY q.no ASC ');//LIMIT ?,10
+        $quotations -> bindParam(1, $id, \PDO::PARAM_INT);
+        $quotations -> execute();
+        return $quotations;
+    }
+    public function fetchDataDayById($id)
+    {
+        $quotations = $this->db -> prepare('SELECT  q.id, q.no, q.title, c.manager_name ,q.total, q.validity_period, q.due_date, q.status, c.company_name
+            FROM companies c , quotations q WHERE c.id=? AND q.company_id = c.id AND q.deleted IS NULL ORDER BY q.due_date ASC ');//LIMIT ?,10
         $quotations -> bindParam(1, $id, \PDO::PARAM_INT);
         $quotations -> execute();
         return $quotations;

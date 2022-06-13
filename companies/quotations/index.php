@@ -14,6 +14,7 @@ $maxPage = $res['maxPage'];
 $quo = $res['quo'];
 $quo_count = $res['quoCount'];
 $order = $res['order'];
+$order2 = $res['order2'];
 ?>
 
 <!DOCTYPE html>
@@ -52,65 +53,69 @@ $order = $res['order'];
     <table>
         <tr class="table_heading">
             <form action='index.php' method=get>
-
                 <input type='hidden' name='id' value="<?php echo h($_GET['id']); ?>" >
                 <?php if (!empty($_GET['search'])) : ?>
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
                 <input type='hidden' name='order' value="<?php echo h($order * -1) ?>" >
                 <th class="no">見積番号　<input class="ascdesc" type="submit" value="▼"></th>
-                
             </form>
             <th class="title">見積名</th><th class="manager">担当者名</th>
-            <th class="total">金額</th><th class="period">見積書有効期限</th><th class="due">納期</th>
+            <th class="total">金額</th><th class="period">見積書有効期限</th>
+            <form action='index.php' method=get>
+                <input type='hidden' name='id' value="<?php echo h($_GET['id']); ?>" >
+                <?php if (!empty($_GET['search'])) : ?>
+                    <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
+                <?php endif; ?>
+                <input type='hidden' name='order2' value="<?php echo h($order2 * -1) ?>" >
+                <th class="due">納期<input class="ascdesc" type="submit" value="▼"></th>
+            </form>
             <th class="status">状態</th><th class="q_edit">編集</th><th class="q_delete">削除</th>
         </tr>
 <!--配列に代入-->
-        <?php if (ORDER[$order] === 'DESC') :
-            for ($i=$quo_count-1-10*(h($page)-1); $i>$quo_count-1-10*(h($page)) && $i >=0; $i--) :
-                ?><!--最大キー引く１０＊ページ数-->
-                <tr>
-                    <td class="td"><?php echo h($quo[$i]['no']);?></td>
-                    <td class="td"><?php echo h($quo[$i]['title']);?></td>
-                    <td class="td"><?php echo h($quo[$i]['manager']);?></td>
-                    <td class="td"><?php echo h($quo[$i]['total']);?>円</td><!--カンマをつける-->
-                    <td class="td"><?php echo h($quo[$i]['period']);?><br>
-                    <td class="td"><?php echo h($quo[$i]['due']);?></td>
-                    <td class="td"><?php echo h($quo[$i]['status']);?></td>
-                    <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo[$i]['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
-                    <form action='q_delete.php' method=post>
-                        <td class="td">
-                            <a href="q_delete.php"><input type='submit' class="edit_delete" onclick="return cfm()" value='削除'></a>
-                            <input type='hidden' name='cid' value="<?php echo h($company['id']) ?>">
-                            <input type='hidden' name='delete_id' value="<?php echo h($quo[$i]['id']);?>">
-                        </td>
-                    </form>
-                    <?php // var_dump($quo) ?>
-                </tr>
-            <?php endfor; ?>
-        <?php else : //初期昇順設定
-            for ($i=(h($page-1))*10; $i<(h($page))*10 && $i < $quo_count; $i++) :
-                ?><!--0-9/10-19/-->
-                <tr>
-                    <td class="td"><?php echo h($quo[$i]['no']);?></td>
-                    <td class="td"><?php echo h($quo[$i]['title']);?></td>
-                    <td class="td"><?php echo h($quo[$i]['manager']);?></td>
-                    <td class="td"><?php echo h($quo[$i]['total']);?>円</td>
-                    <td class="td"><?php echo h($quo[$i]['period']);?><br>
-                    <td class="td"><?php echo h($quo[$i]['due']);?></td>
-                    <td class="td"><?php echo h($quo[$i]['status']);?></td>
-                    <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo[$i]['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
-                    <form action='q_delete.php' method=post>
-                        <td class="td">
-                            <a href="q_delete.php"><input type='submit' class="edit_delete" onclick="return cfm()" value='削除'></a>
-                            <input type='hidden' name='cid' value="<?php echo h($company['id']) ?>">
-                            <input type='hidden' name='delete_id' value="<?php echo h($quo[$i]['id']);?>">
-                        </td>
-                    </form>
-                </tr>
-            <?php endfor; ?>
-        <?php endif; ?>        
-      
+            <?php if (ORDER[$order] === 'DESC' || ORDER[$order2] === 'DESC') :
+                for ($i=$quo_count-1-10*(h($page)-1); $i>$quo_count-1-10*(h($page)) && $i >=0; $i--) :
+                    ?><!--最大キー引く１０＊ページ数-->
+                    <tr>
+                        <td class="td"><?php echo h($quo[$i]['no']);?></td>
+                        <td class="td"><?php echo h($quo[$i]['title']);?></td>
+                        <td class="td"><?php echo h($quo[$i]['manager']);?></td>
+                        <td class="td"><?php echo h($quo[$i]['total']);?>円</td><!--カンマをつける-->
+                        <td class="td"><?php echo h($quo[$i]['period']);?><br>
+                        <td class="td"><?php echo h($quo[$i]['due']);?></td>
+                        <td class="td"><?php echo h($quo[$i]['status']);?></td>
+                        <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo[$i]['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
+                        <form action='q_delete.php' method=post>
+                            <td class="td">
+                                <a href="q_delete.php"><input type='submit' class="edit_delete" onclick="return cfm()" value='削除'></a>
+                                <input type='hidden' name='cid' value="<?php echo h($company['id']) ?>">
+                                <input type='hidden' name='delete_id' value="<?php echo h($quo[$i]['id']);?>">
+                            </td>
+                        </form>
+                    </tr>
+                <?php endfor; ?>
+            <?php else : //初期昇順設定
+                for ($i=(h($page-1))*10; $i<(h($page))*10 && $i < $quo_count; $i++) :
+                    ?><!--0-9/10-19/-->
+                    <tr>
+                        <td class="td"><?php echo h($quo[$i]['no']);?></td>
+                        <td class="td"><?php echo h($quo[$i]['title']);?></td>
+                        <td class="td"><?php echo h($quo[$i]['manager']);?></td>
+                        <td class="td"><?php echo h($quo[$i]['total']);?>円</td>
+                        <td class="td"><?php echo h($quo[$i]['period']);?><br>
+                        <td class="td"><?php echo h($quo[$i]['due']);?></td>
+                        <td class="td"><?php echo h($quo[$i]['status']);?></td>
+                        <td class="td"><a class="edit_delete" href="q_edit.php?id=<?php echo h($quo[$i]['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
+                        <form action='q_delete.php' method=post>
+                            <td class="td">
+                                <a href="q_delete.php"><input type='submit' class="edit_delete" onclick="return cfm()" value='削除'></a>
+                                <input type='hidden' name='cid' value="<?php echo h($company['id']) ?>">
+                                <input type='hidden' name='delete_id' value="<?php echo h($quo[$i]['id']);?>">
+                            </td>
+                        </form>
+                    </tr>
+                <?php endfor; ?>
+            <?php endif; ?>
     </table>
 <hr>
 
@@ -123,7 +128,9 @@ $order = $res['order'];
         }
         if (!empty($_GET['order'])) {
             echo '&order='.h($_GET['order']);
-        } ?>">←前</a></span>
+        } elseif (!empty($_GET['order2'])) {
+            echo '&order2='.h($_GET['order2']);
+        }?>">←前</a></span>
     <?php endif; ?>
     <!--今のページ-->
     <span class="pgbtn nowpage"><?php print(h($page)); ?></span>
@@ -135,6 +142,8 @@ $order = $res['order'];
         }
         if (!empty($_GET['order'])) {
             echo '&order='.h($_GET['order']);
+        } elseif (!empty($_GET['order2'])) {
+            echo '&order2='.h($_GET['order2']);
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>

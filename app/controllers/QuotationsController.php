@@ -24,6 +24,10 @@ class QuotationController
         if (!empty($get['order'])) {
             $order = $get['order'];
         }
+        $order2 = 1;
+        if (!empty($get['order2'])) {
+            $order2 = $get['order2'];
+        }
         $page = 1;
 
         //maxPage(検索ありなしで分ける)
@@ -53,9 +57,17 @@ class QuotationController
         
         //絞り込みあり
         if (!empty($get['search'])) {
-            $quotations = $this->quoMdl->fetchDataSearched($get);
+            if (!empty($get['order2'])) {
+                $quotations = $this->quoMdl->fetchDataSearchedDay($get);
+            } else {
+                $quotations = $this->quoMdl->fetchDataSearched($get);
+            }
         } else {//絞り込みなし
-            $quotations = $this->quoMdl->fetchDataById($get['id']);
+            if (!empty($get['order2'])) {
+                $quotations = $this->quoMdl->fetchDataDayById($get['id']);
+            } else {
+                $quotations = $this->quoMdl->fetchDataById($get['id']);
+            }
         }
         //キーを用いた方（・・・as $key => $quotation){ $quo[$key]=[・・・]でも同様の結果
         foreach ($quotations as $quotation) {
@@ -85,6 +97,7 @@ class QuotationController
             'maxPage' => $maxPage,
             'quo' => $quo,
             'order' => $order,
+            'order2' => $order2,
         ];
     }
     public function add($get, $post)
