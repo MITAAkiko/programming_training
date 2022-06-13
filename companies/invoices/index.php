@@ -109,19 +109,13 @@ $order = $res['order'];
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>
-
 </main>
 </body>
-
-
 <script>
 function cfm(){
     return confirm('本当に削除しますか');
 }
-
 </script>
-
-
 </html>
 
 

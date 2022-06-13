@@ -169,7 +169,9 @@ table th ,table td{
     color: black;
     font-size: 13px;
 }
-
+.nowpage.pgbtn{
+    background-color: rgb(241, 241, 241);
+}
 .company_name{
     float: right;
     margin-right: 10px;
