@@ -201,7 +201,6 @@ class InvoicesController
             //削除する
             $this->invMdl->delete($id);
             header('Location:index.php?id='.$cid);
-            //exit();
         }
     }
 }

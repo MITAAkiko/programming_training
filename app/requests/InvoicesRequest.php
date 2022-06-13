@@ -98,49 +98,5 @@ namespace App\Requests
             $this->error['status'] = $this->errors($errors);
             return $this->error['status'];
         }
-    // if (!preg_match("/^[0-9a-zA-Z]+$/", $post['quo'])) { //空文字ダメの半角数値
-            //         $error['quo']='type';
-            //     }
-            //     if (($post['quo'])==='') {
-            //         $error['quo']='blank';
-            //     } elseif (strlen($post['quo'])>100) {
-            //         $error['quo']='long';
-            //     }
-            //     if (($post['title'])==='') {
-            //         $error['title']='blank';
-            //     } elseif (strlen($post['title'])>64) {
-            //         $error['title']='long';
-            //     }
-            //     if (($post['total'])==='') {
-            //         $error['total']='blank';
-            //     } elseif (!preg_match('/^[0-9]+$/', $post['total'])) { //空文字ダメの半角数値
-            //         $error['total']='type';
-            //     } elseif (strlen($post['total'])>10) {
-            //         $error['total']='long';
-            //     }
-            //     if (($post['pay'])==='') {
-            //         $error['pay']='blank';
-            //     } elseif (!preg_match('/^[0-9]{8}$/', $post['pay'])) {
-            //         $error['pay']='type';
-                // } elseif (strtotime($post['pay'])===false) {
-                //     $error['pay']='check_date';
-            //     } elseif (strtotime($post['pay']) < strtotime($post['date'])) {
-            //         $error['pay']='time';
-            //     }
-
-            //     if (($post['date'])==='') {
-            //         $error['date']='blank';
-            //     } elseif (!preg_match('/^[0-9]{8}$/', $post['date'])) {
-            //         $error['date']='type';
-            //     } elseif (strtotime($post['date'])===false) {
-            //         $error['date']='check_date';
-            //     }
-            //     if (!preg_match("/^[0-9]+$/", $post['status'])) { //空文字ダメの半角数値
-            //         $error['status']='type';
-            //     } elseif (strlen($post['status'])>1) {
-            //         $error['status']='long';
-            //     } elseif (($post['status'])==='') {
-            //         $error['status']='blank';
-            //     }
     }
 }
