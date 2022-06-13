@@ -118,8 +118,8 @@ $isError = $res['isError'];
                         <p class="error">※正しく選択してください</p>
                     <?php elseif ($error['status']==='long') : ?>
                         <p class="error">※正しく選択してください</p>
-                    <?php elseif ($error['status']==='iserr') : ?>
-                        <p class="error">※もう一度選択してください</p>
+                    <?php elseif ($error['status']==='error') : ?>
+                        <p class="error">※変更の際はもう一度選択してください</p>
                     <?php endif; ?>
             </td>
         </tr>
