@@ -91,7 +91,6 @@ class InvoicesModel
         $invoice = $invoices -> fetch();
         return $invoice;
     }
-    //fetch company name //index/add/edit(prefix追加)
     public function fetchCompanyNameById($id)
     {
         $companies = $this->db -> prepare('SELECT  company_name, id, prefix FROM companies WHERE id=? AND deleted IS NULL');

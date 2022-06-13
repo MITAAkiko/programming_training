@@ -93,25 +93,6 @@ class QuotationsModel
         $statement->bindParam(7, $post['status'], \PDO::PARAM_INT);
         $statement->execute();
     }
-    // public function addGetCompanyName($get)
-    // {
-    //     $companies = $this->db->prepare('SELECT company_name, prefix ,id
-    //         FROM companies WHERE id=?');
-    //     $companies->bindParam(1, $get['id'], \PDO::PARAM_INT);
-    //     $companies->execute();
-    //     $company = $companies->fetch();
-    //     return $company;
-    // }
-    //edit
-    // public function editGetCompanyName($get)
-    // {
-    //     $companies = $this->db -> prepare('SELECT id, company_name, prefix
-    //         FROM companies WHERE id=?');
-    //     $companies->bindParam(1, $get['cid'], \PDO::PARAM_INT);
-    //     $companies -> execute();
-    //     $company = $companies -> fetch();
-    //     return $company;
-    // }
     public function fetchDataByQuotationId($id)
     {
         $quotations = $this->db -> prepare('SELECT no, title, total, validity_period, due_date, status 

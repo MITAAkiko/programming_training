@@ -5,7 +5,7 @@ namespace App\Requests;
 require_once('Request.php');
 use App\Requests\Request;
 
-class CompaniesAddRequest extends Request
+class CompaniesRequest extends Request
 {
     //初期値
     private $nonerror=[
@@ -19,11 +19,12 @@ class CompaniesAddRequest extends Request
         'prefix' => '',
     ];
     private $error = '';
+
     public function __construct()
     {
         $this->error = $this->nonerror;
     }
-
+    //エラーがあるか
     public function checkIsError($post)
     {
         $this->managerIsError($post['manager']);
@@ -34,15 +35,15 @@ class CompaniesAddRequest extends Request
         $this->emailIsError($post['email']);
         $this->nameIsError($post['name']);
         $this->prefixIsError($post['prefix']);
-
         //エラーチェック
         return $this->isError($this->error, $this->nonerror);
     }
+    //エラー内容は何か
     public function getError()
     {
         return $this->error;
     }
-
+    //各エラーチェック
     private function nameIsError($input)
     {
         $errors=[

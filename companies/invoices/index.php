@@ -11,7 +11,7 @@ $maxPage = $res['maxPage'];
 $invoices = $res['invoices'];
 $company = $res['company'];
 $page = $res['page'];
-$_GET['order'] = $res['order'];
+$order = $res['order'];
 ?>
 
 <!DOCTYPE html>
@@ -29,8 +29,9 @@ $_GET['order'] = $res['order'];
     <h2 class="home">請求一覧 <a href="../" class="btn">会社一覧へ戻る</a>
         <span class="company_name"><?php echo h($company['company_name']) ?></span></h2>
     <hr>
-    <a href="./make_invoice.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">請求作成</a>
+    
     <form action='./' method="get" href='./?id=<?php echo h($_GET['id']) ?>&search=<?php echo h($_GET['search']) ?>'><!--getにhrefいらない？自動で入力？-->
+    <a href="./make_invoice.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">請求作成</a>
         <input class="search_btn" type="submit" value="検索">
         <select class="text_search" name="search">
         <!--検索した後の初期値-->
@@ -45,7 +46,7 @@ $_GET['order'] = $res['order'];
         <input type='hidden' name='id' value="<?php echo h($_GET['id']) ?>" >
     </form>
     
-    <br><br>
+    <br>
     <table>
         <tr class="table_heading">
             <form action='index.php' method=get>
@@ -54,7 +55,7 @@ $_GET['order'] = $res['order'];
                 <?php if (!empty($_GET['search'])) : ?>
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
-                <input type='hidden' name='order' value="<?php echo h($_GET['order'] *= -1) ?>" >
+                <input type='hidden' name='order' value="<?php echo h($order * -1) ?>" >
                 <th class="no">請求番号　<input class="ascdesc" type="submit" value="▼"></th>
 
             </form>
@@ -76,7 +77,6 @@ $_GET['order'] = $res['order'];
                     <td class="td"><?php echo h($invoice['quotation_no']);?></td>
                     <td class="td"><?php echo h(STATUSES[$invoice['status']]);?></td>
                     <td class="td"><a class="edit_delete" href="i_edit.php?id=<?php echo h($invoice['id']) ?>&cid=<?php echo h($company['id']) ?>">編集</a></td>
-                    <!-- <td class="td"><a class="edit_delete" href="i_delete.php?id=<?php echo h($invoice['id']);?>&cid=<?php echo h($company['id']) ?>" onclick="return cfm()">削除</a></td> -->
                     <form action='i_delete.php' method=post>
                         <td class="td">
                             <a href="i_delete.php"><input type='submit' class="edit_delete" onclick="return cfm()" value='削除'></a>
@@ -86,7 +86,6 @@ $_GET['order'] = $res['order'];
                     </form>
                 </tr>
         <?php endforeach; ?>
-            <!--==koko-->       
     </table>
 <hr>
 <div class="paging">
@@ -96,7 +95,7 @@ $_GET['order'] = $res['order'];
              echo '&search='.h($_GET['search']) ;
         }
         if (!empty($_GET['order'])) {
-            echo '&order='.h($_GET['order']*-1) ;
+            echo '&order='.h($_GET['order']) ;
         } ?>">←前</a></span>
     <?php endif; ?>
     <span class="pgbtn nowpage"><?php print h($page); ?></span>
@@ -106,23 +105,17 @@ $_GET['order'] = $res['order'];
              echo '&search='.h($_GET['search']) ;
         }
         if (!empty($_GET['order'])) {
-            echo '&order='.h($_GET['order']*-1) ;
+            echo '&order='.h($_GET['order']) ;
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>
-
 </main>
 </body>
-
-
 <script>
 function cfm(){
     return confirm('本当に削除しますか');
 }
-
 </script>
-
-
 </html>
 
 

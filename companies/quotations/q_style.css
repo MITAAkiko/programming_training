@@ -1,12 +1,3 @@
-/*
-"no"見積番号
-"title"見積名
-"manager"担当者名
-"total"金額
-"period"見積書有効期限
-"due"納期
-"status"状態
-*/
 .no{
     width: 13%;
 }

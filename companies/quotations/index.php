@@ -13,7 +13,7 @@ $page = $res['page'];
 $maxPage = $res['maxPage'];
 $quo = $res['quo'];
 $quo_count = $res['quoCount'];
-$_GET['order'] = $res['order'];
+$order = $res['order'];
 ?>
 
 <!DOCTYPE html>
@@ -29,11 +29,13 @@ $_GET['order'] = $res['order'];
 <main>
     <div class="contents">
     <h2 class="home">見積一覧 <a href="../" class="btn">会社一覧へ戻る</a>
-        <span class="company_name"><?php echo h($company['company_name']) ?></span></h2>
+        <span class="company_name"><?php echo h($company['company_name']) ?></span>
+    </h2>
     <hr>
-    <a href="./make_quote.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">見積作成</a>
+   
     <!--絞り込み-->
     <form action='./' method="get" href='./?id=<?php echo h($_GET['id']) ?>&search=<?php echo h($_GET['search']) ?>'>
+    <a href="./make_quote.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">見積作成</a>
         <input class="search_btn" type="submit" value="検索">
         <select class="text_search" name="search">
         <?php if (!empty($_GET['search'])) :?>
@@ -46,7 +48,7 @@ $_GET['order'] = $res['order'];
         </select>
         <input type='hidden' name='id' value="<?php echo h($_GET['id']) ?>" >
     </form>
-    <br><br>
+    <br>
     <table>
         <tr class="table_heading">
             <form action='index.php' method=get>
@@ -55,7 +57,7 @@ $_GET['order'] = $res['order'];
                 <?php if (!empty($_GET['search'])) : ?>
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
-                <input type='hidden' name='order' value="<?php echo h($_GET['order'] *= -1) ?>" >
+                <input type='hidden' name='order' value="<?php echo h($order * -1) ?>" >
                 <th class="no">見積番号　<input class="ascdesc" type="submit" value="▼"></th>
                 
             </form>
@@ -64,8 +66,7 @@ $_GET['order'] = $res['order'];
             <th class="status">状態</th><th class="q_edit">編集</th><th class="q_delete">削除</th>
         </tr>
 <!--配列に代入-->
-
-        <?php if ($_GET['order']>0) :
+        <?php if (ORDER[$order] === 'DESC') :
             for ($i=$quo_count-1-10*(h($page)-1); $i>$quo_count-1-10*(h($page)) && $i >=0; $i--) :
                 ?><!--最大キー引く１０＊ページ数-->
                 <tr>
@@ -94,7 +95,7 @@ $_GET['order'] = $res['order'];
                     <td class="td"><?php echo h($quo[$i]['no']);?></td>
                     <td class="td"><?php echo h($quo[$i]['title']);?></td>
                     <td class="td"><?php echo h($quo[$i]['manager']);?></td>
-                    <td class="td"><?php echo h($quo[$i]['total']);?>円</td><!--カンマをつける-->
+                    <td class="td"><?php echo h($quo[$i]['total']);?>円</td>
                     <td class="td"><?php echo h($quo[$i]['period']);?><br>
                     <td class="td"><?php echo h($quo[$i]['due']);?></td>
                     <td class="td"><?php echo h($quo[$i]['status']);?></td>
@@ -106,7 +107,6 @@ $_GET['order'] = $res['order'];
                             <input type='hidden' name='delete_id' value="<?php echo h($quo[$i]['id']);?>">
                         </td>
                     </form>
-                    <?php // var_dump($quo) ?>
                 </tr>
             <?php endfor; ?>
         <?php endif; ?>        
@@ -122,7 +122,7 @@ $_GET['order'] = $res['order'];
             echo '&search='.h($_GET['search']) ;
         }
         if (!empty($_GET['order'])) {
-            echo '&order='.h($_GET['order'])*-1 ;
+            echo '&order='.h($_GET['order']);
         } ?>">←前</a></span>
     <?php endif; ?>
     <!--今のページ-->
@@ -134,27 +134,16 @@ $_GET['order'] = $res['order'];
             echo '&search='.h($_GET['search']) ;
         }
         if (!empty($_GET['order'])) {
-            echo '&order='.h($_GET['order'])*-1 ;
+            echo '&order='.h($_GET['order']);
         } ?>">次へ→</a></span>
     <?php endif; ?>
 </div>
-
 </main>
 </body>
-
-
 <script>
 function cfm()
 {
     return confirm('本当に削除しますか');
 }
 </script>
-
-
 </html>
-
-
-
-
-
-

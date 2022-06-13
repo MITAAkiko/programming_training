@@ -22,27 +22,24 @@ require_once('../app/controllers/CompaniesController.php');
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="../style.css">
 
-
-
 <title>プログラミング実習</title>
 </head>
-
 <body>
 <main>
     <div class="contents">
-    <h2 class="home" href='./'>会社一覧</h2>
+    <h2 class="home"><a class="index" href='./'>会社一覧</a></h2>
     <hr>
-    <a href="./add.php" class="long_btn">新規登録</a>
+
     <!--検索フォーム-->
     <form action="index.php" method="get">
+    <a href="./add.php" class="long_btn">新規登録</a>
         <input class="search_btn" type="submit" value="検索">
         <input class="text_search" type="text" name="search" value="<?php
         if (!empty($_GET['search'])) {
             echo h($_GET['search']);
         } ?>">
     </form>
-    <br><br>
-
+    <br>
     <table id='companies_list'>
         <tr class="table_heading">
             <form action='index.php' method=get>
@@ -83,7 +80,6 @@ require_once('../app/controllers/CompaniesController.php');
                 </form>
             </tr>
         <?php endforeach; ?>
-
     </table>
 <hr>
 <div class="paging">
@@ -95,7 +91,27 @@ require_once('../app/controllers/CompaniesController.php');
         }/*昇順降順*/
         if (!empty($_GET['order'])) {
             echo '&order='.h($_GET['order']) ;
-        } ?>">←前へ</a></span>
+        } ?>">&lsaquo;</a></span>
+    <?php endif; ?>
+    <?php if ($page > 2) :  ?>
+        <span><a class="pgbtn" href="index.php?page=<?php print(h($page) -2);
+        /*検索結果あり*/
+        if (!empty($_GET['search'])) {
+            echo '&search='.h($_GET['search']) ;
+        }/*昇順降順*/
+        if (!empty($_GET['order'])) {
+            echo '&order='.h($_GET['order']) ;
+        } ?>"><?php print(h($page) -2)?></a></span>
+    <?php endif; ?>
+    <?php if ($page > 1) :  ?>
+        <span><a class="pgbtn" href="index.php?page=<?php print(h($page) -1);
+        /*検索結果あり*/
+        if (!empty($_GET['search'])) {
+            echo '&search='.h($_GET['search']) ;
+        }/*昇順降順*/
+        if (!empty($_GET['order'])) {
+            echo '&order='.h($_GET['order']) ;
+        } ?>"><?php print(h($page) -1)?></a></span>
     <?php endif; ?>
     <span class="pgbtn nowpage"><?php print(h($page)); ?></span>
     <?php if ($page < $maxPage) : ?>
@@ -105,7 +121,25 @@ require_once('../app/controllers/CompaniesController.php');
         }/*昇順降順*/
         if (!empty($_GET['order'])) {
             echo '&order='.h($_GET['order']) ;
-        } ?>">次へ→</a></span>
+        } ?>"><?php print(h($page) + 1)?></a></span>
+    <?php endif; ?>
+    <?php if ($page < $maxPage-1) : ?>
+        <span><a class="pgbtn" href="index.php?page=<?php print(h($page) + 2);
+        if (!empty($_GET['search'])) {
+            echo '&search='.h($_GET['search']) ;
+        }/*昇順降順*/
+        if (!empty($_GET['order'])) {
+            echo '&order='.h($_GET['order']) ;
+        } ?>"><?php print(h($page) + 2)?></a></span>
+    <?php endif; ?>
+    <?php if ($page < $maxPage) : ?>
+        <span><a class="pgbtn" href="index.php?page=<?php print(h($page) + 1);
+        if (!empty($_GET['search'])) {
+            echo '&search='.h($_GET['search']) ;
+        }/*昇順降順*/
+        if (!empty($_GET['order'])) {
+            echo '&order='.h($_GET['order']) ;
+        } ?>">&rsaquo;</a></span>
     <?php endif; ?>
 </div>
 

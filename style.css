@@ -1,7 +1,11 @@
 .home{
-    margin: 13px 0px;
+    margin: 20px 0px;
 }
-
+.index{
+    color: black;
+    /*下線を消す*/
+    text-decoration: none;
+}
 .contents{
     width:93%;
     margin:auto;
@@ -55,7 +59,7 @@ table th ,table td{
         width: 18%;
     }
     .email{
-        width:10%;
+        width:11%;
     }
     .quotation{
         width: 9%;
@@ -165,7 +169,9 @@ table th ,table td{
     color: black;
     font-size: 13px;
 }
-
+.nowpage.pgbtn{
+    background-color: rgb(241, 241, 241);
+}
 .company_name{
     float: right;
     margin-right: 10px;
@@ -183,4 +189,7 @@ table th ,table td{
 .ascdesc:hover{
     color: rgb(191, 191, 191);
     
+}
+.advice{
+    color:rgb(255, 219, 219)
 }

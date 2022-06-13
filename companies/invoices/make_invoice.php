@@ -62,7 +62,7 @@ $isError = $res['isError'];
                     <?php endif; ?>
             </td>
         </tr>
-        <tr><th>支払期限</th> 
+        <tr><th>支払期限<br><span class="advice">(例:20210625)</span></th> 
             <td>
                 <input class="text_join" type="text" name="pay" 
                 value="<?php if (!empty($_POST['pay'])) {
@@ -71,7 +71,7 @@ $isError = $res['isError'];
                     <?php if ($error['pay']==='blank') : ?>
                         <p class="error">※日付を入力してください</p>
                     <?php elseif ($error['pay'] === 'type') : ?>
-                        <p class="error">※半角数字のみで入力してください（例:20210525）</p>
+                        <p class="error">※半角数字のみで入力してください（例:20210625）</p>
                     <?php elseif ($error['pay']==='check_date') : ?>
                         <p class="error">※正しい日付を入力してください</p>
                     <?php elseif ($error['pay'] === 'time') : ?>
@@ -79,7 +79,7 @@ $isError = $res['isError'];
                     <?php endif; ?>
             </td>
         </tr>
-        <tr><th>請求日</th> 
+        <tr><th>請求日<br><span class="advice">(例:20210525)</span></th> 
             <td>
                 <input class="text_join" type="text" name="date" 
                 value="<?php if (!empty($_POST['date'])) {
@@ -94,7 +94,7 @@ $isError = $res['isError'];
                     <?php endif; ?>
             </td>
         </tr>
-        <tr><th>見積番号</th> 
+        <tr><th>見積番号<br><span class="advice">(半角英数字のみ)</span></th> 
             <td>
                 <input class="text_join" type="text" name="quo" 
                 value="<?php if (!empty($_POST['quo'])) {

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\QuotationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +26,10 @@ Route::post('/edit/{id}', [CompanyController::class, 'editValidation']);
 
 Route::get('/index/{id}', [CompanyController::class, 'delete'])->name('delete');
 
+// Route::get('/quotations/index/{cid}', [QuotationController::class, 'index'])->name('index');
+Route::get('/quotations/index', [QuotationController::class, 'index'])->name('index');
+
+Route::get('/invoices/index', [InvoiceController::class, 'index'])->name('index');
 
 Route::get('/', function () {
     return view('welcome');

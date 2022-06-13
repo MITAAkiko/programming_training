@@ -53,33 +53,33 @@ require_once('../app/controllers/CompaniesController.php');
                 <?php endif; ?>
             </td>
         </tr>
-        <tr><th>電話番号</th> 
+        <tr><th>電話番号<br><span class="advice">(ハイフン不要)</span></th> 
             <td>
                 <input class="text_join" type="text" name="phone"
                     value="<?php if (!empty($_POST['phone'])) {
                             echo h($_POST['phone']);
                            }?>">
-                    <?php if ($error['phone']==='blank') : ?>
-                        <p class="error">※電話番号を入力してください</p>
-                    <?php elseif ($error['phone'] === 'type') :?>
-                        <p class="error">※半角数字で入力してください</p>
-                    <?php elseif ($error['phone'] === 'long') :?>
-                        <p class="error">※11字以内で入力してください</p>
-                    <?php endif; ?>
+                <?php if ($error['phone']==='blank') : ?>
+                    <p class="error">※電話番号を入力してください</p>
+                <?php elseif ($error['phone'] === 'type') :?>
+                    <p class="error">※半角数字で入力してください</p>
+                <?php elseif ($error['phone'] === 'long') :?>
+                    <p class="error">※11字以内で入力してください</p>
+                <?php endif; ?>
             </td>
         </tr>
-        <tr><th rowspan="3">住所</th> 
+        <tr><th rowspan="3">住所<br><span class="advice">(〒ハイフン不要)</span></th> 
             <td>郵便番号 <input class="text_join_address" type="text" name="postal_code"
                 value="<?php if (!empty($_POST['postal_code'])) {
                         echo h($_POST['postal_code']);
                        }?>">
-                    <?php if ($error['postal_code']==='blank') : ?>
-                        <p class="error">※郵便番号を入力してください</p>
-                    <?php elseif ($error['postal_code'] === 'type') : ?>
-                        <p class="error">※半角数字で入力してください</p>
-                    <?php elseif ($error['postal_code'] === 'long') : ?> 
-                        <p class="error">※7字で入力してください</p>
-                    <?php endif; ?>
+                <?php if ($error['postal_code']==='blank') : ?>
+                    <p class="error">※郵便番号を入力してください</p>
+                <?php elseif ($error['postal_code'] === 'type') : ?>
+                    <p class="error">※半角数字で入力してください</p>
+                <?php elseif ($error['postal_code'] === 'long') : ?> 
+                    <p class="error">※7字で入力してください</p>
+                <?php endif; ?>
             </td>
         </tr>
             <tr><td>都道府県<select class="select_address" name="prefecture_code">
@@ -105,11 +105,11 @@ require_once('../app/controllers/CompaniesController.php');
                 value="<?php if (!empty($_POST['address'])) {
                         echo h($_POST['address']);
                        }?>">
-                    <?php if ($error['address']==='blank') : ?>
-                        <p class="error">※市区町村を入力してください</p>
-                    <?php elseif ($error['address']==='long') : ?>
-                        <p class="error">※100文字以内で入力してください</p>
-                    <?php endif; ?>
+                <?php if ($error['address']==='blank') : ?>
+                    <p class="error">※市区町村を入力してください</p>
+                <?php elseif ($error['address']==='long') : ?>
+                    <p class="error">※100文字以内で入力してください</p>
+                <?php endif; ?>
                 </td>
             </tr>
         <tr><th>メールアドレス</th> 
@@ -127,7 +127,7 @@ require_once('../app/controllers/CompaniesController.php');
                     <?php endif; ?>
             </td>
         </tr>
-        <tr><th>プレフィックス</th> 
+        <tr><th>プレフィックス<br><span class="advice">(半角英数字のみ)</span></th> 
             <td>
                 <input class="text_join" type="text" name="prefix"
                     value="<?php if (!empty($_POST['prefix'])) {

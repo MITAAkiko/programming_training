@@ -20,8 +20,9 @@ class QuotationController
         }
 
         //初期値
-        if (empty($get['order'])) {
-            $get['order']=1;
+        $order = 1;
+        if (!empty($get['order'])) {
+            $order = $get['order'];
         }
         $page = 1;
 
@@ -47,14 +48,15 @@ class QuotationController
         $page = min($page, $maxPage);
 
         //DBに接続する用意
+        //会社名を表示させる（見積がないときなど）
+        $company = $this->quoMdl->fetchCompanyNameById($get['id']);
+        
         //絞り込みあり
         if (!empty($get['search'])) {
             $quotations = $this->quoMdl->fetchDataSearched($get);
         } else {//絞り込みなし
             $quotations = $this->quoMdl->fetchDataById($get['id']);
         }
-        //会社名を表示させる（見積がないときなど）
-        $company = $this->quoMdl->fetchCompanyNameById($get['id']);
         //キーを用いた方（・・・as $key => $quotation){ $quo[$key]=[・・・]でも同様の結果
         foreach ($quotations as $quotation) {
             $quo[] = [
@@ -68,12 +70,8 @@ class QuotationController
                 "id" => $quotation['id']
             ];
         }
-        //idのない人を返す
-        if (empty($get['id']) || $get['id']=='') {
-            header('Location:../');
-            //exit();
-        }
-        //データがない時とあるときの処理
+
+        //データ数が０のときのデータ表示準備。データがない時とあるときの処理
         if (empty($quo)) {
             $quoCount = 0;
             $quo = null;
@@ -86,7 +84,7 @@ class QuotationController
             'page' => $page,
             'maxPage' => $maxPage,
             'quo' => $quo,
-            'order' => $get['order'],
+            'order' => $order,
         ];
     }
     public function add($get, $post)
@@ -95,6 +93,12 @@ class QuotationController
         if (!$check) {
             header('Location:../');
         }
+        
+        //会社名取得
+        if (!empty($get)) {
+            $company = $this->quoMdl->fetchCompanyNameById($get['id']);
+        }
+
         //エラーチェック
         function isError($err)
         {
@@ -175,20 +179,10 @@ class QuotationController
                 //exit();
             }
         }
-
-        //$get['id']ない時戻す
-        if (empty($get)) {
-            header('Location:../companies');
-            //exit();
-        }
-        //会社名取得
-        if (!empty($get)) {
-            $company = $this->quoMdl->fetchCompanyNameById($get['id']);
-        }
         return [
             'error' => $error,
             'company' => $company,
-            'isError' => $isError,
+            'isError' => $isError,//記入欄の選択項目のみリセットされるため、メッセージ残す。
         ];
     }
     public function edit($get, $post)
@@ -209,7 +203,7 @@ class QuotationController
         $quotation = $this->quoMdl->fetchDataByQuotationId($id);
         //バリデーションチェック
         //エラーチェック
-        function isError($err)
+        function isError2($err)
         {
             $nonerror=[
                 'title' => '',
@@ -270,7 +264,7 @@ class QuotationController
         }
 
         //エラーがある.ファンクションそのまま使えないから変数に代入
-        $isError = isError($error);
+        $isError = isError2($error);
         //エラーがあったときに状態をもう一度選択する促し
         if ($isError) {
             $error['status']='iserr';

@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+require_once('../../config.php');
 //モデルのファイルを読み込む
 require_once('../../app/models/InvoicesModel.php');
 use App\Models\InvoicesModel;
@@ -13,16 +14,17 @@ class InvoicesController
     {
         $this->invMdl = new InvoicesModel;
     }
-    public function index($get, $post = null)
+    public function index($get)
     {
+        //idチェック
         $check = $this->invMdl->checkId($get['id']);
         if (!$check) {
             header('Location:../');
         }
-        //初期値
         $page = 1;
-        if (empty($get['order'])) {
-            $get['order']=1;
+        $order = 1;
+        if (!empty($get['order'])) {
+            $order = $get['order'];
         }
         //maxPage
         if (!empty($get['search'])) {
@@ -48,18 +50,17 @@ class InvoicesController
         $start = ($page - 1) * 10;
 
         //DBに接続する用意
-        //絞り込みあり
-        if (!empty($get['search'])) {
-            if (($get['order'])>0) {
-                $invoices = $this->invMdl->fetchDataSearchedASC($get, $start);
-            } else {
+        if (!empty($get['search'])) {//絞り込みあり
+            if (ORDER[$order] === 'DESC') {
                 $invoices = $this->invMdl->fetchDataSearchedDESC($get, $start);
-            }
-        } else {
-            if (($get['order'])>0) {
-                $invoices = $this->invMdl->fetchDataASCById($get['id'], $start);
             } else {
+                $invoices = $this->invMdl->fetchDataSearchedASC($get, $start);
+            }
+        } else {//絞り込みなし
+            if (ORDER[$order] === 'DESC') {
                 $invoices = $this->invMdl->fetchDataDESCById($get['id'], $start);
+            } else {
+                $invoices = $this->invMdl->fetchDataASCById($get['id'], $start);
             }
         }
         //会社名を表示させる（見積がないときなど）
@@ -67,23 +68,26 @@ class InvoicesController
         //idのない人を返す
         if (empty($get['id']) || $get['id']=='') {
             header('Location:../');
-            //exit();
         }
         return [
             'maxPage' => $maxPage,
             'invoices' => $invoices,
             'company' => $company,
             'page' => $page,
-            'order' => $get['order']
+            'order' => $order,
         ];
     }
     public function add($get, $post)
     {
+        //idチェック
         $check = $this->invMdl->checkId($get['id']);
         if (!$check) {
             header('Location:../');
         }
-                //エラーチェック
+        //会社名取得
+        $company = $this->invMdl->fetchCompanyNameById($get['id']);
+
+        //エラーチェック
         function isError($err)
         {
             $nonerror=[
@@ -154,15 +158,13 @@ class InvoicesController
                 $error['status']='blank';
             }
         }
-
         //エラーがある.ファンクションそのまま使えないから変数に代入
         $isError = isError($error);
-
         //エラーがない時にデータベースに登録する
         if (!empty($post)) {
             if (!$isError) {
                 //id取得
-                $getid = $this->invMdl->fetchId($get['id']);
+                $getid = $this->invMdl->fetchId($get['id']);//データの個数をカウントして＋１
                 $invoiceId = str_pad($getid['getid'], 8, 0, STR_PAD_LEFT); // 8桁にする
                 $no = $post['prefix'].'-i-'.$invoiceId;//請求番号
                 //登録実行
@@ -171,13 +173,6 @@ class InvoicesController
             }
         }
 
-        //$get['id']ない時戻す
-        if (empty($get)) {
-            header('Location:../companies/');
-            // exit();
-        }
-        //会社名取得
-            $company = $this->invMdl->fetchCompanyNameById($get['id']);
         return [
             'error' => $error,
             'company' => $company,
