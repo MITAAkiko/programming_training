@@ -150,8 +150,8 @@ class InvoicesController
     {
         //idがない時はindex.phpに返す
         $check = $this->invMdl->checkId($get['cid']);
-        $check_invoice_id = $this->invMdl->checkInvoiceId($get['id']);
-        if (!$check || !$check_invoice_id) {
+        $checkInvoiceId = $this->invMdl->checkInvoiceId($get['id']);
+        if (!$check || !$checkInvoiceId) {
             header('Location:../');
         } else {
             $id = $get['id'];
