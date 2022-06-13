@@ -29,8 +29,9 @@ $order = $res['order'];
     <h2 class="home">請求一覧 <a href="../" class="btn">会社一覧へ戻る</a>
         <span class="company_name"><?php echo h($company['company_name']) ?></span></h2>
     <hr>
-    <a href="./make_invoice.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">請求作成</a>
+    
     <form action='./' method="get" href='./?id=<?php echo h($_GET['id']) ?>&search=<?php echo h($_GET['search']) ?>'><!--getにhrefいらない？自動で入力？-->
+    <a href="./make_invoice.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">請求作成</a>
         <input class="search_btn" type="submit" value="検索">
         <select class="text_search" name="search">
         <!--検索した後の初期値-->
@@ -45,7 +46,7 @@ $order = $res['order'];
         <input type='hidden' name='id' value="<?php echo h($_GET['id']) ?>" >
     </form>
     
-    <br><br>
+    <br>
     <table>
         <tr class="table_heading">
             <form action='index.php' method=get>

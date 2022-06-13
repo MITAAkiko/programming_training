@@ -53,7 +53,7 @@ require_once('../app/controllers/CompaniesController.php');
                 <?php endif; ?>
             </td>
         </tr>
-        <tr><th>電話番号</th> 
+        <tr><th>電話番号<br><span class="advice">(ハイフン不要)</span></th> 
             <td>
                 <input class="text_join" type="text" name="phone"
                     value="<?php if (!empty($_POST['phone'])) {
@@ -68,7 +68,7 @@ require_once('../app/controllers/CompaniesController.php');
                 <?php endif; ?>
             </td>
         </tr>
-        <tr><th rowspan="3">住所</th> 
+        <tr><th rowspan="3">住所<br><span class="advice">(〒ハイフン不要)</span></th> 
             <td>郵便番号 <input class="text_join_address" type="text" name="postal_code"
                 value="<?php if (!empty($_POST['postal_code'])) {
                         echo h($_POST['postal_code']);
@@ -127,7 +127,7 @@ require_once('../app/controllers/CompaniesController.php');
                     <?php endif; ?>
             </td>
         </tr>
-        <tr><th>プレフィックス</th> 
+        <tr><th>プレフィックス<br><span class="advice">(半角英数字のみ)</span></th> 
             <td>
                 <input class="text_join" type="text" name="prefix"
                     value="<?php if (!empty($_POST['prefix'])) {

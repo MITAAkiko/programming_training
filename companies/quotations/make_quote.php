@@ -62,7 +62,7 @@ $isError = $res['isError'];
                     <?php endif; ?>
             </td>
         </tr>
-        <tr><th>見積書有効期限</th> 
+        <tr><th>見積書有効期限<br><span class="advice">(例:20210525)</span></th> 
             <td>
                 <input class="text_join" type="text" name="period" 
                 value="<?php if (!empty($_POST['period'])) {
@@ -77,7 +77,7 @@ $isError = $res['isError'];
                     <?php endif; ?>
             </td>
         </tr>
-        <tr><th>納期</th> 
+        <tr><th>納期<br><span class="advice">(例:20210625)</span></th> 
             <td>
                 <input class="text_join" type="text" name="due" 
                 value="<?php if (!empty($_POST['due'])) {
@@ -88,7 +88,7 @@ $isError = $res['isError'];
                     <?php elseif ($error['due'] === 'time') : ?>
                         <p class="error">※見積書有効期限より後に設定してください</p>
                     <?php elseif ($error['due'] === 'type') : ?>
-                        <p class="error">※半角数字のみで入力してください（例:20210525）</p>
+                        <p class="error">※半角数字のみで入力してください（例:20210625）</p>
                     <?php elseif ($error['due']==='check_date') : ?>
                         <p class="error">※正しい日付を入力してください</p>
                     <?php endif; ?>
