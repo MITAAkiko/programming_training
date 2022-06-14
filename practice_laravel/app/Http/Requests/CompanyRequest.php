@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 class CompanyRequest extends FormRequest
 {
+    private $msg;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -17,7 +18,7 @@ class CompanyRequest extends FormRequest
     {
         return true;
     }
-
+    
     /**
      * Get the validation rules that apply to the request.
      *
@@ -37,17 +38,9 @@ class CompanyRequest extends FormRequest
         'prefix' => [new AlphaNumCheck()]//英数字チェック
         ];
     }
-    
     public function messages()
     {
-        return[
-            'required' => '入力してください',
-            'max' => ':max 文字で入力してください',
-            'integer' => '数字で入力してください',
-            'digits' => ':digits 桁の半角数字で入力してください',
-            'size' => ':size 文字で入力してください',
-            'email' => '正しく入力してください',
-            'digits_between' => '11桁以内で入力してください',
-        ];
+        $this->msg = new Messages;
+        return $this->msg->companyMessages();
     }
 }
