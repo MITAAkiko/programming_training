@@ -27,7 +27,7 @@ namespace App\Requests
         }
         public function length($value, $maxLength)
         {
-            if (strlen($value)>$maxLength) {
+            if (strlen($value) > $maxLength) {
                 return 'long';
             } else {
                 return '';
@@ -35,7 +35,7 @@ namespace App\Requests
         }
         public function digit($value, $length)
         {
-            if (strlen($value)!==$length) {
+            if (strlen($value) !== $length) {
                 return 'long';
             } else {
                 return '';
@@ -43,7 +43,7 @@ namespace App\Requests
         }
         public function size($value, $maxSize, $minSize)
         {
-            if ($value>$maxSize || $value<$minSize) {
+            if ($value > $maxSize || $value < $minSize) {
                 return 'size';
             } else {
                 return '';
@@ -51,7 +51,7 @@ namespace App\Requests
         }
         public function checkDate($value)
         {
-            if (strtotime($value)===false) {
+            if (strtotime($value) === false) {
                 return 'check_date';
             } else {
                 return '';
