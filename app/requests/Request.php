@@ -49,6 +49,22 @@ namespace App\Requests
                 return '';
             }
         }
+        public function checkDate($value)
+        {
+            if (strtotime($value)===false) {
+                return 'check_date';
+            } else {
+                return '';
+            }
+        }
+        public function compareDates($value1, $value2)
+        {
+            if ($value1 < $value2) {
+                return 'time';
+            } else {
+                return '';
+            }
+        }
         //項目のエラーチェック
         public function errors($errors)
         {

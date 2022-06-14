@@ -25,7 +25,7 @@ class QuotationsModel
         $check = $check -> fetch();
         return $check;
     }
-    //index
+    
     public function fetchMaxpageSearched($get)
     {
         $counts = $this->db->prepare('SELECT COUNT(*) AS cnt FROM quotations WHERE company_id=? AND deleted IS NULL AND status=?');
@@ -96,7 +96,7 @@ class QuotationsModel
         $getid = $getids->fetch();
         return $getid;
     }
-    public function create($id, $post, $due, $no)
+    public function create($id, $post, $no)
     {
         $statement = $this->db->prepare('INSERT INTO quotations 
             SET company_id=?,no=?,
@@ -107,7 +107,7 @@ class QuotationsModel
         $statement->bindParam(3, $post['title'], \PDO::PARAM_STR);
         $statement->bindParam(4, $post['total'], \PDO::PARAM_INT);
         $statement->bindParam(5, $post['period'], \PDO::PARAM_INT);
-        $statement->bindValue(6, $due, \PDO::PARAM_STR);
+        $statement->bindValue(6, $post['due'], \PDO::PARAM_STR);
         $statement->bindParam(7, $post['status'], \PDO::PARAM_INT);
         $statement->execute();
     }

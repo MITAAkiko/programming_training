@@ -69,23 +69,23 @@ $company = $res['company'];
                 } else {
                     echo h($company['phone_number']);
                 } ?>">
-                    <?php if ($error['phone']==='blank') : ?>
-                        <p class="error">※電話番号を入力してください</p>
-                    <?php elseif ($error['phone'] === 'type') :?>
-                        <p class="error">※半角数字で入力してください</p>
-                    <?php elseif ($error['phone'] === 'long') :?>
-                        <p class="error">※11字以内で入力してください</p>
-                    <?php endif; ?>
+                <?php if ($error['phone']==='blank') : ?>
+                    <p class="error">※電話番号を入力してください</p>
+                <?php elseif ($error['phone'] === 'type') :?>
+                    <p class="error">※半角数字で入力してください</p>
+                <?php elseif ($error['phone'] === 'long') :?>
+                    <p class="error">※11字以内で入力してください</p>
+                <?php endif; ?>
             </td>
         </tr>
         <tr><th rowspan="3">住所</th> 
             <td>郵便番号 <input class="text_join_address" type="text" name="postal_code" 
-            value="<?php
-            if (!empty($_POST['postal_code'])) {
-                echo h($_POST['postal_code']);
-            } else {
-                echo h($company['postal_code']);
-            } ?>">
+                value="<?php
+                if (!empty($_POST['postal_code'])) {
+                    echo h($_POST['postal_code']);
+                } else {
+                    echo h($company['postal_code']);
+                } ?>">
                 <?php if ($error['postal_code']==='blank') : ?>
                     <p class="error">※郵便番号を入力してください</p>
                 <?php elseif ($error['postal_code'] === 'type') : ?>
@@ -98,7 +98,7 @@ $company = $res['company'];
             <tr><td>都道府県<select class="select_address" name="prefecture_code">
                     <option value="<?php echo h($company['prefecture_code']); ?>"><?php echo PREFECTURES[h($company['prefecture_code'])] ?></option>
                     <?php foreach (PREFECTURES as $number => $value) : ?>
-                    <option value="<?php echo $number ?>"><?php echo $value ?></option>
+                        <option value="<?php echo $number ?>"><?php echo $value ?></option>
                     <?php endforeach; ?>
                     </select>
                     <?php if ($error['prefecture_code']==='blank') : ?>
@@ -113,12 +113,12 @@ $company = $res['company'];
                 </td>
             </tr>
             <tr><td>市区町村 <input class="text_join_address" type="text" name="address" 
-            value="<?php
-            if (!empty($_POST['address'])) {
-                echo h($_POST['address']);
-            } else {
-                echo h($company['address']);
-            } ?>">
+                value="<?php
+                if (!empty($_POST['address'])) {
+                    echo h($_POST['address']);
+                } else {
+                    echo h($company['address']);
+                } ?>">
                 <?php if ($error['address']==='blank') : ?>
                     <p class="error">※市区町村を入力してください</p>
                 <?php elseif ($error['address']==='long') : ?>

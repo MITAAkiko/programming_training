@@ -91,8 +91,7 @@ class CompaniesController
                 $this->cmpMdl->create($post);
                 header('Location:./');
                 //exit();
-            } else {
-                //エラーがあったとき、選択項目をもう一度選択してもらう
+            } else {//エラーがあったとき、選択項目をもう一度選択してもらう
                 if (empty($error['prefecture_code'])) {
                     $error['prefecture_code'] = 'error';
                 }
@@ -120,8 +119,7 @@ class CompaniesController
                 $this->cmpMdl->update($get['id'], $post);
                 header('Location:./');
                 //exit();
-            } else {
-                //エラーがあったとき、選択項目をもう一度選択してもらう
+            } else {//エラーがあったとき、選択項目をもう一度選択してもらう
                 $error['prefecture_code'] = 'error';
                 return [
                     'error' => $error,
