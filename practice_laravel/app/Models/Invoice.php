@@ -25,6 +25,7 @@ class Invoice extends Model
                 'id' => $data->id,
                 'company_name' => $data->company_name,
                 'manager_name' => $data->manager_name,
+                'prefix' => $data->prefix,
             ];
             return $company;
     }

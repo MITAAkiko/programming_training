@@ -30,4 +30,17 @@ class InvoiceController extends Controller
         }
         return view('invoices/index', compact('invoices', 'company', 'status', 'search', 'order'));
     }
+    public function add(Request $get)
+    {
+        $status = config('config.STATUSES');
+        $cid = $get -> input('id');
+        $company = $this -> invMdl -> fetchCompanyName($cid);
+        return view('invoices/add', compact('company', 'status'));
+    }
+
+    // public function addValidation(CompanyRequest $post)
+    // {
+    //     $this->cmpMdl->create($post->safe()->all());
+    //     return redirect('/index');//ただ画面に戻る場合はredirect
+    // }
 }
