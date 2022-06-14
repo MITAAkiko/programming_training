@@ -25,7 +25,7 @@ class QuotationsModel
         $check = $check -> fetch();
         return $check;
     }
-    //index
+    
     public function fetchMaxpageSearched($get)
     {
         $counts = $this->db->prepare('SELECT COUNT(*) AS cnt FROM quotations WHERE company_id=? AND deleted IS NULL AND status=?');

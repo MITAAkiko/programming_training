@@ -22,7 +22,6 @@ class QuotationController
         if (!$check) {
             header('Location:../');
         }
-
         //初期値
         $order = 1;
         if (!empty($get['order'])) {
@@ -33,7 +32,6 @@ class QuotationController
             $order2 = $get['order2'];
         }
         $page = 1;
-
         //maxPage(検索ありなしで分ける)
         if (!empty($get['search'])) {
             $cnt = $this->quoMdl->fetchMaxpageSearched($get);
@@ -86,7 +84,6 @@ class QuotationController
                 "id" => $quotation['id']
             ];
         }
-
         //データ数が０のときのデータ表示準備。データがない時とあるときの処理
         if (empty($quo)) {
             $quoCount = 0;
@@ -145,8 +142,8 @@ class QuotationController
     {
         //idがない時はindex.phpに返す
         $check = $this->quoMdl->checkId($get['cid']);
-        $check_quotation_id = $this->quoMdl->checkQuotationId($get['id']);
-        if (!$check || !$check_quotation_id) {
+        $checkQuotationId = $this->quoMdl->checkQuotationId($get['id']);
+        if (!$check || !$checkQuotationId) {
             header('Location:../');
         } else {
             $id = $get['id'];

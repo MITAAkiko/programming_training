@@ -63,7 +63,7 @@ namespace App\Requests
                 $this->blank($input),
                 $this->type($input, "/^[0-9]{8}$/"),
                 $this->checkDate($input),
-                $this->cfTime($input, $input2),//あっているか
+                $this->compareDates($input, $input2),
             ];
             $this->error['pay'] = $this->errors($errors);
             return $this->error['pay'];

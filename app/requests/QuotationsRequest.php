@@ -71,7 +71,7 @@ namespace App\Requests
                 $this->blank($input),
                 $this->checkDate($input),
                 $this->type($input, "/^[0-9]{8}$/"),
-                $this->cfTime($input, $input2),//あってるか
+                $this->compareDates($input, $input2),
             ];
             $this->error['due'] = $this->errors($errors);
             return $this->error['due'];

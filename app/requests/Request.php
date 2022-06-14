@@ -57,7 +57,7 @@ namespace App\Requests
                 return '';
             }
         }
-        public function cfTime($value1, $value2)
+        public function compareDates($value1, $value2)
         {
             if ($value1 < $value2) {
                 return 'time';
