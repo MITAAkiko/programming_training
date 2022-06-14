@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CompanyRequest;//バリデーションの設定
 use Illuminate\Http\Request;//getやpostを受け取れる
 use App\Models\Company;//モデル
+use Illuminate\Support\Facades\Log;
 
 class CompanyController extends Controller
 {

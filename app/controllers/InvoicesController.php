@@ -92,7 +92,7 @@ class InvoicesController
             }
         }
         //会社名を表示させる（見積がないときなど）
-        $company = $this -> invMdl -> fetchCompanyNameById($get['id']);
+        $company = $this->invMdl->fetchCompanyNameById($get['id']);
         //idのない人を返す
         if (empty($get['id']) || $get['id'] === '') {
             header('Location:../');
@@ -170,7 +170,7 @@ class InvoicesController
             //エラーがない時にデータベースに登録する
             if (!$isError) {
                 //登録実行
-                $this -> invMdl -> update($get['id'], $post);
+                $this -> invMdl -> update($id, $post);
                 header('Location:./?id='.$company['id']);
             } else {//エラーがあったとき、選択項目をもう一度選択してもらう
                 if (empty($error['status'])) {

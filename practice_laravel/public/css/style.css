@@ -134,13 +134,19 @@ table th ,table td{
     /*ボーダー見えるように*/
     border: 1.5px solid;
 }
+
 /*編集・削除ボタン*/
 .edit_delete{
+    font-size: 10px;
+    background-color: white;
+    border:none;
     /*下線を消す*/
     text-decoration: none;
     color: #EE0000;
 }
-
+.edit_delete:hover{
+ cursor: pointer;   
+}
 .error{
     color:#EE0000;
     font-size: 5px;
