@@ -15,7 +15,7 @@ require_once('../config.php');
 
 class CompaniesController
 {
-    //Model\CompaniesModelにつなぐための変数
+    //Modelにつなぐための変数（クラス外からアクセスできないようprivate）
     private $cmpMdl;
     private $cmpError;
     public function __construct()
@@ -34,7 +34,7 @@ class CompaniesController
         if (!empty($get['search'])) {
             $searched = '%' . addcslashes($get['search'], '%_\\') . '%';
             $cnt = $this->cmpMdl->fetchMaxPageSearched($searched);
-            $maxPage = ceil($cnt['cnt']/10);
+            $maxPage = ceil($cnt['cnt']/10);//切り上げ
         } else {
             $cnt = $this->cmpMdl->fetchMaxPage();
             $maxPage = ceil($cnt['cnt']/10);
@@ -57,6 +57,7 @@ class CompaniesController
         $start = ($page - 1) * 10;
 
         //DBに接続　検索・昇順降順
+        //モデルの中でif文を使いたくなかったので、ASC/DESCで分けて2パターン書いた？
         if (!empty($get['search'])) {//GETでおくる
             if ($order === 'DESC') {
                 $searched = '%' . addcslashes($get['search'], '%_\\') . '%' ;
@@ -135,9 +136,9 @@ class CompaniesController
     }
     public function delete($id)
     {
-        if (empty($id)) {
+        if (empty($id) || $id === '') {
             header('Location:./');
-        } elseif ($id === '') {
+        } elseif (!$this->cmpMdl->fetchDataById($id)) {
             header('Location:./');
         } else {
             $this->cmpMdl->delete($id);
