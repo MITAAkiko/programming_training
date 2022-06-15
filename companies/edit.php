@@ -145,7 +145,11 @@ $company = $res['company'];
             </td>
         </tr>
         <tr><th>プレフィックス</th> 
-            <td><?php echo h($company['prefix']); ?></td>
+            <td><?php echo h($company['prefix']); ?>
+                <?php if (!empty($error['prefix']) && $error['prefix'] !== '') : ?>
+                    <p class="error">※変更できません</p>
+                <?php endif; ?>
+            </td>
             <input type="hidden" name="prefix" value="<?php echo h($company['prefix']); ?>">
         </tr>
     </table>
