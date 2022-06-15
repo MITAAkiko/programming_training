@@ -13,7 +13,7 @@
     <div class="content_add">
     <div>
         <span class="title">請求書編集</span>
-        <a class="btn" href="./index?id={{ $_GET['id'] }}"">戻る</a>
+        <a class="btn" href="./index?id={{ $_GET['cid'] }}"">戻る</a>
     </div>
     <hr>
     <form action="" method="post">
