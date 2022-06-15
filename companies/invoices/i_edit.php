@@ -26,7 +26,10 @@ $isError = $res['isError'];
 <body>
 <main>
     <div class="content_add">
-    <div><span class="title">請求書編集</span><a class="btn" href="index.php?id=<?php echo h($company['id']) ?>">戻る</a></div>
+    <div>
+        <span class="title">請求書編集</span>
+        <a class="btn" href="index.php?id=<?php echo h($company['id']) ?>">戻る</a>
+    </div>
     <hr>
     <form action="" method="post">
         <table class="join_table">
