@@ -1,9 +1,9 @@
 <?php
 //見積作成画面
-require('../../dbconnect.php');
 require_once('../../config.php');
-require('../../functions.php');
-require_once('../../app/controllers/InvoicesController.php');
+require_once(HOME.'/dbconnect.php');
+require_once(HOME.'/functions.php');
+require_once(APP.'/controllers/InvoicesController.php');
 use App\Controllers\InvoicesController;
 
 $cmp = new InvoicesController;

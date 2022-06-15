@@ -1,10 +1,9 @@
 <?php
 //見積作成画面
-
-require('../../dbconnect.php');
 require_once('../../config.php');
-require('../../functions.php');
-require('../../app/controllers/QuotationsController.php');
+require_once(HOME.'/dbconnect.php');
+require_once(HOME.'/functions.php');
+require_once(APP.'/controllers/QuotationsController.php');
 use App\Controllers\QuotationController;
 
 $cmp = new QuotationController;

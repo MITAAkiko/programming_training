@@ -3,12 +3,12 @@ namespace App\Controllers;
 
 require_once('../../config.php');
 //モデルのファイルを読み込む
-require_once('../../app/models/InvoicesModel.php');
+require_once(APP.'/models/InvoicesModel.php');
 use App\Models\InvoicesModel;
 
 //リクエストのファイル読み込み
-require_once('../../app/requests/Request.php');
-require_once('../../app/requests/InvoicesRequest.php');
+require_once(APP.'/requests/Request.php');
+require_once(APP.'/requests/InvoicesRequest.php');
 use App\Requests\InvoicesRequest;
 
 class InvoicesController

@@ -1,9 +1,9 @@
 <?php
 
-require_once('../dbconnect.php');
 require_once('../config.php');
-require_once('../functions.php');
-require_once('../app/controllers/CompaniesController.php');
+require_once(HOME.'/dbconnect.php');
+require_once(HOME.'/functions.php');
+require_once(APP.'/controllers/CompaniesController.php');
 
  use App\Controllers\CompaniesController;
 

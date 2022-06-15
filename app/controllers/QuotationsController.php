@@ -1,12 +1,13 @@
 <?php
 namespace App\Controllers;
 
+require_once('../../config.php');
 //モデルのファイルを読み込む
-require_once('../../app/models/QuotationsModel.php');
+require_once(APP.'/models/QuotationsModel.php');
 use App\Models\QuotationsModel;
 
-require_once('../../app/requests/Request.php');
-require_once('../../app/requests/QuotationsRequest.php');
+require_once(APP.'/requests/Request.php');
+require_once(APP.'/requests/QuotationsRequest.php');
 use App\Requests\QuotationsRequest;
 
 class QuotationController

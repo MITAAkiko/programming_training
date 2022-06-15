@@ -1,17 +1,16 @@
 <?php
 namespace App\Controllers;
 
+//定数ファイル読み込み
+require_once('../config.php');
 //モデルのファイルを読み込む
- require_once('../app/models/CompaniesModel.php');
+ require_once(APP.'/models/CompaniesModel.php');
  use App\Models\CompaniesModel;
 
 //リクエストのファイル読み込み
-require_once('../app/requests/Request.php');
-require_once('../app/requests/CompaniesRequest.php');
+require_once(APP.'/requests/Request.php');
+require_once(APP.'/requests/CompaniesRequest.php');
 use App\Requests\CompaniesRequest;
-
-//定数ファイル読み込み
-require_once('../config.php');
 
 class CompaniesController
 {
