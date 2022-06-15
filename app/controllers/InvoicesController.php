@@ -64,13 +64,13 @@ class InvoicesController
         //DBに接続する用意
         if (!empty($get['search'])) {//絞り込みあり
             if (!empty($get['order2'])) {//日付で昇順降順指定あるか
-                if (ORDER[$order2] === 'DESC') {
+                if ($order2 === '-1') {
                     $invoices = $this->invMdl->fetchDataSearchedDayDESC($get, $start);
                 } else {
                     $invoices = $this->invMdl->fetchDataSearchedDayASC($get, $start);
                 }
             } else {//idで昇順降順指定あるか
-                if (ORDER[$order] === 'DESC') {
+                if ($order === '-1') {
                     $invoices = $this->invMdl->fetchDataSearchedDESC($get, $start);
                 } else {
                     $invoices = $this->invMdl->fetchDataSearchedASC($get, $start);
@@ -78,13 +78,13 @@ class InvoicesController
             }
         } else {//絞り込みなし
             if (!empty($get['order2'])) {//日付で昇順降順指定あるか
-                if (ORDER[$order2] === 'DESC') {
+                if ($order2 === '-1') {
                     $invoices = $this->invMdl->fetchDataDayDESCById($get['id'], $start);
                 } else {
                     $invoices = $this->invMdl->fetchDataDayASCById($get['id'], $start);
                 }
             } else {//idで昇順降順指定あるか
-                if (ORDER[$order] === 'DESC') {
+                if ($order === '-1') {
                     $invoices = $this->invMdl->fetchDataDESCById($get['id'], $start);
                 } else {
                     $invoices = $this->invMdl->fetchDataASCById($get['id'], $start);
