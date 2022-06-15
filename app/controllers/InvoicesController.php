@@ -193,9 +193,9 @@ class InvoicesController
     }
     public function delete($id, $cid)
     {
-        if (empty($cid) || empty($id)) {
+        if (empty($cid) || empty($id) || $id === '' || $cid === '') {
             header('Location:./');
-        } elseif ($id === '' || $cid === '') {
+        } elseif (!$this->invMdl->fetchDataById($id)) {
             header('Location:./');
         } else {
             //削除する

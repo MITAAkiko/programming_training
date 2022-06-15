@@ -184,9 +184,9 @@ class QuotationController
     }
     public function delete($id, $cid)
     {
-        if (empty($id) || empty($cid)) {
+        if (empty($id) || empty($cid) || $id === '' || $cid==='') {
             header('Location:./');
-        } elseif ($id === '' || $cid==='') {
+        } elseif (!$this->quoMdl->fetchDataById($id)) {
             header('Location:./');
         } else {
             //削除する
