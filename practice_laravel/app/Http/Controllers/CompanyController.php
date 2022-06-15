@@ -60,8 +60,10 @@ class CompanyController extends Controller
     //@methodを使った場合
     public function destroy(Request $post)
     {
-        $company = Company::find($post)->first();
-        $this->cmpMdl->deleteData($company['id']);
+        if (!$this->cmpMdl->fetchDataById($post['id'])) {
+            return redirect('/index');
+        }
+        $this->cmpMdl->deleteData($post['id']);
         return redirect('/index');
     }
 }
