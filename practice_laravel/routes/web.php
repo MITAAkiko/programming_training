@@ -26,9 +26,9 @@ Route::post('/edit/{id}', [CompanyController::class, 'editValidation']);
 
 Route::get('/index/{id}', [CompanyController::class, 'delete'])->name('delete');
 
-// Route::get('/quotations/index/{cid}', [QuotationController::class, 'index'])->name('index');
+//見積
 Route::get('/quotations/index', [QuotationController::class, 'index'])->name('q_index');
-
+//請求
 Route::get('/invoices/index', [InvoiceController::class, 'index'])->name('i_index');
 
 Route::get('/invoices/add', [InvoiceController::class, 'add'])->name('i_add');

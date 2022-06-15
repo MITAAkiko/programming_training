@@ -16,7 +16,7 @@
     </h2>
     <hr>
     
-    <form action='./' method="get" href='./?id={{ $_GET["id"] }}&search=<?php //echo $_GET['search'] ?>'>
+    <form action='./index' method="get">
     <a href="add?id={{ $_GET['id'] }}" class="long_btn">請求作成</a>
         <input class="search_btn" type="submit" value="検索">
         <select class="text_search" name="search">
@@ -35,13 +35,18 @@
     <br>
     <table>
         <tr class="table_heading">
-            <form action='index.php' method=get>
-                <input type='hidden' name='id = [' value="{{ $_GET['id'] }}">
-                @if (!empty($_GET['search']))
-                    <input type='hidden' name='search' value="{{ $_GET['search'] }}" >
-                @endif
-                <input type='hidden' name='order' value="{{ $order * -1 }}" >
+            <form action='./index' method=get>
                 <th class="no">請求番号　<input class="ascdesc" type="submit" value="▼"></th>
+                <input type='hidden' name='id' value="{{ $_GET['id'] }}">
+                @if ($order === 'DESC')
+                    <?php $order = 'ASC'; ?>
+                @else <!-- 初期設定 -->
+                    <?php $order = 'DESC'; ?>
+                @endif
+                <input type='hidden' name="order" value="{{$order}}">
+                @if (!empty($search))
+                    <input type='hidden' name="search" value="{{$search}}">
+                @endif
             </form>
             <th class="title">請求名</th><th class="manager">担当者名</th>
             <th class="total">金額</th><th class="pay">支払期限</th><th class="date">請求日</th>

@@ -22,7 +22,7 @@ class InvoiceController extends Controller
         $order = $get->input('order');
         $cid = $get -> input('id');
         $company = $this -> invMdl -> fetchCompanyName($cid);
-        if ($get->has('search')) {//検索あり
+        if ($get->has('search') && $get['search'] !== null) {//検索あり
             $invoices = $this -> invMdl -> fetchDataSearched($get, $order);
         } else {//検索なし
             $invoices = $this -> invMdl -> fetchData($cid, $order);
@@ -42,8 +42,7 @@ class InvoiceController extends Controller
         $getcount = $this->invMdl->fetchId($post['cid']);//データの個数をカウントして＋１
         $invoiceId = str_pad($getcount, 8, 0, STR_PAD_LEFT); // 8桁にする
         $no = $post['prefix'].'-i-'.$invoiceId;//請求番号
-        $this->invMdl->create($post['cid'], $no, $post->safe()->all());//postからセーフなものをとってくる
-        //return view('invoices/add');
+        $this->invMdl->create($post['cid'], $no, $post->safe()->all());//post→は、ポストからバリデーションされたものをとってくる
         return redirect('invoices/index?id='.$post['cid']);
     }
 }

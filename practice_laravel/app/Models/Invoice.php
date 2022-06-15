@@ -16,19 +16,14 @@ class Invoice extends Model
     }
     public function fetchId($id)//カウントして＋１
     {
-        // $getids = $this->db->prepare('SELECT count(*)+1 AS getid FROM invoices WHERE company_id = ?');//idを取得
-        // $getids->bindParam(1, $id, \PDO::PARAM_INT);
-        // $getids->execute();
-        // $getid = $getids->fetch();
         $getcount
         = DB::table('invoices')
         ->select(DB::raw('count(*)+1 as cnt'))
         ->where('company_id', $id)
-        //->groupBy('count')
         ->get()
         ->first()
         ;
-        return $getcount->cnt;
+        return $getcount->cnt;//配列ではなくオブジェクトとしてはいってくる。
     }
     public function fetchCompanyName($cid)
     {
@@ -64,7 +59,6 @@ class Invoice extends Model
             ->paginate(10)
             ;
         }
-        // $datas['manager_name'] = Invoice::find('id')->company->manager_name;
         return $datas;
     }
     public function fetchData($id, $order = null)
