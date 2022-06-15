@@ -66,8 +66,10 @@ require_once('../app/controllers/CompaniesController.php');
                 <td class="td"><?php echo h($company['company_name']);?></td>
                 <td class="td"><?php echo h($company['manager_name']);?></td>
                 <td class="td"><?php echo h($company['phone_number']);?></td>
-                <td class="td"><?php echo h($company['postal_code']);?><br>
-                <?php echo h(PREFECTURES[$company['prefecture_code']]).h($company['address']);?></td>
+                <td class="td">
+                    <?php echo h($company['postal_code']);?><br>
+                    <?php echo h(PREFECTURES[$company['prefecture_code']]).h($company['address']);?>
+                </td>
                 <td class="td"><?php echo h($company['mail_address']);?></td>
                 <td class="td"><a class="list_btn" href="quotations/index.php?id=<?php echo h($company['id']); ?>">見積一覧</a></td>
                 <td class="td"><a class="list_btn" href="invoices/index.php?id=<?php echo h($company['id']); ?>">請求一覧</a></td>
@@ -142,16 +144,13 @@ require_once('../app/controllers/CompaniesController.php');
         } ?>">&rsaquo;</a></span>
     <?php endif; ?>
 </div>
-
 </main>
-
 <script>
     function cfm(){
         return confirm('本当に削除しますか');
-}
+    }
 </script>
 </body>
-
 </html>
 
 

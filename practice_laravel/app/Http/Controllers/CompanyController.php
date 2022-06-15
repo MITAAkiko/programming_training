@@ -61,6 +61,7 @@ class CompanyController extends Controller
     public function destroy(Request $post)
     {
         if (!$this->cmpMdl->fetchDataById($post['id'])) {
+            Log::debug('Attempted to delete with incorrect ID. id:'.$post['id']);
             return redirect('/index');
         }
         $this->cmpMdl->deleteData($post['id']);
