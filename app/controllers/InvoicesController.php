@@ -27,6 +27,18 @@ class InvoicesController
         if (!$check) {
             header('Location:../');
         }
+        //ステータス正しいかチェック
+        if (!empty($get['search']) && sttnum($get['search']) === null) {
+            header('Location:./?id='.$get['id']);
+        }
+        //オーダー正しいか
+        if (!empty($get['order']) && ordnum($get['order']) === null) {
+            header('Location:./?id='.$get['id']);
+        }
+        //オーダー2正しいか
+        if (!empty($get['order2']) && ordnum($get['order2']) === null) {
+            header('Location:./?id='.$get['id']);
+        }
         //昇順降順
         $page = 1;
         $order = 1;
@@ -93,10 +105,7 @@ class InvoicesController
         }
         //会社名を表示させる（見積がないときなど）
         $company = $this->invMdl->fetchCompanyNameById($get['id']);
-        //idのない人を返す
-        if (empty($get['id']) || $get['id'] === '') {
-            header('Location:../');
-        }
+
         return [
             'maxPage' => $maxPage,
             'invoices' => $invoices,
