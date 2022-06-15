@@ -33,7 +33,7 @@ Route::get('/quotations/index', [QuotationController::class, 'index']);
 Route::get('/quotations/add', [QuotationController::class, 'add']);
 Route::post('/quotations/add', [QuotationController::class, 'addValidation']);
 
-// Route::get('quotations/edit', [QuotationController::class, 'edit']);
+Route::get('quotations/edit', [QuotationController::class, 'edit']);
 // Route::post('quotations/edit', [QuotationController::class, 'editValidation']);
 
 // Route::post('quotations/delete', [QuotationController::class, 'delete']);

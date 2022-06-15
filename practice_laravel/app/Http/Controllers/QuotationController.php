@@ -46,4 +46,13 @@ class QuotationController extends Controller
         $this->quoMdl->create($post['cid'], $quono, $post->safe()->all());
         return redirect('quotations/index?id='.$post['cid']);
     }
+    public function edit(Request $get)
+    {
+        $status = config('config.STATUSES');
+        $cid = $get->input('cid');
+        $id = $get->input('id');
+        $company = $this->quoMdl->fetchCompanyName($cid);
+        $data = $this->quoMdl->fetchDataById($cid, $id);
+        return view('quotations/edit', compact('company', 'status', 'data'));
+    }
 }
