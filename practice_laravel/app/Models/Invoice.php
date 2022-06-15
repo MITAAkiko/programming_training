@@ -121,4 +121,13 @@ class Invoice extends Model
         ])
         ;
     }
+    public function deleteData($id)
+    {
+        DB::table('invoices')
+        ->where('id', $id)
+        ->update([
+            'deleted' => NOW()
+        ])
+        ;
+    }
 }

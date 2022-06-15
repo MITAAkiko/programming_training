@@ -59,4 +59,10 @@ class InvoiceController extends Controller
         $this->invMdl->updateData($post['cid'], $post['id'], $post->safe()->all());//post→は、ポストからバリデーションされたものをとってくる
         return redirect('invoices/index?id='.$post['cid']);
     }
+    public function delete(Request $post)
+    {
+        $id = $post->input('id');
+        $this->invMdl->deleteData($id);
+        return redirect('invoices/index?id='.$post['cid']);
+    }
 }

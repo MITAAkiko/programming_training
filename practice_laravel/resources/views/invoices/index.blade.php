@@ -65,11 +65,12 @@
                 <td class="td">{{ $invoice['quotation_no'] }}</td>
                 <td class="td">{{ $status[$invoice['status']] }}</td>
                 <td class="td"><a class="edit_delete" href="./edit?id={{ $invoice['id'] }}&cid={{ $company['id'] }}">編集</a></td>
-                <form action='i_delete.php' method=post>
+                <form action='./delete' method=post>
+                    @csrf
                     <td class="td">
                         <a href="i_delete.php"><input type='submit' class="edit_delete" onclick="return cfm()" value='削除'></a>
                         <input type='hidden' name='cid' value="{{ $company['id'] }}">
-                        <input type='hidden' name='delete_id' value="{{ $invoice['id'] }}">
+                        <input type='hidden' name='id' value="{{ $invoice['id'] }}">
                     </td>
                 </form>
             </tr>
