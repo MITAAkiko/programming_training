@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Invoice;//リレーションでつかう？
+use App\Models\Quotation;
 
 class Company extends Model
 {
@@ -13,6 +14,10 @@ class Company extends Model
     public function invoices()//1対多リレーション（１）
     {
         return $this->hasMany(Invoice::class);
+    }
+    public function quotations()//1対多リレーション（１）
+    {
+        return $this->hasMany(Quotation::class);
     }
     public function fetchDatas($order = null)
     {

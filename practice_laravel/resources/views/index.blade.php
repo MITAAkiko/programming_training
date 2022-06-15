@@ -50,7 +50,7 @@
           {{ $prefecture[$data["prefecture_code"]].($data['address']) }}
         </td>
         <td class="td">{{ ($data['mail_address']) }}</td>
-        <td class="td"><a class="list_btn" href="">見積(仮)</a></td>
+        <td class="td"><a class="list_btn" href="./quotations/index?id={{ ($data['id']) }}">見積一覧</a></td>
         <td class="td"><a class="list_btn" href="./invoices/index?id={{ ($data['id']) }}">請求一覧</a></td>
         <td class="td"><a class="edit_delete" href="{{ route('edit', ['id' => $data['id']]) }}">編集</a></td>
         <td class="td">
