@@ -24,8 +24,8 @@ Route::post('/add', [CompanyController::class, 'addValidation']);
 Route::get('/edit/{id}', [CompanyController::class, 'edit'])->name('edit');
 Route::post('/edit/{id}', [CompanyController::class, 'editValidation']);
 
-//Route::post('/index', [CompanyController::class, 'delete'])->name('delete');
-Route::post('/delete', [CompanyController::class, 'delete'])->name('delete');
+//Route::post('/delete', [CompanyController::class, 'delete'])->name('delete');
+Route::delete('/delete', [CompanyController::class, 'destroy'])->name('delete');
 
 //見積
 Route::get('/quotations/index', [QuotationController::class, 'index']);
