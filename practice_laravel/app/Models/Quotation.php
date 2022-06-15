@@ -67,4 +67,29 @@ class Quotation extends Model
         }
         return $datas;
     }
+    public function fetchId($id)//カウントして＋１
+    {
+        $getcount
+        = DB::table('quotations')
+        ->select(DB::raw('count(*)+1 as cnt'))
+        ->where('company_id', $id)
+        ->get()
+        ->first()
+        ;
+        return $getcount->cnt;//配列ではなくオブジェクトとしてはいってくる。
+    }
+    public function create($cid, $quono, $value)
+    {
+        DB::table('quotations')->insert([
+            'company_id' => $cid,
+            'no' => $quono,
+            'title' => $value['title'],
+            'total' => $value['total'],
+            'validity_period' => $value['period'],
+            'due_date' => $value['due'],
+            'status' => $value['status'],
+            'created' => NOW(),
+            'modified' => NOW(),
+        ]);
+    }
 }

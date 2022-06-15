@@ -31,7 +31,7 @@ Route::post('/delete', [CompanyController::class, 'delete'])->name('delete');
 Route::get('/quotations/index', [QuotationController::class, 'index']);
 
 Route::get('/quotations/add', [QuotationController::class, 'add']);
-// Route::post('/quotations/add', [QuotationController::class, 'addValidation']);
+Route::post('/quotations/add', [QuotationController::class, 'addValidation']);
 
 // Route::get('quotations/edit', [QuotationController::class, 'edit']);
 // Route::post('quotations/edit', [QuotationController::class, 'editValidation']);

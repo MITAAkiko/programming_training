@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 // use App\Http\Requests\CompanyRequest;//バリデーションの設定
+
+use App\Http\Requests\QuotationRequest;
 use Illuminate\Http\Request;//getやpostを受け取れる
 use App\Models\Quotation;//モデル
 
@@ -35,5 +37,13 @@ class QuotationController extends Controller
         $cid = $get->input('id');
         $company = $this->quoMdl->fetchCompanyName($cid);
         return view('quotations/add', compact('company', 'status'));
+    }
+    public function addValidation(QuotationRequest $post)
+    {
+        $getcount = $this->quoMdl->fetchId($post['cid']);//データの個数をカウントして＋１
+        $quoId = str_pad($getcount, 8, 0, STR_PAD_LEFT);// 8桁にする
+        $quono = $post['prefix'].'-q-'.$quoId;
+        $this->quoMdl->create($post['cid'], $quono, $post->safe()->all());
+        return redirect('quotations/index?id='.$post['cid']);
     }
 }
