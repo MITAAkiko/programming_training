@@ -117,4 +117,13 @@ class Quotation extends Model
         ])
         ;
     }
+    public function deleteData($id)
+    {
+        DB::table('quotations')
+        ->where('id', $id)
+        ->update([
+            'deleted' => NOW()
+        ])
+        ;
+    }
 }

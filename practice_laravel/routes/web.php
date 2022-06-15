@@ -36,7 +36,7 @@ Route::post('/quotations/add', [QuotationController::class, 'addValidation']);
 Route::get('quotations/edit', [QuotationController::class, 'edit']);
 Route::post('quotations/edit', [QuotationController::class, 'editValidation']);
 
-// Route::post('quotations/delete', [QuotationController::class, 'delete']);
+Route::post('quotations/delete', [QuotationController::class, 'delete']);
 
 //請求
 Route::get('/invoices/index', [InvoiceController::class, 'index']);

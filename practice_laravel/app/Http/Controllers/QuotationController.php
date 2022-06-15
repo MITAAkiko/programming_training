@@ -60,4 +60,10 @@ class QuotationController extends Controller
         $this->quoMdl->updateData($post['id'], $post->safe()->all());//post→は、ポストからバリデーションされたものをとってくる
         return redirect('quotations/index?id='.$post['cid']);
     }
+    public function delete(Request $post)
+    {
+        $id = $post->input('id');
+        $this->quoMdl->deleteData($id);
+        return redirect('quotations/index?id='.$post['cid']);
+    }
 }
