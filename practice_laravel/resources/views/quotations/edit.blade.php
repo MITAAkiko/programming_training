@@ -11,9 +11,13 @@
 <body>
 <main>
     <div class="content_add">
-    <div><span class="title">見積書編集</span><a class="btn" href="./index?id={{ $_GET['cid'] }}">戻る</a></div>
+    <div>
+        <span class="title">見積書編集</span>
+        <a class="btn" href="./index?id={{ $_GET['cid'] }}">戻る</a>
+    </div>
     <hr>
     <form action="" method="post">
+    @csrf
         <table class="join_table">
             <tr><th>見積番号</th> 
                     <td>{{ $data['no'] }}</td>
@@ -78,6 +82,8 @@
         </table>
         <hr>
         <input type="submit" value="変更" class="long_btn">
+        <input type="hidden" name="cid" value="{{$company['id']}}">
+        <input type="hidden" name="id" value="{{$_GET['id']}}">
     </form>
     </div>
 </main>

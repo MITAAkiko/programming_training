@@ -55,4 +55,9 @@ class QuotationController extends Controller
         $data = $this->quoMdl->fetchDataById($cid, $id);
         return view('quotations/edit', compact('company', 'status', 'data'));
     }
+    public function editValidation(QuotationRequest $post)
+    {
+        $this->quoMdl->updateData($post['id'], $post->safe()->all());//post→は、ポストからバリデーションされたものをとってくる
+        return redirect('quotations/index?id='.$post['cid']);
+    }
 }

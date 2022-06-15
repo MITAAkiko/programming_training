@@ -103,4 +103,18 @@ class Quotation extends Model
         ;
         return $quotation;
     }
+    public function updateData($id, $value)
+    {
+        DB::table('quotations')
+        ->where('id', $id)
+        ->update([
+            'title' => $value['title'],
+            'total' => $value['total'],
+            'validity_period' => $value['period'],
+            'due_date' => $value['due'],
+            'status' => $value['status'],
+            'modified' => NOW()
+        ])
+        ;
+    }
 }

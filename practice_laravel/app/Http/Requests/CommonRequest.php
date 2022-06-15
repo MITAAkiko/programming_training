@@ -35,7 +35,7 @@ class CommonRequest extends FormRequest
             'digits' => ':digits 桁の半角数字で入力してください',
             'size' => ':size 文字で入力してください',
             'email' => '正しく入力してください',
-            'digits_between' => '11桁以内で入力してください',
+            'digits_between' => ':max 桁以内の半角数字で入力してください',
             'after' => '日付を確認してください'
         ];
     }
