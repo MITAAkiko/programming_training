@@ -54,10 +54,5 @@ define('STATUSES', [
     '9' => '破棄'
 ]);
 
-define('ORDER', [
-    1 => 'ASC',
-    -1 => 'DESC'
-]);
-
 define('APP', '/var/www/html/training/programming_training/app');
 define('HOME', '/var/www/html/training/programming_training');
