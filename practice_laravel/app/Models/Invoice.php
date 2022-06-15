@@ -14,6 +14,22 @@ class Invoice extends Model
     {
         return $this->belongsTo(Company::class);
     }
+    public function fetchId($id)//カウントして＋１
+    {
+        // $getids = $this->db->prepare('SELECT count(*)+1 AS getid FROM invoices WHERE company_id = ?');//idを取得
+        // $getids->bindParam(1, $id, \PDO::PARAM_INT);
+        // $getids->execute();
+        // $getid = $getids->fetch();
+        $getcount
+        = DB::table('invoices')
+        ->select(DB::raw('count(*)+1 as cnt'))
+        ->where('company_id', $id)
+        //->groupBy('count')
+        ->get()
+        ->first()
+        ;
+        return $getcount->cnt;
+    }
     public function fetchCompanyName($cid)
     {
         $data //= new Company;
@@ -70,5 +86,20 @@ class Invoice extends Model
         }
 
         return $datas;
+    }
+    public function create($cid, $no, $value)
+    {
+        DB::table('invoices')->insert([
+            'company_id' => $cid,
+            'no' => $no,
+            'title' => $value['title'],
+            'total' => $value['total'],
+            'payment_deadline' => $value['pay'],
+            'date_of_issue' => $value['date'],
+            'quotation_no' => $value['quo'],
+            'status' => $value['status'],
+            'created' => NOW(),
+            'modified' => NOW()
+        ]);
     }
 }

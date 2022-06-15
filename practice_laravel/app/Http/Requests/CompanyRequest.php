@@ -3,12 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Rules\AlphaNumCheck;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Validator;
 
-class CompanyRequest extends FormRequest
+class CompanyRequest extends CommonRequest//孫クラス
 {
-    private $msg;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -34,13 +31,7 @@ class CompanyRequest extends FormRequest
         'prefecture_code' => 'required|max:47|min:1',//エラー文字登録していない
         'address' => 'required|max:100',
         'email' => 'required|email:rfc,dns',
-        'prefix' => 'required|max:16',
-        'prefix' => [new AlphaNumCheck()]//英数字チェック
+        'prefix' => ['required', 'max:16', new AlphaNumCheck]//英数字チェック
         ];
-    }
-    public function messages()
-    {
-        $this->msg = new Messages;
-        return $this->msg->companyMessages();
     }
 }

@@ -30,7 +30,9 @@ Route::get('/index/{id}', [CompanyController::class, 'delete'])->name('delete');
 Route::get('/quotations/index', [QuotationController::class, 'index'])->name('q_index');
 
 Route::get('/invoices/index', [InvoiceController::class, 'index'])->name('i_index');
+
 Route::get('/invoices/add', [InvoiceController::class, 'add'])->name('i_add');
+Route::post('/invoices/add', [InvoiceController::class, 'addValidation']);
 
 Route::get('/', function () {
     return view('welcome');

@@ -17,7 +17,7 @@
     <hr>
     
     <form action='./' method="get" href='./?id={{ $_GET["id"] }}&search=<?php //echo $_GET['search'] ?>'>
-    <a href="./add?id={{ $_GET['id'] }}" class="long_btn">請求作成</a>
+    <a href="add?id={{ $_GET['id'] }}" class="long_btn">請求作成</a>
         <input class="search_btn" type="submit" value="検索">
         <select class="text_search" name="search">
             <!--検索した後の初期値-->
