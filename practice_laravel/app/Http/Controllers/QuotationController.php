@@ -29,4 +29,11 @@ class QuotationController extends Controller
         }
         return view('quotations/index', compact('quotations', 'company', 'status', 'search', 'order'));
     }
+    public function add(Request $get)
+    {
+        $status = config('config.STATUSES');
+        $cid = $get->input('id');
+        $company = $this->quoMdl->fetchCompanyName($cid);
+        return view('quotations/add', compact('company', 'status'));
+    }
 }
