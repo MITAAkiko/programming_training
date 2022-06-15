@@ -24,7 +24,8 @@ Route::post('/add', [CompanyController::class, 'addValidation']);
 Route::get('/edit/{id}', [CompanyController::class, 'edit'])->name('edit');
 Route::post('/edit/{id}', [CompanyController::class, 'editValidation']);
 
-Route::get('/index/{id}', [CompanyController::class, 'delete'])->name('delete');
+//Route::post('/index', [CompanyController::class, 'delete'])->name('delete');
+Route::post('/delete', [CompanyController::class, 'delete'])->name('delete');
 
 //見積
 Route::get('/quotations/index', [QuotationController::class, 'index'])->name('q_index');
@@ -36,6 +37,8 @@ Route::post('/invoices/add', [InvoiceController::class, 'addValidation']);
 
 Route::get('invoices/edit', [InvoiceController::class, 'edit'])->name('edit');
 Route::post('invoices/edit', [InvoiceController::class, 'editValidation']);
+
+//Route::post('invoices/index', [QuotationController::class, 'delete'])->name('i_delete');
 
 Route::get('/', function () {
     return view('welcome');

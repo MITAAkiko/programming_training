@@ -49,8 +49,12 @@ class CompanyController extends Controller
         $this->cmpMdl->updateData($id, $post->safe()->all());
         return redirect('/index');
     }
-    public function delete($id)
+    public function delete(Request $post)
     {
+        // $post = Post::find($id);
+        // $post->deleteData();
+        // return redirect()->route('posts.index');
+        $id = $post->input('id');
         $this->cmpMdl->deleteData($id);
         return redirect('/index');
     }
