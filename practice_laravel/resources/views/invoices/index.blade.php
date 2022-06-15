@@ -64,7 +64,7 @@
                 <td class="td">{{ str_replace('-', '/', $invoice['date_of_issue']) }}</td>
                 <td class="td">{{ $invoice['quotation_no'] }}</td>
                 <td class="td">{{ $status[$invoice['status']] }}</td>
-                <td class="td"><a class="edit_delete" href="i_edit.php?id={{ $invoice['id'] }}&cid={{ $company['id'] }}">編集</a></td>
+                <td class="td"><a class="edit_delete" href="./edit?id={{ $invoice['id'] }}&cid={{ $company['id'] }}">編集</a></td>
                 <form action='i_delete.php' method=post>
                     <td class="td">
                         <a href="i_delete.php"><input type='submit' class="edit_delete" onclick="return cfm()" value='削除'></a>

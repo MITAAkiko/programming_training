@@ -34,6 +34,8 @@ Route::get('/invoices/index', [InvoiceController::class, 'index'])->name('i_inde
 Route::get('/invoices/add', [InvoiceController::class, 'add'])->name('i_add');
 Route::post('/invoices/add', [InvoiceController::class, 'addValidation']);
 
+Route::get('invoices/edit', [InvoiceController::class, 'edit'])->name('edit');
+
 Route::get('/', function () {
     return view('welcome');
 });

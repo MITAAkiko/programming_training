@@ -20,20 +20,20 @@ class InvoiceController extends Controller
         $search = null;
         $search = $get->input('search');
         $order = $get->input('order');
-        $cid = $get -> input('id');
-        $company = $this -> invMdl -> fetchCompanyName($cid);
+        $cid = $get->input('id');
+        $company = $this->invMdl->fetchCompanyName($cid);
         if ($get->has('search') && $get['search'] !== null) {//検索あり
-            $invoices = $this -> invMdl -> fetchDataSearched($get, $order);
+            $invoices = $this->invMdl->fetchDataSearched($get, $order);
         } else {//検索なし
-            $invoices = $this -> invMdl -> fetchData($cid, $order);
+            $invoices = $this->invMdl->fetchData($cid, $order);
         }
         return view('invoices/index', compact('invoices', 'company', 'status', 'search', 'order'));
     }
     public function add(Request $get)
     {
         $status = config('config.STATUSES');
-        $cid = $get -> input('id');
-        $company = $this -> invMdl -> fetchCompanyName($cid);
+        $cid = $get->input('id');
+        $company = $this->invMdl->fetchCompanyName($cid);
         return view('invoices/add', compact('company', 'status'));
     }
 
@@ -44,5 +44,14 @@ class InvoiceController extends Controller
         $no = $post['prefix'].'-i-'.$invoiceId;//請求番号
         $this->invMdl->create($post['cid'], $no, $post->safe()->all());//post→は、ポストからバリデーションされたものをとってくる
         return redirect('invoices/index?id='.$post['cid']);
+    }
+    public function edit(Request $get)
+    {
+        $status = config('config.STATUSES');
+        $cid = $get->input('cid');
+        $id = $get->input('id');
+        $company = $this->invMdl->fetchCompanyName($cid);
+        $data = $this->invMdl->fetchDataById($cid, $id);
+        return view('invoices/edit', compact('company', 'status', 'data'));
     }
 }

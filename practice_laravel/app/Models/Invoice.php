@@ -27,18 +27,17 @@ class Invoice extends Model
     }
     public function fetchCompanyName($cid)
     {
-        $data //= new Company;
-        = DB::table('companies')
+        $data = DB::table('companies')
             ->where('id', $cid)
             ->first()
             ;
-            $company = [
-                'id' => $data->id,
-                'company_name' => $data->company_name,
-                'manager_name' => $data->manager_name,
-                'prefix' => $data->prefix,
-            ];
-            return $company;
+        $company = [
+            'id' => $data->id,
+            'company_name' => $data->company_name,
+            'manager_name' => $data->manager_name,
+            'prefix' => $data->prefix,
+        ];
+        return $company;
     }
     public function fetchDataSearched($get, $order = null)
     {
@@ -78,7 +77,6 @@ class Invoice extends Model
             ->paginate(10)
             ;
         }
-
         return $datas;
     }
     public function create($cid, $no, $value)
@@ -95,5 +93,16 @@ class Invoice extends Model
             'created' => NOW(),
             'modified' => NOW()
         ]);
+    }
+    public function fetchDataById($cid, $id)
+    {
+        $data = new Invoice;
+        $invoice = $data
+        ->where('company_id', $cid)
+        ->where('id', $id)
+        ->get()
+        ->first()
+        ;
+        return $invoice;
     }
 }
