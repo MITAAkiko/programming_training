@@ -17,6 +17,7 @@
     </div>
     <hr>
     <form action="" method="post">
+    @csrf
         <table class="join_table">
             <tr><th>請求番号</th> 
                 <td>{{ $data['no'] }}</td>
@@ -49,7 +50,7 @@
                     @if (!empty(old('pay')))
                         <input class="text_join" type="text" name="pay" value="{{ old('pay') }}">
                     @else
-                        <input class="text_join" type="text"name="pay" value="{{ $data['payment_deadline'] }}">
+                        <input class="text_join" type="text"name="pay" value="{{ str_replace('-', '', $data['payment_deadline']) }}">
                     @endif
                     <p class="error">{{ $errors->first('pay') }}</p>
                 </td>
@@ -59,7 +60,7 @@
                     @if (!empty(old('date')))
                         <input class="text_join" type="text" name="date" value="{{ old('date') }}">
                     @else
-                        <input class="text_join" type="text"name="date" value="{{ $data['date_of_issue'] }}">
+                        <input class="text_join" type="text"name="date" value="{{ str_replace('-', '', $data['date_of_issue']) }}">
                     @endif
                     <p class="error">{{ $errors->first('date') }}</p>
                 </td>
@@ -69,18 +70,24 @@
                 <input type='hidden' name='quo' value="{{ $data['quotation_no'] }}">
             </tr>
             <tr><th>状態</th>
-            <td><select class="select_status" name="status">
+                <td><select class="select_status" name="status">
                         <option value="{{ $data['status'] }}">{{ $status[$data['status']] }}</option>
                         @foreach ($status as $number => $value)
                             <option value="{{ $number }}">{{ $value }}</option>
                         @endforeach
                     </select>
-                    <p class="error">{{ $errors->first('status') }}</p>
-            </td>
+                    @if (!empty($errors->first('status')))
+                        <p class="error">{{ $errors->first('status') }}</p>
+                    @elseif ($errors->any()) <!--エラーメッセージがあればtrue、なければfalseを戻します。-->
+                        <p class="error">変更の場合もう一度選択してください</p>
+                    @endif
+                </td>
             </tr>
         </table>
         <hr>
         <input type="submit" value="変更" class="long_btn">
+        <input type="hidden" name="cid" value="{{$company['id']}}">
+        <input type="hidden" name="id" value="{{$_GET['id']}}">
     </form>
     </div>
 </main>

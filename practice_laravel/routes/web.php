@@ -35,6 +35,7 @@ Route::get('/invoices/add', [InvoiceController::class, 'add'])->name('i_add');
 Route::post('/invoices/add', [InvoiceController::class, 'addValidation']);
 
 Route::get('invoices/edit', [InvoiceController::class, 'edit'])->name('edit');
+Route::post('invoices/edit', [InvoiceController::class, 'editValidation']);
 
 Route::get('/', function () {
     return view('welcome');

@@ -54,4 +54,9 @@ class InvoiceController extends Controller
         $data = $this->invMdl->fetchDataById($cid, $id);
         return view('invoices/edit', compact('company', 'status', 'data'));
     }
+    public function editValidation(InvoiceRequest $post)
+    {
+        $this->invMdl->updateData($post['cid'], $post['id'], $post->safe()->all());//post→は、ポストからバリデーションされたものをとってくる
+        return redirect('invoices/index?id='.$post['cid']);
+    }
 }

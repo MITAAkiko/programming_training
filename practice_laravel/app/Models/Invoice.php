@@ -105,4 +105,20 @@ class Invoice extends Model
         ;
         return $invoice;
     }
+    public function updateData($cid, $id, $value)
+    {
+        DB::table('invoices')
+        ->where('company_id', $cid)
+        ->where('id', $id)
+        ->update([
+            'title' => $value['title'],
+            'total' => $value['total'],
+            'payment_deadline' => $value['pay'],
+            'date_of_issue' => $value['date'],
+            'quotation_no' => $value['quo'],
+            'status' => $value['status'],
+            'modified' => NOW()
+        ])
+        ;
+    }
 }
