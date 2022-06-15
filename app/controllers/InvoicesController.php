@@ -61,6 +61,7 @@ class InvoicesController
         //page
         if (!empty($get['page'])) {
             $page = $get['page'];
+            $page = mb_convert_kana($page, "n");
             if ($page === '') {
                 $page = 1;
             }

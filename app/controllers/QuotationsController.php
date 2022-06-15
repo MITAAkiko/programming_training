@@ -57,6 +57,7 @@ class QuotationController
         //page
         if (!empty($get['page'])) {
             $page = $get['page'];
+            $page = mb_convert_kana($page, "n");//ページが半角全角混ざるとエラーになるので、全て半角に
             if ($page === '') {
                 $page = 1;
             }

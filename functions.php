@@ -13,6 +13,7 @@ function sttnum($value)
         return $value = null;
     }
 }
+//昇順降順の入力値があっているか
 function ordnum($value)
 {
     if ($value === '1' || $value === '-1') {
