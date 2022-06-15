@@ -26,7 +26,10 @@ $isError = $res['isError'];
 <body>
 <main>
     <div class="content_add">
-    <div><span class="title">請求書編集</span><a class="btn" href="index.php?id=<?php echo h($company['id']) ?>">戻る</a></div>
+    <div>
+        <span class="title">請求書編集</span>
+        <a class="btn" href="index.php?id=<?php echo h($company['id']) ?>">戻る</a>
+    </div>
     <hr>
     <form action="" method="post">
         <table class="join_table">
@@ -105,7 +108,11 @@ $isError = $res['isError'];
                 </td>
             </tr>
             <tr><th>見積番号</th> 
-                <td><?php echo h($invoice['quotation_no']) ?></td>
+                <td><?php echo h($invoice['quotation_no']) ?>
+                    <?php if (!empty($error['quo']) && $error['quo'] !== '') : ?>
+                        <p class="error">※変更できません</p>
+                    <?php endif; ?>
+                </td>
                 <input type='hidden' name='quo' value='<?php echo h($invoice['quotation_no']) ?>'>
             </tr>
             <tr><th>状態</th>

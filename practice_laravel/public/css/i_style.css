@@ -1,0 +1,56 @@
+.home{
+    margin: 20px 0px;
+}
+.no{
+    width: 10%;
+}
+.title{
+    width: 35%;
+}
+.manager{
+    width: 7%;
+}
+.total{
+    width: 10%;
+}
+.pay{
+    width: 8%;
+}
+.date{
+    width: 8%;
+}
+.quo{
+    width: 8%;
+}
+.status{
+    width: 6%;
+}
+.i_edit{
+    width: 4%;
+}
+.i_delete{
+    width: 4%;
+}
+
+
+
+/*見積作成の状態欄*/
+.select_status{
+    border: 1px solid;
+    border-radius: 3px;
+    border-color: #EEEEEE;
+    background-color: whitesmoke;
+    height:25px;
+    width:50%;
+    font-size: 7px;
+}
+
+.text_join_en{
+    border: 1px solid;
+    border-radius: 3px;
+    border-color: #EEEEEE;
+    background-color: whitesmoke;
+    height:23px;
+    width:90%;
+    font-size: 7px;
+}

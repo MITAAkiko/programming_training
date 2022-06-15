@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/style_add.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
-    <title>プログラミング実習</title>
+    <title>laravel練習</title>
 </head>
 
 <body>

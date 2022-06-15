@@ -33,10 +33,10 @@ class CompaniesController
         //最大ページ数を取得する
         if (!empty($get['search'])) {
             $searched = '%' . addcslashes($get['search'], '%_\\') . '%';
-            $cnt = $this -> cmpMdl -> fetchMaxPageSearched($searched);
+            $cnt = $this->cmpMdl->fetchMaxPageSearched($searched);
             $maxPage = ceil($cnt['cnt']/10);
         } else {
-            $cnt = $this -> cmpMdl -> fetchMaxPage();
+            $cnt = $this->cmpMdl->fetchMaxPage();
             $maxPage = ceil($cnt['cnt']/10);
         }
         //ページ移動用
@@ -83,12 +83,12 @@ class CompaniesController
     {
         //バリデーションチェック
         if (!empty($post)) {
-            $this -> cmpError = new CompaniesRequest;
-            $isError = $this -> cmpError -> checkIsError($post);
-            $error = $this -> cmpError -> getError();
+            $this->cmpError = new CompaniesRequest;
+            $isError = $this->cmpError->checkIsError($post);
+            $error = $this->cmpError->getError();
             //エラーがない時にデータベースに登録する
             if (!$isError) {
-                $this -> cmpMdl -> create($post);
+                $this->cmpMdl->create($post);
                 header('Location:./');
                 //exit();
             } else {//エラーがあったとき、選択項目をもう一度選択してもらう
@@ -105,18 +105,18 @@ class CompaniesController
         if (empty($get)) {
             header('Location:./');
         }
-        $company = $this -> cmpMdl -> fetchDataById($get['id']);
+        $company = $this->cmpMdl->fetchDataById($get['id']);
         if (!$company) {//id:該当するデータがない場合、戻す
             header('Location:./');
         }
         //バリデーションチェック
         if (!empty($post)) {
-            $this -> cmpError = new CompaniesRequest;
-            $isError = $this -> cmpError -> checkIsError($post);
-            $error = $this -> cmpError -> getError();
+            $this->cmpError = new CompaniesRequest;
+            $isError = $this->cmpError->checkIsError($post);
+            $error = $this->cmpError->getError();
             //エラーがない時にデータベースに登録する
             if (!$isError) {
-                $this -> cmpMdl -> update($get['id'], $post);
+                $this->cmpMdl->update($get['id'], $post);
                 header('Location:./');
                 //exit();
             } else {//エラーがあったとき、選択項目をもう一度選択してもらう
@@ -140,7 +140,7 @@ class CompaniesController
         } elseif ($id === '') {
             header('Location:./');
         } else {
-            $this -> cmpMdl -> delete($id);
+            $this->cmpMdl->delete($id);
             header('Location:index.php');
         }
     }

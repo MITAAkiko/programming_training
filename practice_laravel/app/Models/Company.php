@@ -5,10 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\Invoice;//リレーションでつかう？
 
 class Company extends Model
 {
     use HasFactory;
+    public function invoices()//1対多リレーション（１）
+    {
+        return $this->hasMany(Invoice::class);
+    }
     public function fetchDatas($order = null)
     {
         $company = new Company;
@@ -94,8 +99,7 @@ class Company extends Model
             'mail_address' => $value['email'],
             'prefix' => $value['prefix'],
             'modified' => NOW()
-        ])
-        ;
+        ]);
     }
     public function deleteData($id)
     {
