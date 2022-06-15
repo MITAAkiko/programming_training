@@ -51,7 +51,7 @@ class InvoiceController extends Controller
         $cid = $get->input('cid');
         $id = $get->input('id');
         $company = $this->invMdl->fetchCompanyName($cid);
-        $data = $this->invMdl->fetchDataById($cid, $id);
+        $data = $this->invMdl->fetchDataById($id);
         return view('invoices/edit', compact('company', 'status', 'data'));
     }
     public function editValidation(InvoiceRequest $post)
@@ -62,6 +62,9 @@ class InvoiceController extends Controller
     public function delete(Request $post)
     {
         $id = $post->input('id');
+        if (!$this->invMdl->fetchDataById($id)) {
+            return redirect('invoices/index?id='.$post['cid']);
+        }
         $this->invMdl->deleteData($id);
         return redirect('invoices/index?id='.$post['cid']);
     }

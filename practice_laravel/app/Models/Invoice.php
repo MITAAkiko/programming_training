@@ -94,11 +94,10 @@ class Invoice extends Model
             'modified' => NOW()
         ]);
     }
-    public function fetchDataById($cid, $id)
+    public function fetchDataById($id)
     {
         $data = new Invoice;
         $invoice = $data
-        ->where('company_id', $cid)
         ->where('id', $id)
         ->get()
         ->first()
