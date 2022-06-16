@@ -81,6 +81,7 @@ $isError = $res['isError'];
                 </tr>
                 <tr><th>納期<br><span class="advice">(例:20210625)</span></th> 
                     <td>
+                        <!-- <input type="date"> -->
                         <input class="text_join" type="text" name="due" 
                         value="<?php if (!empty($_POST['due'])) {
                                 echo h($_POST['due']);
