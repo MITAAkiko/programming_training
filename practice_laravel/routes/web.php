@@ -28,17 +28,26 @@ Route::post('/edit/{id}', [CompanyController::class, 'editValidation']);
 Route::post('/delete', [CompanyController::class, 'delete'])->name('delete');
 
 //見積
-Route::get('/quotations/index', [QuotationController::class, 'index'])->name('q_index');
-//請求
-Route::get('/invoices/index', [InvoiceController::class, 'index'])->name('i_index');
+Route::get('/quotations/index', [QuotationController::class, 'index']);
 
-Route::get('/invoices/add', [InvoiceController::class, 'add'])->name('i_add');
+Route::get('/quotations/add', [QuotationController::class, 'add']);
+Route::post('/quotations/add', [QuotationController::class, 'addValidation']);
+
+Route::get('quotations/edit', [QuotationController::class, 'edit']);
+Route::post('quotations/edit', [QuotationController::class, 'editValidation']);
+
+Route::post('quotations/delete', [QuotationController::class, 'delete']);
+
+//請求
+Route::get('/invoices/index', [InvoiceController::class, 'index']);
+
+Route::get('/invoices/add', [InvoiceController::class, 'add']);
 Route::post('/invoices/add', [InvoiceController::class, 'addValidation']);
 
-Route::get('invoices/edit', [InvoiceController::class, 'edit'])->name('edit');
+Route::get('invoices/edit', [InvoiceController::class, 'edit']);
 Route::post('invoices/edit', [InvoiceController::class, 'editValidation']);
 
-Route::post('invoices/delete', [InvoiceController::class, 'delete'])->name('i_delete');
+Route::post('invoices/delete', [InvoiceController::class, 'delete']);
 
 Route::get('/', function () {
     return view('welcome');

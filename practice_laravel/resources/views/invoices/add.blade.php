@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -22,7 +21,7 @@
             <tr><th>請求名</th> 
                 <td>
                     <input class="text_join" type="text" name="title" value="{{ old('title') }}">
-                        <p class="error">{{ $errors->first('title') }}</p>
+                    <p class="error">{{ $errors->first('title') }}</p>
                 </td>
             </tr>
     <!--会社名取得-->

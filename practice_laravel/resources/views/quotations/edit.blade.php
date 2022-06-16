@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('css/i_style.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/q_style.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/style_add.css') }}">
     <title>laravel練習</title>
 </head>
@@ -12,17 +12,17 @@
 <main>
     <div class="content_add">
     <div>
-        <span class="title">請求書編集</span>
+        <span class="title">見積書編集</span>
         <a class="btn" href="./index?id={{ $_GET['cid'] }}">戻る</a>
     </div>
     <hr>
     <form action="" method="post">
     @csrf
         <table class="join_table">
-            <tr><th>請求番号</th> 
-                <td>{{ $data['no'] }}</td>
-            </tr>
-            <tr><th>請求名</th> 
+            <tr><th>見積番号</th> 
+                    <td>{{ $data['no'] }}</td>
+                </tr>
+            <tr><th>見積名</th> 
                 <td>
                     @if (!empty(old('title')))
                         <input class="text_join" type="text" name="title" value="{{ old('title') }}">
@@ -45,29 +45,25 @@
                     <p class="error">{{ $errors->first('total') }}</p>
                 </td>
             </tr>
-            <tr><th>支払期限</th> 
+            <tr><th>見積書有効期限</th> 
                 <td>
-                    @if (!empty(old('pay')))
-                        <input class="text_join" type="text" name="pay" value="{{ old('pay') }}">
+                    @if (!empty(old('period')))
+                        <input class="text_join" type="text" name="period" value="{{ old('period') }}">
                     @else
-                        <input class="text_join" type="text"name="pay" value="{{ str_replace('-', '', $data['payment_deadline']) }}">
+                        <input class="text_join" type="text"name="period" value="{{ str_replace('-', '', $data['validity_period']) }}">
                     @endif
-                    <p class="error">{{ $errors->first('pay') }}</p>
+                    <p class="error">{{ $errors->first('period') }}</p>
                 </td>
             </tr>
-            <tr><th>請求日</th> 
+            <tr><th>納期</th> 
                 <td>
-                    @if (!empty(old('date')))
-                        <input class="text_join" type="text" name="date" value="{{ old('date') }}">
+                    @if (!empty(old('due')))
+                        <input class="text_join" type="text" name="due" value="{{ old('due') }}">
                     @else
-                        <input class="text_join" type="text"name="date" value="{{ str_replace('-', '', $data['date_of_issue']) }}">
+                        <input class="text_join" type="text"name="due" value="{{ str_replace('-', '', $data['due_date']) }}">
                     @endif
-                    <p class="error">{{ $errors->first('date') }}</p>
+                    <p class="error">{{ $errors->first('due') }}</p>
                 </td>
-            </tr>
-            <tr><th>見積番号</th> 
-                <td>{{ $data['quotation_no'] }}</td>
-                <input type='hidden' name='quo' value="{{ $data['quotation_no'] }}">
             </tr>
             <tr><th>状態</th>
                 <td><select class="select_status" name="status">
