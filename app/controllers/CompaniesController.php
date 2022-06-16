@@ -59,11 +59,10 @@ class CompaniesController
         //DBに接続　検索・昇順降順
         //モデルの中でif文を使いたくなかったので、ASC/DESCで分けて2パターン書いた？
         if (!empty($get['search'])) {//GETでおくる
+            $searched = '%' . addcslashes($get['search'], '%_\\') . '%' ;
             if ($order === 'DESC') {
-                $searched = '%' . addcslashes($get['search'], '%_\\') . '%' ;
                 $companies = $this->cmpMdl->fetchDataSearchedDESC($searched, $start);
             } else {
-                $searched = '%' . addcslashes($get['search'], '%_\\') . '%' ;
                 $companies = $this->cmpMdl->fetchDataSearchedASC($searched, $start);
             }
         } else {//検索なかった場合

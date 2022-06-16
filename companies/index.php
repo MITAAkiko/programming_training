@@ -86,6 +86,16 @@ require_once(APP.'/controllers/CompaniesController.php');
 <hr>
 <div class="paging">
     <?php if ($page > 1) :  ?>
+        <span><a class="pgbtn" href="index.php?page=1<?php
+        /*検索結果あり*/
+        if (!empty($_GET['search'])) {
+            echo '&search='.h($_GET['search']) ;
+        }/*昇順降順*/
+        if (!empty($_GET['order'])) {
+            echo '&order='.h($_GET['order']) ;
+        } ?>">&laquo;最初</a></span>
+    <?php endif; ?>
+    <?php if ($page > 1) :  ?>
         <span><a class="pgbtn" href="index.php?page=<?php print(h($page) -1);
         /*検索結果あり*/
         if (!empty($_GET['search'])) {
@@ -142,6 +152,15 @@ require_once(APP.'/controllers/CompaniesController.php');
         if (!empty($_GET['order'])) {
             echo '&order='.h($_GET['order']) ;
         } ?>">&rsaquo;</a></span>
+    <?php endif; ?>
+    <?php if ($page < $maxPage) : ?>
+        <span><a class="pgbtn" href="index.php?page=<?php print(h($maxPage));
+        if (!empty($_GET['search'])) {
+            echo '&search='.h($_GET['search']) ;
+        }/*昇順降順*/
+        if (!empty($_GET['order'])) {
+            echo '&order='.h($_GET['order']) ;
+        } ?>">最後&raquo;</a></span>
     <?php endif; ?>
 </div>
 </main>

@@ -8,7 +8,6 @@ class CompaniesModel
     {
         $this->db = new \PDO('mysql:dbname=programming_training;host=127.0.0.1;charset=utf8', 'root', 'P@ssw0rd');
     }
-//index
     public function fetchMaxPageSearched($searched)
     {
         $counts = $this->db->prepare('SELECT COUNT(*) AS cnt FROM companies 
@@ -68,7 +67,6 @@ class CompaniesModel
         $companies->execute();
         return $companies;
     }
-    //add
     public function create($post)
     {
         $statement = $this->db->prepare('INSERT INTO companies
@@ -84,10 +82,9 @@ class CompaniesModel
         $statement->bindParam(8, $post['prefix'], \PDO::PARAM_STR);
         $statement->execute();
     }
-    //edit
+    //IDチェックと編集時の表示用
     public function fetchDataById($id)
     {
-        //DBに接続する用意
         $companies = $this->db->prepare('SELECT id, company_name, manager_name, phone_number, postal_code, prefecture_code, address, mail_address, prefix  
             FROM companies WHERE id = ? AND deleted IS NULL');
         $companies->bindParam(1, $id, \PDO::PARAM_INT);
@@ -110,7 +107,6 @@ class CompaniesModel
         $statement->bindParam(8, $id, \PDO::PARAM_INT);
         $statement->execute();
     }
-    //delete
     public function delete($id)
     {
          $del = $this->db->prepare('UPDATE companies SET deleted = NOW() WHERE id = ?');

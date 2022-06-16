@@ -9,6 +9,17 @@ namespace App\Requests
         {
             return $err !== $nonerror;
         }
+        //項目のエラーチェック
+        public function errors($errors)
+        {
+            foreach ($errors as $error) {
+                if ($error !== '') {
+                    return $error;
+                }
+            }
+            $error = '';
+            return $error;
+        }
         public function blank($value)
         {
             if ($value === '' || $value === 'empty') {
@@ -64,17 +75,6 @@ namespace App\Requests
             } else {
                 return '';
             }
-        }
-        //項目のエラーチェック
-        public function errors($errors)
-        {
-            foreach ($errors as $error) {
-                if ($error !== '') {
-                    return $error;
-                }
-            }
-            $error = '';
-            return $error;
         }
     }
 }
