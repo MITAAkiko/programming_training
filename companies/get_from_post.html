@@ -14,7 +14,7 @@ function getData() {
       , data: { 
             zipcode: incode     // 郵便番号
         }
-      , jsonp: 'callback'       //コールバックパラメータ名の指定
+      , jsonp: 'callback'       //コールバックパラメータ名の指定 callback{データ}の形で格納？
     }).done(function(res){
         // ajaxがOK
         if (res.status === 200) {
@@ -28,6 +28,7 @@ function getData() {
 
             str = obj.address2 + obj.address3; //市区町村
             $("#address").val(str)
+            document.getElementById('address').focus(); //カーソルを移動
         } else {
             alert('郵便番号を確認してください。エラー:' + res.status);
         }
