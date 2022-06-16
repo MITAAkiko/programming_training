@@ -35,6 +35,17 @@ main{
     margin-left: 6px;
     font-size: 7px;
 }
+/*住所部分のテキストエリア*/
+.text_join_post{
+    border: 1px solid;
+    border-radius: 3px;
+    border-color: #EEEEEE;
+    background-color: whitesmoke;
+    height:23px;
+    width:60%;
+    margin-left: 6px;
+    font-size: 7px;
+}
 /*都道府県*/
 .select_address{
     border: 1px solid;
