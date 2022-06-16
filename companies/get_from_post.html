@@ -17,7 +17,7 @@ function getData() {
       , jsonp: 'callback'       //コールバックパラメータ名の指定 callback{データ}の形で格納？
     }).done(function(res){
         // ajaxがOK
-        if (res.status === 200) {
+        if (res.status === 200 && res.results !== null) {
     var str = "";
             var str2 = "";
             var obj = res.results[0]; //resの１つ目のデータ
