@@ -1,7 +1,7 @@
 <?php
 
-require_once('get_from_post.html');
 require_once('../config.php');
+require_once(APP.'/get_from_post.html');
 require_once(HOME.'/functions.php');
 require_once(APP.'/controllers/CompaniesController.php');
 
