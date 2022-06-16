@@ -1,7 +1,7 @@
 <?php
 require_once('../../config.php');
-require('../../functions.php');
-require_once('../../app/controllers/InvoicesController.php');
+require_once(HOME.'/functions.php');
+require_once(APP.'/controllers/InvoicesController.php');
 use App\Controllers\InvoicesController;
 
 $cmp = new InvoicesController;
@@ -107,7 +107,7 @@ $order2 = $res['order2'];//請求日での昇順降順
                 echo '&order='.h($_GET['order']) ;
             } elseif (!empty($_GET['order2'])) {
                 echo '&order2='.h($_GET['order2']) ;
-            } ?>">←前</a>
+            } ?>">←前へ</a>
         </span>
     <?php endif; ?>
     <span class="pgbtn nowpage"><?php print h($page); ?></span>

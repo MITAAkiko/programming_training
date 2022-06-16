@@ -49,13 +49,22 @@ class CompanyController extends Controller
         $this->cmpMdl->updateData($id, $post->safe()->all());
         return redirect('/index');
     }
-    public function delete(Request $post)
+    //普通にポストで削除する場合
+    // public function delete(Request $post)
+    // {
+    //     $id = $post->input('id');
+    //     $this->cmpMdl->deleteData($id);
+    //     return redirect('/index');
+    // }
+    
+    //@methodを使った場合
+    public function destroy(Request $post)
     {
-        // $post = Post::find($id);
-        // $post->deleteData();
-        // return redirect()->route('posts.index');
-        $id = $post->input('id');
-        $this->cmpMdl->deleteData($id);
+        if (!$this->cmpMdl->fetchDataById($post['id'])) {
+            Log::debug('Attempted to delete with incorrect ID.', [$post['id']]);
+            return redirect('/index');
+        }
+        $this->cmpMdl->deleteData($post['id']);
         return redirect('/index');
     }
 }

@@ -54,13 +54,11 @@
         <td class="td"><a class="list_btn" href="./invoices/index?id={{ ($data['id']) }}">請求一覧</a></td>
         <td class="td"><a class="edit_delete" href="{{ route('edit', ['id' => $data['id']]) }}">編集</a></td>
         <td class="td">
-          <form method="post" action="./delete">
-            @csrf
-            <input type="hidden" name='id' value="{{ ($data['id']) }}">
-            <!-- @//csrf
-            @//method('delete')-->
-            <input type='submit' class="edit_delete" onclick="return cfm()" value='削除'>
-          </form>
+        <form action="{{ route('delete', ['id' => $data['id']]) }}" method="post">
+          @csrf
+          @method('delete')
+          <input type='submit' class="edit_delete" onclick="return cfm()" value='削除'>
+        </form>
         </td>
       </tr>
     @endforeach

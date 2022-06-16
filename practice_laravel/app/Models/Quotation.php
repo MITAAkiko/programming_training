@@ -92,11 +92,10 @@ class Quotation extends Model
             'modified' => NOW(),
         ]);
     }
-    public function fetchDataById($cid, $id)
+    public function fetchDataById($id)
     {
         $data = new Quotation;
         $quotation = $data
-        ->where('company_id', $cid)
         ->where('id', $id)
         ->get()
         ->first()

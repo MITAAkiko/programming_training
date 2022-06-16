@@ -52,7 +52,7 @@ class QuotationController extends Controller
         $cid = $get->input('cid');
         $id = $get->input('id');
         $company = $this->quoMdl->fetchCompanyName($cid);
-        $data = $this->quoMdl->fetchDataById($cid, $id);
+        $data = $this->quoMdl->fetchDataById($id);
         return view('quotations/edit', compact('company', 'status', 'data'));
     }
     public function editValidation(QuotationRequest $post)
@@ -63,6 +63,9 @@ class QuotationController extends Controller
     public function delete(Request $post)
     {
         $id = $post->input('id');
+        if (!$this->quoMdl->fetchDataById($id)) {
+            return redirect('quotations/index?id='.$post['cid']);
+        }
         $this->quoMdl->deleteData($id);
         return redirect('quotations/index?id='.$post['cid']);
     }

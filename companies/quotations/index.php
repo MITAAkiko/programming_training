@@ -1,9 +1,9 @@
 <?php
 
-require_once('../../dbconnect.php');
 require_once('../../config.php');
-require_once('../../functions.php');
-require_once('../../app/controllers/QuotationsController.php');
+require_once(HOME.'/dbconnect.php');
+require_once(HOME.'/functions.php');
+require_once(APP.'/controllers/QuotationsController.php');
 use App\Controllers\QuotationController;
 
 $cmp = new QuotationController;
@@ -72,7 +72,7 @@ $order2 = $res['order2'];
             <th class="status">状態</th><th class="q_edit">編集</th><th class="q_delete">削除</th>
         </tr>
 <!--配列に代入-->
-        <?php if (ORDER[$order] === 'DESC' || ORDER[$order2] === 'DESC') :
+        <?php if ($order === '-1' || $order2 === '-1') :
             for ($i=$quo_count-1-10*(h($page)-1); $i>$quo_count-1-10*(h($page)) && $i >=0; $i--) :
                 ?><!--最大キー引く１０＊ページ数-->
                 <tr>
@@ -130,7 +130,7 @@ $order2 = $res['order2'];
                 echo '&order='.h($_GET['order']);
             } elseif (!empty($_GET['order2'])) {
                 echo '&order2='.h($_GET['order2']);
-            }?>">←前</a>
+            }?>">←前へ</a>
         </span>
     <?php endif; ?>
     <!--今のページ-->

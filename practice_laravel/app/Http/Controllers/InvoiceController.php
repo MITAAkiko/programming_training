@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\InvoiceRequest;//バリデーションの設定
 use App\Models\Invoice;
 use Illuminate\Http\Request;//getやpostを受け取れる
+use Illuminate\Support\Facades\Log;
 
 class InvoiceController extends Controller
 {
@@ -31,6 +32,10 @@ class InvoiceController extends Controller
     }
     public function add(Request $get)
     {
+        if ($get['id'] === null) {
+            Log::debug('会社IDがありません'.$get);
+            return redirect('index');
+        }
         $status = config('config.STATUSES');
         $cid = $get->input('id');
         $company = $this->invMdl->fetchCompanyName($cid);
@@ -51,7 +56,7 @@ class InvoiceController extends Controller
         $cid = $get->input('cid');
         $id = $get->input('id');
         $company = $this->invMdl->fetchCompanyName($cid);
-        $data = $this->invMdl->fetchDataById($cid, $id);
+        $data = $this->invMdl->fetchDataById($id);
         return view('invoices/edit', compact('company', 'status', 'data'));
     }
     public function editValidation(InvoiceRequest $post)
@@ -62,6 +67,9 @@ class InvoiceController extends Controller
     public function delete(Request $post)
     {
         $id = $post->input('id');
+        if (!$this->invMdl->fetchDataById($id)) {
+            return redirect('invoices/index?id='.$post['cid']);
+        }
         $this->invMdl->deleteData($id);
         return redirect('invoices/index?id='.$post['cid']);
     }
