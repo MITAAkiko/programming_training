@@ -1,8 +1,10 @@
 <?php
 
+require_once('get_from_post.html');
 require_once('../config.php');
 require_once(HOME.'/functions.php');
 require_once(APP.'/controllers/CompaniesController.php');
+
 
  use App\Controllers\CompaniesController;
 
@@ -69,10 +71,11 @@ require_once(APP.'/controllers/CompaniesController.php');
                 </td>
             </tr>
             <tr><th rowspan="3">住所<br><span class="advice">(〒ハイフン不要)</span></th> 
-                <td>郵便番号 <input class="text_join_address" type="text" name="postal_code"
+                <td>郵便番号 <input type="text" id="postcode" class="text_join_post" name="postal_code"
                     value="<?php if (!empty($_POST['postal_code'])) {
                             echo h($_POST['postal_code']);
-                           }?>">
+                           }?>"><span class='search_address' onclick="getData();">住所検索</span><br/>
+                  
                     <?php if ($error['postal_code']==='blank') : ?>
                         <p class="error">※郵便番号を入力してください</p>
                     <?php elseif ($error['postal_code'] === 'type') : ?>
@@ -83,7 +86,7 @@ require_once(APP.'/controllers/CompaniesController.php');
                 </td>
             </tr>
             <tr><td>都道府県<select class="select_address" name="prefecture_code">
-                        <option value="empty">選択してください</option>
+                        <option id="prefcode">選択してください</option>
                         <?php foreach (PREFECTURES as $number => $value) : ?>
                             <option value="<?php echo $number ?>"><?php echo $value ?></option>
                         <?php endforeach; ?>
@@ -97,14 +100,14 @@ require_once(APP.'/controllers/CompaniesController.php');
                     <?php elseif ($error['prefecture_code'] === 'size') : ?>
                         <p class="error">※正しく選択してください</p>
                     <?php elseif ($error['prefecture_code'] === 'error') :?>
-                        <p class="error">※もう一度入力してください</p>
+                        <p class="error">※もう一度、選択か「住所検索」ボタンを押してください</p>
                     <?php endif; ?>
                 </td>
             </tr>
-            <tr><td>市区町村 <input class="text_join_address" type="text" name="address"
-                value="<?php if (!empty($_POST['address'])) {
-                        echo h($_POST['address']);
-                       }?>">
+            <tr><td>市区町村 <input id="address" type='text' class="text_join_address" name="address"
+                    value="<?php if (!empty($_POST['address'])) {
+                            echo h($_POST['address']);
+                           }?>">
                     <?php if ($error['address']==='blank') : ?>
                         <p class="error">※市区町村を入力してください</p>
                     <?php elseif ($error['address']==='long') : ?>
