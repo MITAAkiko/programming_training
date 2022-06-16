@@ -30,7 +30,7 @@ function getData() {
             $("#address").val(str)
             document.getElementById('address').focus(); //カーソルを移動
         } else {
-            alert('郵便番号を確認してください。エラー:' + res.status);
+            alert('郵便番号を確認してください。　[status:' + res.status + ']');
         }
     }).fail(function() {
         // 取得エラー
