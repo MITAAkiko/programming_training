@@ -160,5 +160,6 @@ $company = $res['company'];
 </form>
     </div>
 </main>
-<script src="../get_from_post.js"></script>
+<script src="../getFromPost.js"></script>
 </body>
+</html>
