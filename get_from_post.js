@@ -1,8 +1,4 @@
 
-<meta charset="utf-8">
-<script src="../../../jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
-
 //Ajax関数
 function getData() {
     //
@@ -18,7 +14,7 @@ function getData() {
     }).done(function(res){
         // ajaxがOK
         if (res.status === 200 && res.results !== null) {
-    var str = "";
+            var str = "";
             var str2 = "";
             var obj = res.results[0]; //resの１つ目のデータ
 
@@ -38,4 +34,6 @@ function getData() {
     });
     return false;
 }
-</script>
+function cfm(){
+    return confirm('本当に削除しますか');
+}

@@ -127,9 +127,5 @@ $order2 = $res['order2'];//請求日での昇順降順
 </div>
 </main>
 </body>
-<script>
-function cfm(){
-    return confirm('本当に削除しますか');
-}
-</script>
+<script src="../../get_from_post.js"></script>
 </html>

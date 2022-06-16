@@ -21,7 +21,6 @@ require_once(APP.'/controllers/CompaniesController.php');
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="../style.css">
-
 <title>プログラミング実習</title>
 </head>
 <body>
@@ -43,13 +42,13 @@ require_once(APP.'/controllers/CompaniesController.php');
     <table id='companies_list'>
         <tr class="table_heading">
             <form action='index.php' method=get>
-                <?php if (!empty($_GET['search'])) : ?>
-                    <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
-                <?php endif; ?>
                 <?php if ($order === 'DESC') :?>
                     <?php $order = 'ASC' ?><!--ここはボタンの値を決める。-->
                 <?php else : ?>
                     <?php $order = 'DESC'?><!--初期値はASCでボタンはDESC-->
+                <?php endif; ?>
+                <?php if (!empty($_GET['search'])) : ?>
+                    <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
                 <input type='hidden' name='order' value="<?php echo h($order) ?>">
                 <th class="th ID">会社番号　<input class="ascdesc" type="submit" value="▼"></th>
@@ -164,11 +163,7 @@ require_once(APP.'/controllers/CompaniesController.php');
     <?php endif; ?>
 </div>
 </main>
-<script>
-    function cfm(){
-        return confirm('本当に削除しますか');
-    }
-</script>
+<script src="../get_from_post.js"></script>
 </body>
 </html>
 

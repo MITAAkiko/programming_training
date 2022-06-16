@@ -1,7 +1,6 @@
 <?php
 
 require_once('../config.php');
-require_once(APP.'/get_from_post.html');
 require_once(HOME.'/dbconnect.php');
 require_once(HOME.'/functions.php');
 require_once(APP.'/controllers/CompaniesController.php');
@@ -20,6 +19,7 @@ $company = $res['company'];
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="../style.css">
 <link rel="stylesheet" type="text/css" href="../style_join.css">
+<script src="../../../jquery-3.6.0.min.js"></script>
     <title>プログラミング実習</title>
 </head>
 
@@ -160,4 +160,5 @@ $company = $res['company'];
 </form>
     </div>
 </main>
+<script src="../get_from_post.js"></script>
 </body>
