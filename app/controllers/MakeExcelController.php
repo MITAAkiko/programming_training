@@ -75,6 +75,7 @@ namespace App\Controllers
                 $sheet = $spreadsheet->getActiveSheet();
 
                 $sheet->setCellValue('B4', $value["name"]);//会社
+                $sheet->setCellValue('D7', $value["title"]);//件名
                 $sheet->setCellValue('D9', $value["pay"]);//支払期限
                 $sheet->setCellValue('D13', $value["total"]);//金額
                 $sheet->setCellValue('E5', $value["manager"]);//担当者名
