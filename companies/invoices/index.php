@@ -33,7 +33,7 @@ $order2 = $res['order2'];//請求日での昇順降順
     <hr>
     
     <form action='./' method="get" href='./?id=<?php echo h($_GET['id']) ?>&search=<?php echo h($_GET['search']) ?>'><!--getにhrefいらない？自動で入力？-->
-    <a href="./make_invoice.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">請求作成</a>
+    <a href="./i_add.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">請求作成</a>
         <input class="search_btn" type="submit" value="検索">
         <select class="text_search" name="search">
             <!--検索した後の初期値-->
