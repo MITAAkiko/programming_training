@@ -37,8 +37,8 @@ namespace App\Controllers
                 "num" => $data['no'],
                 "date" => $data['date_of_issue'],
             ];
-            $this->makeexl($value);
-            // $this->makepdf($value);
+            // $this->makeexl($value);
+            $this->makepdf($value);
         }
         public function makeexl($value)
         {
@@ -70,36 +70,36 @@ namespace App\Controllers
         public function makepdf($value)
         {
             try {
-                $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(HOME.'/template/invoice-temp.xlsx');
+                // $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(HOME.'/template/invoice-temp.xlsx');
+                // $sheet = $spreadsheet->getActiveSheet();
 
-                $sheet = $spreadsheet->getActiveSheet();
-
-                $sheet->setCellValue('B4', $value["name"]);//会社
-                $sheet->setCellValue('D7', $value["title"]);//件名
-                $sheet->setCellValue('D9', $value["pay"]);//支払期限
-                $sheet->setCellValue('D13', $value["total"]);//金額
-                $sheet->setCellValue('E5', $value["manager"]);//担当者名
-                $sheet->setCellValue('O4', $value["num"]);//請求番号
-                $sheet->setCellValue('O5', $value["date"]);//請求日
+                // $sheet->setCellValue('B4', $value["name"]);//会社
+                // $sheet->setCellValue('D7', $value["title"]);//件名
+                // $sheet->setCellValue('D9', $value["pay"]);//支払期限
+                // $sheet->setCellValue('D13', $value["total"]);//金額
+                // $sheet->setCellValue('E5', $value["manager"]);//担当者名
+                // $sheet->setCellValue('O4', $value["num"]);//請求番号
+                // $sheet->setCellValue('O5', $value["date"]);//請求日
+                
 
                 //ファイル名・ディレクトリ準備
-                $xlname = HOME.'/xcelFolder/com-invoice'.date("Y-m-d_H-i").'.xlsx';
+                // $xlname = HOME.'/xcelFolder/com-invoice'.date("Y-m-d_H-i").'.xlsx';
                 $filename = HOME.'/xcelFolder/com-invoice'.date("Y-m-d_H-i").'.pdf';
-                $dir = HOME.'/xcelFolder';
+                // $dir = HOME.'/xcelFolder';
 
                 // pdfを新しいウィンドウにダウンロード準備
                 header('Content-Type: application/pdf');
                 // inlineで画面内部で開く。attachmentでダウンロードさせる
                 header('Content-Disposition: attachment; filename="' . basename($filename) . '" ');
                 header('Cache-Control: max-age=0');
-
+                readfile($filename);
                 //Excel保存
-                $writer = new Xlsx($spreadsheet);
-                $writer->save($xlname); //xcelFolderにエクセルが保存される
+                // $writer = new Xlsx($spreadsheet);
+                // $writer->save($xlname); //xcelFolderにエクセルが保存される
 
                 // LibreOfficeを使用してpdfエクスポート
-                $command = "/usr/bin/soffice --headless --convert-to pdf --outdir " . $dir . " $xlname";
-                exec($command);
+                // $command = "/usr/bin/soffice --headless --convert-to pdf --outdir " . $dir . " $xlname";
+                // exec($command);
             } catch (\Exception $e) { //phpSpreadsheetの中に例外処理の記述あり
                 echo $e->getMessage();
             }
