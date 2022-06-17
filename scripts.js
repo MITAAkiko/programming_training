@@ -1,12 +1,11 @@
 
 //Ajax関数
 function getData() {
-    //
     var incode = $("#postcode").val();
     $.ajax({
         type: 'get'
       , url: 'https://zip-cloud.appspot.com/api/search'
-      , dataType:'jsonp'        // 応答のデータの種類 
+      , dataType:'jsonp'        // 応答のデータの種類 jsonデータを取得するための仕組み
       , data: { 
             zipcode: incode     // 郵便番号
         }

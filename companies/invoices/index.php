@@ -51,7 +51,7 @@ $order2 = $res['order2'];//請求日での昇順降順
     <br>
     <table>
         <tr class="table_heading">
-            <th class="makeInv">請求書発行</th>
+            <th class="makeInv">請求書 出力</th>
             <form action='index.php' method=get>
                 <input type='hidden' name='id' value="<?php echo h($_GET['id']); ?>">
                 <?php if (!empty($_GET['search'])) : ?>
@@ -132,6 +132,6 @@ $order2 = $res['order2'];//請求日での昇順降順
     <?php endif; ?>
 </div>
 </main>
+<script src="../../scripts.js"></script>
 </body>
-<script src="../../get_from_post.js"></script>
 </html>

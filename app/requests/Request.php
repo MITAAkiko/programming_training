@@ -22,7 +22,7 @@ namespace App\Requests
         }
         public function blank($value)
         {
-            if ($value === '' || $value === 'empty') {
+            if ($value === '') {
                 return 'blank';
             } else {
                 return '';

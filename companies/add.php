@@ -4,7 +4,6 @@ require_once('../config.php');
 require_once(HOME.'/functions.php');
 require_once(APP.'/controllers/CompaniesController.php');
 
-
  use App\Controllers\CompaniesController;
 
  $cmp = new CompaniesController;

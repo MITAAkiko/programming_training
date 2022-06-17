@@ -1,7 +1,6 @@
 <?php
 
 require_once('../../config.php');
-require_once(HOME.'/dbconnect.php');
 require_once(HOME.'/functions.php');
 require_once(APP.'/controllers/QuotationsController.php');
 use App\Controllers\QuotationController;
@@ -151,6 +150,6 @@ $order2 = $res['order2'];
     <?php endif; ?>
 </div>
 </main>
-<script src="../../get_from_post.js"></script>
+<script src="../../scripts.js"></script>
 </body>
 </html>

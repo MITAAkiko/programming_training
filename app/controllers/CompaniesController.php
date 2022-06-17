@@ -42,7 +42,7 @@ class CompaniesController
         $page = 0;
         if (!empty($get['page'])) {
             $page = $get['page'];
-            $page = mb_convert_kana($page, "n");
+            $page = mb_convert_kana($page, "n"); //半角数字に合わせる
             if ($page === '') {
                 $page = 1;
             }
@@ -120,7 +120,9 @@ class CompaniesController
                 header('Location:./');
                 //exit();
             } else {//エラーがあったとき、選択項目をもう一度選択してもらう
-                $error['prefecture_code'] = 'error';
+                if (empty($error['prefecture_code'])) {
+                    $error['prefecture_code'] = 'error';
+                }
                 return [
                     'error' => $error,
                     'company' => $company,

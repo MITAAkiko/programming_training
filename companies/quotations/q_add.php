@@ -1,7 +1,6 @@
 <?php
 //見積作成画面
 require_once('../../config.php');
-require_once(HOME.'/dbconnect.php');
 require_once(HOME.'/functions.php');
 require_once(APP.'/controllers/QuotationsController.php');
 use App\Controllers\QuotationController;
