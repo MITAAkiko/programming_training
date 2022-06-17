@@ -9,15 +9,16 @@ namespace App\Controllers
     require_once(APP.'/models/InvoicesModel.php');
     use App\Models\InvoicesModel;
 
-    class MakeExcelController
+    class MakePdfController
     {
         private $invMdl;
         public function __construct()
         {
             $this->invMdl = new InvoicesModel;
         }
-        public function excel($get)
+        public function makeInvoice($get)
         {
+            //idチェック
             $check = $this->invMdl->checkId($get['cid']);
             $checkInvoiceId = $this->invMdl->checkInvoiceId($get['id']);
             if (!$check || !$checkInvoiceId) {
@@ -26,6 +27,7 @@ namespace App\Controllers
                 $id = $get['id'];
                 $cid = $get['cid'];
             }
+            //データ用意
             $data = $this->invMdl->fetchDataById($id);
             $cDate = $this->invMdl->fetchCompanyNameById($cid);
             $value = [
@@ -35,27 +37,31 @@ namespace App\Controllers
                 "total" => $data['total'],
                 "manager" => $cDate['manager_name'],
                 "num" => $data['no'],
-                "date" => $data['date_of_issue'],
+                "date" => str_replace('-', '/', $data['date_of_issue']),
             ];
-            // $this->makeexl($value);
-            $this->makepdf($value);
+            //Excelに入力
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(HOME.'/template/invoice-temp.xlsx');
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->setCellValue('B4', $value["name"]);//会社
+            $sheet->setCellValue('D7', $value["title"]);//件名
+            $sheet->setCellValue('D9', $value["pay"]);//支払期限
+            $sheet->setCellValue('D13', $value["total"]);//金額
+            $sheet->setCellValue('E5', $value["manager"]);//担当者名
+            $sheet->setCellValue('O4', $value["num"]);//請求番号
+            $sheet->setCellValue('O5', $value["date"]);//請求日
+            //データ保存クラスへ
+            if ($get['make'] === 'pdf') {
+                $this->makepdf($spreadsheet);
+            } elseif ($get['make'] === 'exl') {
+                $this->makeexl($spreadsheet);
+            } else {
+                header('Location:../');
+            }
         }
-        public function makeexl($value)
+        public function makeexl($spreadsheet)
         {
             try {
-                $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(HOME.'/template/invoice-temp.xlsx');
-                $sheet = $spreadsheet->getActiveSheet();
-
-                $sheet->setCellValue('B4', $value["name"]);//会社
-                $sheet->setCellValue('D7', $value["title"]);//件名
-                $sheet->setCellValue('D9', $value["pay"]);//支払期限
-                $sheet->setCellValue('D13', $value["total"]);//金額
-                $sheet->setCellValue('E5', $value["manager"]);//担当者名
-                $sheet->setCellValue('O4', $value["num"]);//請求番号
-                $sheet->setCellValue('O5', $value["date"]);//請求日
-
                 $xlname = HOME.'/xcelFolder/invoice'.date("Y-m-d_H-i").'.xlsx';
-
                 // ブラウザでxcelダウンロード
                 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
                 header('Content-Disposition: inline;filename="' . basename($xlname) . '"');
@@ -67,20 +73,9 @@ namespace App\Controllers
                 echo $e->getMessage();
             }
         }
-        public function makepdf($value)
+        public function makepdf($spreadsheet)
         {
             try {
-                $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(HOME.'/template/invoice-temp.xlsx');
-                $sheet = $spreadsheet->getActiveSheet();
-
-                $sheet->setCellValue('B4', $value["name"]);//会社
-                $sheet->setCellValue('D7', $value["title"]);//件名
-                $sheet->setCellValue('D9', $value["pay"]);//支払期限
-                $sheet->setCellValue('D13', $value["total"]);//金額
-                $sheet->setCellValue('E5', $value["manager"]);//担当者名
-                $sheet->setCellValue('O4', $value["num"]);//請求番号
-                $sheet->setCellValue('O5', $value["date"]);//請求日
-
                 //ファイル名・ディレクトリ準備
                 $xlname = HOME.'/xcelFolder/com-invoice'.date("Y-m-d_H-i").'.xlsx';
                 $filename = HOME.'/xcelFolder/com-invoice'.date("Y-m-d_H-i").'.pdf';

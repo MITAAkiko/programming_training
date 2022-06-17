@@ -118,7 +118,7 @@ $company = $res['company'];
                     <?php elseif ($error['prefecture_code'] === 'type') : ?>
                         <p class="error">※正しく選択してください</p>
                     <?php elseif ($error['prefecture_code'] === 'error') :?>
-                        <p class="error">※変更の際はもう一度入力してください</p>
+                        <p class="error">※変更の際はもう一度入力か住所検索を押してください</p>
                     <?php endif; ?>
                 </td>
             </tr>

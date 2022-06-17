@@ -76,7 +76,7 @@ class CompaniesModel
         $statement->bindParam(2, $post['manager'], \PDO::PARAM_STR);
         $statement->bindParam(3, $post['phone'], \PDO::PARAM_STR);
         $statement->bindParam(4, $post['postal_code'], \PDO::PARAM_STR);
-        $statement->bindParam(5, $post['prefecture_code'], \PDO::PARAM_STR);
+        $statement->bindParam(5, $post['prefecture_code'], \PDO::PARAM_INT);
         $statement->bindParam(6, $post['address'], \PDO::PARAM_STR);
         $statement->bindParam(7, $post['email'], \PDO::PARAM_STR);
         $statement->bindParam(8, $post['prefix'], \PDO::PARAM_STR);
@@ -99,8 +99,8 @@ class CompaniesModel
             modified = NOW() WHERE id = ?');
         $statement->bindParam(1, $post['name'], \PDO::PARAM_STR);
         $statement->bindParam(2, $post['manager'], \PDO::PARAM_STR);
-        $statement->bindParam(3, $post['phone'], \PDO::PARAM_INT);
-        $statement->bindParam(4, $post['postal_code'], \PDO::PARAM_INT);
+        $statement->bindParam(3, $post['phone'], \PDO::PARAM_STR);
+        $statement->bindParam(4, $post['postal_code'], \PDO::PARAM_STR);
         $statement->bindParam(5, $post['prefecture_code'], \PDO::PARAM_INT);
         $statement->bindParam(6, $post['address'], \PDO::PARAM_STR);
         $statement->bindParam(7, $post['email'], \PDO::PARAM_STR);
