@@ -147,7 +147,7 @@ class InvoicesModel
     }
     public function fetchCompanyNameById($id)
     {
-        $companies = $this->db->prepare('SELECT  company_name, id, prefix FROM companies WHERE id = ? AND deleted IS NULL');
+        $companies = $this->db->prepare('SELECT  company_name, id, prefix, manager_name FROM companies WHERE id = ? AND deleted IS NULL');
         $companies->bindParam(1, $id, \PDO::PARAM_INT);
         $companies->execute();
         $company = $companies->fetch();

@@ -51,6 +51,7 @@ $order2 = $res['order2'];//請求日での昇順降順
     <br>
     <table>
         <tr class="table_heading">
+            <th class="i_delete">Excel</th>
             <form action='index.php' method=get>
                 <input type='hidden' name='id' value="<?php echo h($_GET['id']); ?>">
                 <?php if (!empty($_GET['search'])) : ?>
@@ -76,6 +77,7 @@ $order2 = $res['order2'];//請求日での昇順降順
         
         <?php  foreach ($invoices as $invoice) : ?>
             <tr>
+                <td class="td"><a class="edit_delete" href="xcelCreation.php?id=<?php echo h($invoice['id']) ?>&cid=<?php echo h($company['id']) ?>">作成</a></td>
                 <td class="td"><?php echo h($invoice['no']);?></td>
                 <td class="td"><?php echo h($invoice['title']);?></td>
                 <td class="td"><?php echo h($invoice['manager_name']);?></td>
