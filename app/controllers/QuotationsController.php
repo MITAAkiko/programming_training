@@ -23,6 +23,18 @@ class QuotationController
         if (!$check) {
             header('Location:../');
         }
+        //ステータス正しいかチェック
+        if (!empty($get['search']) && sttnum($get['search']) === null) {
+            header('Location:./?id='.$get['id']);
+        }
+        //オーダー正しいか
+        if (!empty($get['order']) && ordnum($get['order']) === null) {
+            header('Location:./?id='.$get['id']);
+        }
+        //オーダー2正しいか
+        if (!empty($get['order2']) && ordnum($get['order2']) === null) {
+            header('Location:./?id='.$get['id']);
+        }
         //初期値
         $order = 1;
         if (!empty($get['order'])) {
@@ -45,6 +57,7 @@ class QuotationController
         //page
         if (!empty($get['page'])) {
             $page = $get['page'];
+            $page = mb_convert_kana($page, "n");//ページが半角全角混ざるとエラーになるので、全て半角に
             if ($page === '') {
                 $page = 1;
             }

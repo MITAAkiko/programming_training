@@ -42,6 +42,7 @@ class CompaniesController
         $page = 0;
         if (!empty($get['page'])) {
             $page = $get['page'];
+            $page = mb_convert_kana($page, "n");
             if ($page === '') {
                 $page = 1;
             }

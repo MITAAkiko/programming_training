@@ -27,6 +27,18 @@ class InvoicesController
         if (!$check) {
             header('Location:../');
         }
+        //ステータス正しいかチェック
+        if (!empty($get['search']) && sttnum($get['search']) === null) {
+            header('Location:./?id='.$get['id']);
+        }
+        //オーダー正しいか
+        if (!empty($get['order']) && ordnum($get['order']) === null) {
+            header('Location:./?id='.$get['id']);
+        }
+        //オーダー2正しいか
+        if (!empty($get['order2']) && ordnum($get['order2']) === null) {
+            header('Location:./?id='.$get['id']);
+        }
         //昇順降順
         $page = 1;
         $order = 1;
@@ -49,6 +61,7 @@ class InvoicesController
         //page
         if (!empty($get['page'])) {
             $page = $get['page'];
+            $page = mb_convert_kana($page, "n");
             if ($page === '') {
                 $page = 1;
             }
@@ -64,13 +77,13 @@ class InvoicesController
         //DBに接続する用意
         if (!empty($get['search'])) {//絞り込みあり
             if (!empty($get['order2'])) {//日付で昇順降順指定あるか
-                if (ORDER[$order2] === 'DESC') {
+                if ($order2 === '-1') {
                     $invoices = $this->invMdl->fetchDataSearchedDayDESC($get, $start);
                 } else {
                     $invoices = $this->invMdl->fetchDataSearchedDayASC($get, $start);
                 }
             } else {//idで昇順降順指定あるか
-                if (ORDER[$order] === 'DESC') {
+                if ($order === '-1') {
                     $invoices = $this->invMdl->fetchDataSearchedDESC($get, $start);
                 } else {
                     $invoices = $this->invMdl->fetchDataSearchedASC($get, $start);
@@ -78,13 +91,13 @@ class InvoicesController
             }
         } else {//絞り込みなし
             if (!empty($get['order2'])) {//日付で昇順降順指定あるか
-                if (ORDER[$order2] === 'DESC') {
+                if ($order2 === '-1') {
                     $invoices = $this->invMdl->fetchDataDayDESCById($get['id'], $start);
                 } else {
                     $invoices = $this->invMdl->fetchDataDayASCById($get['id'], $start);
                 }
             } else {//idで昇順降順指定あるか
-                if (ORDER[$order] === 'DESC') {
+                if ($order === '-1') {
                     $invoices = $this->invMdl->fetchDataDESCById($get['id'], $start);
                 } else {
                     $invoices = $this->invMdl->fetchDataASCById($get['id'], $start);
@@ -93,10 +106,7 @@ class InvoicesController
         }
         //会社名を表示させる（見積がないときなど）
         $company = $this->invMdl->fetchCompanyNameById($get['id']);
-        //idのない人を返す
-        if (empty($get['id']) || $get['id'] === '') {
-            header('Location:../');
-        }
+
         return [
             'maxPage' => $maxPage,
             'invoices' => $invoices,
