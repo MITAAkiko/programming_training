@@ -78,9 +78,9 @@ $order2 = $res['order2'];//請求日での昇順降順
         <?php  foreach ($invoices as $invoice) : ?>
             <tr>
                 <td class="td">
-                    <a class="edit_delete" href="xcelCreation.php?id=<?php echo h($invoice['id']) ?>&cid=<?php echo h($company['id']) ?>&make=pdf">PDF</a>
+                    <a class="edit_delete" href="invoiceCreation.php?id=<?php echo h($invoice['id']) ?>&cid=<?php echo h($company['id']) ?>&make=pdf">PDF</a>
                     <span class="separation"> | </span> 
-                    <a class="edit_delete" href="xcelCreation.php?id=<?php echo h($invoice['id']) ?>&cid=<?php echo h($company['id']) ?>&make=exl">Excel</a>
+                    <a class="edit_delete" href="invoiceCreation.php?id=<?php echo h($invoice['id']) ?>&cid=<?php echo h($company['id']) ?>&make=exl">Excel</a>
                 </td>
                 <td class="td"><?php echo h($invoice['no']);?></td>
                 <td class="td"><?php echo h($invoice['title']);?></td>
