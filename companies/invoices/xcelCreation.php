@@ -14,6 +14,6 @@ $value = [
 ];
 
 $xcl = new MakePdf;
-// $filename = $xcl->makeexl($value);
 
+// $filename = $xcl->makeexl($value); //ブラウザから実行可能
 $filename = $xcl->makepdf($value);

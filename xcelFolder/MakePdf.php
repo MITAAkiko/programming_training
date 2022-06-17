@@ -22,13 +22,14 @@ namespace XcelFolder
             $sheet->setCellValue('O4', $value["num"]);//請求番号
             $sheet->setCellValue('O5', $value["date"]);//請求日
 
-            $writer = new Xlsx($spreadsheet);
             $xlname = HOME.'/xcelFolder/invoice'.date("Y-m-d_H-i").'.xlsx';
 
             // ブラウザでxcelダウンロード
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition:inline;filename="' . basename($xlname) . '"');
+            header('Content-Disposition: inline;filename="' . basename($xlname) . '"');
             header('Cache-Control: max-age=0');
+
+            $writer = new Xlsx($spreadsheet);
             $writer->save('php://output');
         }
         public function makepdf($value)
@@ -45,23 +46,24 @@ namespace XcelFolder
             $sheet->setCellValue('O4', $value["num"]);//請求番号
             $sheet->setCellValue('O5', $value["date"]);//請求日
 
-            $writer = new Xlsx($spreadsheet);
+            //ファイル名・ディレクトリ準備
             $xlname = HOME.'/xcelFolder/com-invoice'.date("Y-m-d_H-i").'.xlsx';
-            // $filename = HOME.'/xcelFolder/com-invoice'.date("Y-m-d_H-i").'.pdf';
+            $filename = HOME.'/xcelFolder/com-invoice'.date("Y-m-d_H-i").'.pdf';
             $dir = HOME.'/xcelFolder';
 
+            // pdfを新しいウィンドウにダウンロード準備
+            header('Content-Type: application/pdf');
+            // inlineで画面内部で開く。attachmentでダウンロードさせる
+            header('Content-Disposition: attachment; filename="' . basename($filename) . '" ');
+            header('Cache-Control: max-age=0');
+
+            //Excel保存
+            $writer = new Xlsx($spreadsheet);
             $writer->save($xlname); //xcelFolderにエクセルが保存される
 
             // LibreOfficeを使用してpdfエクスポート
             $command = "/usr/bin/soffice --headless --convert-to pdf --outdir " . $dir . " $xlname";
             exec($command);
-
-            // pdfを新しいウィンドウにダウンロード
-            // header('Content-Type: application/pdf');
-            // // inlineで画面内部で開く。attachmentでダウンロードさせる
-            // header('Content-Disposition: attachment; filename="' . basename($filename) . '" ');
-            // header('Cache-Control: max-age=0');
-            echo ($command);
         }
     }
 }
