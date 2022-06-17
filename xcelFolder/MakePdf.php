@@ -27,7 +27,7 @@ namespace XcelFolder
 
             // ブラウザでxcelダウンロード
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="' . basename($xlname) . '"');
+            header('Content-Disposition:inline;filename="' . basename($xlname) . '"');
             header('Cache-Control: max-age=0');
             $writer->save('php://output');
         }
@@ -50,28 +50,18 @@ namespace XcelFolder
             // $filename = HOME.'/xcelFolder/com-invoice'.date("Y-m-d_H-i").'.pdf';
             $dir = HOME.'/xcelFolder';
 
-            $writer->save($xlname); //xcelFolderに保存される
+            $writer->save($xlname); //xcelFolderにエクセルが保存される
 
-            // LibreOfficeを使用してエクスポート
+            // LibreOfficeを使用してpdfエクスポート
             $command = "/usr/bin/soffice --headless --convert-to pdf --outdir " . $dir . " $xlname";
             exec($command);
 
-            // pdfを新しいウィンドウに表示
+            // pdfを新しいウィンドウにダウンロード
             // header('Content-Type: application/pdf');
             // // inlineで画面内部で開く。attachmentでダウンロードさせる
-            // header('Content-Disposition: attachment; filename="' . basename($filename) . '"');
+            // header('Content-Disposition: attachment; filename="' . basename($filename) . '" ');
             // header('Cache-Control: max-age=0');
             echo ($command);
         }
     }
-    $value = [
-        "name" => "株式会社取引先",
-        "pay" => "2020/02/02",
-        "total" => "100000",
-        "manager" => "テスト太郎",
-        "num" => "yep30-i-00000011",
-        "date" => "2020/07/07",
-    ];
-    $xcl = new MakePdf;
-    $filename = $xcl->makepdf($value);
 }

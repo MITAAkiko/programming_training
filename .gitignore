@@ -1,1 +1,4 @@
-/vendor
+vendor/
+memo.txt
+xcelFolder/
+!xcelFolder/MakePdf.php
