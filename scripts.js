@@ -39,7 +39,7 @@ function getData() {
                     });
                
                 });
-            } else {
+            } else {//1つの場合
                 str = obj.address2 + obj.address3; //市区町村
                 $("#address").val(str)
                 document.getElementById('address').focus(); //カーソルを移動

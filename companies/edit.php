@@ -25,6 +25,14 @@ $company = $res['company'];
 
 <body>
 <main>
+    <div id=post_modal>
+        <div id='modal'>
+            <div id='select_post'>
+                <!-- radioボタン -->
+            </div>
+            <div class="decision-modal long_btn">決定</div>
+        </div>
+    </div>
     <div class="content_add">
     <div><span class="title">編集</span><a class="btn" href="index.php">戻る</a></div>
     <hr>
