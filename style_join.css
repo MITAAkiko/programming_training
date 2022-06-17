@@ -69,3 +69,39 @@ td{
     width: 75%;
     padding: 5px;
 }
+/* モーダル */
+#post_modal{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    display: none;
+    width:40%;
+    margin:0px auto;
+}
+#modal{
+    position: absolute;
+    top: 2%;
+    left: 5%;
+    background-color: #e6ecf0;
+    padding: 20px 0 20px;
+    border-radius: 10px;
+    width: 450px;
+    height: auto;
+    text-align: center;
+}
+.decision-modal{
+    width:20%;
+    height:15px;
+    margin:0px auto;
+}
+.label{
+    font-size: 13px;
+}
+#select_post{
+    text-align: left;
+    margin-left: 30px;
+}

@@ -1,5 +1,5 @@
 # Redirect
 RewriteEngine on
-RewriteRule ^(dbconnect|functions|config).php|getFromPost.js$ http://www.training-srv.develop.local/training/programming_training/companies/index.php [L,R=301]
+RewriteRule ^(dbconnect|functions|config).php$ http://www.training-srv.develop.local/training/programming_training/companies/index.php [L,R=301]
 
 ErrorDocument 404 http://www.training-srv.develop.local/training/programming_training/companies/index.php 

@@ -163,7 +163,7 @@ require_once(APP.'/controllers/CompaniesController.php');
     <?php endif; ?>
 </div>
 </main>
-<script src="../getFromPost.js"></script>
+<script src="../scripts.js"></script>
 </body>
 </html>
 

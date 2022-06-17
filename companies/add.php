@@ -24,6 +24,15 @@ require_once(APP.'/controllers/CompaniesController.php');
 
 <body>
 <main>
+    <div id=post_modal>
+        <div id='modal'>
+            <div id='select_post'>
+                <!-- radioボタン -->
+            </div>
+            <div class="decision-modal long_btn">決定</div>
+        </div>
+    </div>
+
     <div class="content_add">
     <div><span class="title">会社登録</span><a class="btn" href="./index.php">戻る</a></div>
     <hr>
@@ -151,6 +160,6 @@ require_once(APP.'/controllers/CompaniesController.php');
     </form>
     </div>
 </main>
-<script src="../getFromPost.js"></script>
+<script src="../scripts.js"></script>
 </body>
 </html>
