@@ -1,8 +1,8 @@
 <?php
 require_once('/var/www/html/training/programming_training/config.php');
-require_once(HOME.'/xcelFolder/MakePdf.php');
+require_once(APP.'/controllers/MakeExcelController.php');
 require(HOME.'/vendor/autoload.php');//念のため？
-use XcelFolder\MakePdf;
+use App\Controllers\MakeExcelController;
 
 $value = [
     "name" => "株式会社取引先",
@@ -13,7 +13,7 @@ $value = [
     "date" => "2020/07/07",
 ];
 
-$xcl = new MakePdf;
+$xcl = new MakeExcelController;
 
-// $filename = $xcl->makeexl($value); //ブラウザから実行可能
-$filename = $xcl->makepdf($value);
+$filename = $xcl->makeexl($value); //ブラウザから実行可能
+// $filename = $xcl->makepdf($value);

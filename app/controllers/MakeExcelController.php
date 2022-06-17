@@ -1,11 +1,11 @@
 <?php
-namespace XcelFolder
+namespace App\Controllers
 {
     require_once('/var/www/html/training/programming_training/config.php');
     require(HOME.'/vendor/autoload.php');
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-    class MakePdf
+    class MakeExcelController
     {
 
         public function makeexl($value)
