@@ -4,7 +4,7 @@ function h($value)
 {
     return htmlspecialchars($value, ENT_QUOTES);
 }
-//状態の入力値があっているか
+//状態(status)の入力値があっているか
 function sttnum($value)
 {
     if ($value === '1' || $value === '2' || $value === '9') {
@@ -13,7 +13,7 @@ function sttnum($value)
         return $value = null;
     }
 }
-//昇順降順の入力値があっているか
+//昇順降順(order)の入力値があっているか
 function ordnum($value)
 {
     if ($value === '1' || $value === '-1') {

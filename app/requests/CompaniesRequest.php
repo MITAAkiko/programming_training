@@ -27,13 +27,13 @@ class CompaniesRequest extends Request
     //エラーがあるか
     public function checkIsError($post)
     {
+        $this->nameIsError($post['name']);
         $this->managerIsError($post['manager']);
         $this->phoneIsError($post['phone']);
         $this->postalIsError($post['postal_code']);
         $this->prefectureIsError($post['prefecture_code']);
         $this->addressIsError($post['address']);
         $this->emailIsError($post['email']);
-        $this->nameIsError($post['name']);
         $this->prefixIsError($post['prefix']);
         //エラーチェック
         return $this->isError($this->error, $this->nonerror);
