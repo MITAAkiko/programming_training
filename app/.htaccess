@@ -1,0 +1,2 @@
+# Redirect
+RedirectMatch 301 (.*) http://www.training-srv.develop.local/training/programming_training/companies/index.php

@@ -1,4 +1,5 @@
 <?php
+
 require_once('../config.php');
 require_once(HOME.'/dbconnect.php');
 require_once(HOME.'/functions.php');
@@ -18,11 +19,20 @@ $company = $res['company'];
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="../style.css">
 <link rel="stylesheet" type="text/css" href="../style_join.css">
+<script src="../../../jquery-3.6.0.min.js"></script>
     <title>プログラミング実習</title>
 </head>
 
 <body>
 <main>
+    <div id=post_modal>
+        <div id='modal'>
+            <div id='select_post'>
+                <!-- radioボタン -->
+            </div>
+            <div class="decision-modal long_btn">決定</div>
+        </div>
+    </div>
     <div class="content_add">
     <div><span class="title">編集</span><a class="btn" href="index.php">戻る</a></div>
     <hr>
@@ -79,13 +89,13 @@ $company = $res['company'];
             </td>
         </tr>
         <tr><th rowspan="3">住所</th> 
-            <td>郵便番号 <input class="text_join_address" type="text" name="postal_code" 
+            <td>郵便番号 <input class="text_join_post" type="text" name="postal_code" id="postcode" 
                 value="<?php
                 if (!empty($_POST['postal_code'])) {
                     echo h($_POST['postal_code']);
                 } else {
                     echo h($company['postal_code']);
-                } ?>">
+                } ?>"><span class='search_address' onclick="getData();">住所検索</span><br/>
                 <?php if ($error['postal_code']==='blank') : ?>
                     <p class="error">※郵便番号を入力してください</p>
                 <?php elseif ($error['postal_code'] === 'type') : ?>
@@ -96,7 +106,7 @@ $company = $res['company'];
             </td>
         </tr>
             <tr><td>都道府県<select class="select_address" name="prefecture_code">
-                    <option value="<?php echo h($company['prefecture_code']); ?>"><?php echo PREFECTURES[h($company['prefecture_code'])] ?></option>
+                    <option id="prefcode" value="<?php echo h($company['prefecture_code']); ?>"><?php echo PREFECTURES[h($company['prefecture_code'])] ?></option>
                     <?php foreach (PREFECTURES as $number => $value) : ?>
                         <option value="<?php echo $number ?>"><?php echo $value ?></option>
                     <?php endforeach; ?>
@@ -112,7 +122,7 @@ $company = $res['company'];
                     <?php endif; ?>
                 </td>
             </tr>
-            <tr><td>市区町村 <input class="text_join_address" type="text" name="address" 
+            <tr><td>市区町村 <input id="address" class="text_join_address" type="text" name="address" 
                 value="<?php
                 if (!empty($_POST['address'])) {
                     echo h($_POST['address']);
@@ -158,4 +168,6 @@ $company = $res['company'];
 </form>
     </div>
 </main>
+<script src="../scripts.js"></script>
 </body>
+</html>
