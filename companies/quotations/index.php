@@ -151,11 +151,6 @@ $order2 = $res['order2'];
     <?php endif; ?>
 </div>
 </main>
+<script src="../../get_from_post.js"></script>
 </body>
-<script>
-function cfm()
-{
-    return confirm('本当に削除しますか');
-}
-</script>
 </html>

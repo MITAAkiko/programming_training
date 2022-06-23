@@ -1,6 +1,5 @@
 <?php
 
-require_once('get_from_post.html');
 require_once('../config.php');
 require_once(HOME.'/functions.php');
 require_once(APP.'/controllers/CompaniesController.php');
@@ -19,11 +18,21 @@ require_once(APP.'/controllers/CompaniesController.php');
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="../style.css">
 <link rel="stylesheet" type="text/css" href="../style_join.css">
+<script src="../../../jquery-3.6.0.min.js"></script>
     <title>プログラミング実習</title>
 </head>
 
 <body>
 <main>
+    <div id=post_modal>
+        <div id='modal'>
+            <div id='select_post'>
+                <!-- radioボタン -->
+            </div>
+            <div class="decision-modal long_btn">決定</div>
+        </div>
+    </div>
+
     <div class="content_add">
     <div><span class="title">会社登録</span><a class="btn" href="./index.php">戻る</a></div>
     <hr>
@@ -151,4 +160,6 @@ require_once(APP.'/controllers/CompaniesController.php');
     </form>
     </div>
 </main>
+<script src="../scripts.js"></script>
 </body>
+</html>
