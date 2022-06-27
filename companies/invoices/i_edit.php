@@ -1,6 +1,5 @@
 <?php
 require_once('../../config.php');
-require_once(HOME.'/dbconnect.php');
 require_once(HOME.'/functions.php');
 require_once(APP.'/controllers/InvoicesController.php');
 use App\Controllers\InvoicesController;

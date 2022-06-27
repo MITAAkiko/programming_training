@@ -1,5 +1,4 @@
 <?php
-require('../../dbconnect.php');
 require('../../app/controllers/QuotationsController.php');
 use App\Controllers\QuotationController;
 

@@ -33,7 +33,7 @@ $order2 = $res['order2'];//請求日での昇順降順
     <hr>
     
     <form action='./' method="get" href='./?id=<?php echo h($_GET['id']) ?>&search=<?php echo h($_GET['search']) ?>'><!--getにhrefいらない？自動で入力？-->
-    <a href="./make_invoice.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">請求作成</a>
+    <a href="./i_add.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">請求作成</a>
         <input class="search_btn" type="submit" value="検索">
         <select class="text_search" name="search">
             <!--検索した後の初期値-->
@@ -51,6 +51,7 @@ $order2 = $res['order2'];//請求日での昇順降順
     <br>
     <table>
         <tr class="table_heading">
+            <th class="makeInv">請求書 出力</th>
             <form action='index.php' method=get>
                 <input type='hidden' name='id' value="<?php echo h($_GET['id']); ?>">
                 <?php if (!empty($_GET['search'])) : ?>
@@ -76,6 +77,11 @@ $order2 = $res['order2'];//請求日での昇順降順
         
         <?php  foreach ($invoices as $invoice) : ?>
             <tr>
+                <td class="td">
+                    <a class="edit_delete" href="invoiceCreation.php?id=<?php echo h($invoice['id']) ?>&cid=<?php echo h($company['id']) ?>&make=pdf">PDF</a>
+                    <span class="separation"> | </span> 
+                    <a class="edit_delete" href="invoiceCreation.php?id=<?php echo h($invoice['id']) ?>&cid=<?php echo h($company['id']) ?>&make=exl">Excel</a>
+                </td>
                 <td class="td"><?php echo h($invoice['no']);?></td>
                 <td class="td"><?php echo h($invoice['title']);?></td>
                 <td class="td"><?php echo h($invoice['manager_name']);?></td>
@@ -126,6 +132,6 @@ $order2 = $res['order2'];//請求日での昇順降順
     <?php endif; ?>
 </div>
 </main>
+<script src="../../scripts.js"></script>
 </body>
-<script src="../../get_from_post.js"></script>
 </html>

@@ -1,5 +1,4 @@
 <?php
-require('../../dbconnect.php');
 require('../../app/controllers/InvoicesController.php');
 use App\Controllers\InvoicesController;
 

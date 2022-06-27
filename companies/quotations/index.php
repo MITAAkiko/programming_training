@@ -1,7 +1,6 @@
 <?php
 
 require_once('../../config.php');
-require_once(HOME.'/dbconnect.php');
 require_once(HOME.'/functions.php');
 require_once(APP.'/controllers/QuotationsController.php');
 use App\Controllers\QuotationController;
@@ -35,7 +34,7 @@ $order2 = $res['order2'];
     <hr>
     <!--絞り込み-->
     <form action='./' method="get" href='./?id=<?php echo h($_GET['id']) ?>&search=<?php echo h($_GET['search']) ?>'>
-    <a href="./make_quote.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">見積作成</a>
+    <a href="./q_add.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">見積作成</a>
         <input class="search_btn" type="submit" value="検索">
         <select class="text_search" name="search">
             <?php if (!empty($_GET['search'])) :?>
@@ -151,6 +150,6 @@ $order2 = $res['order2'];
     <?php endif; ?>
 </div>
 </main>
-<script src="../../get_from_post.js"></script>
+<script src="../../scripts.js"></script>
 </body>
 </html>

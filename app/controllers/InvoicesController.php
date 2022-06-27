@@ -22,6 +22,7 @@ class InvoicesController
     }
     public function index($get)
     {
+        $get['id'] = mb_convert_kana($get['id'], "n"); //半角数字に合わせる
         //idチェック
         $check = $this->invMdl->checkId($get['id']);
         if (!$check) {
@@ -59,19 +60,14 @@ class InvoicesController
             $maxPage = ceil($cnt['cnt']/10);
         }
         //page
+        $page = 0;
         if (!empty($get['page'])) {
             $page = $get['page'];
-            $page = mb_convert_kana($page, "n");
-            if ($page === '') {
-                $page = 1;
-            }
+            $page = is_page($page, $maxPage);
+        } else {
+            $page = 1;
         }
-        //最小値
-        $page = max($page, 1);
-        //最大値
-        $maxPage = max($maxPage, 1);
-        $page = min($page, $maxPage);
-        //ページ
+        //最初のデータ番号
         $start = ($page - 1) * 10;
 
         //DBに接続する用意

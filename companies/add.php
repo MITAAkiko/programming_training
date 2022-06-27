@@ -4,7 +4,6 @@ require_once('../config.php');
 require_once(HOME.'/functions.php');
 require_once(APP.'/controllers/CompaniesController.php');
 
-
  use App\Controllers\CompaniesController;
 
  $cmp = new CompaniesController;
@@ -26,6 +25,7 @@ require_once(APP.'/controllers/CompaniesController.php');
 <main>
     <div id=post_modal>
         <div id='modal'>
+            <span id='close_modal'>&#10006;</span>
             <div id='select_post'>
                 <!-- radioボタン -->
             </div>

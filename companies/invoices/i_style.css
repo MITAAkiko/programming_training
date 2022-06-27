@@ -1,14 +1,17 @@
 .home{
     margin: 20px 0px;
 }
+.makeInv{
+    width: 7%;
+}
 .no{
-    width: 10%;
+    width: 11%;
 }
 .title{
-    width: 35%;
+    width: 26%;
 }
 .manager{
-    width: 7%;
+    width: 8%;
 }
 .total{
     width: 10%;
@@ -53,4 +56,8 @@
     height:23px;
     width:90%;
     font-size: 7px;
+}
+.separation{
+    color:lightgray;
+    padding:0px 1px;
 }
