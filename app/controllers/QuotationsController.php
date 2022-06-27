@@ -19,6 +19,7 @@ class QuotationController
     }
     public function index($get)
     {
+        $get['id'] = mb_convert_kana($get['id'], "n"); //半角数字に合わせる
         $check = $this->quoMdl->checkId($get['id']);
         if (!$check) {
             header('Location:../');

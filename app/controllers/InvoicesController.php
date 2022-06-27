@@ -22,6 +22,7 @@ class InvoicesController
     }
     public function index($get)
     {
+        $get['id'] = mb_convert_kana($get['id'], "n"); //半角数字に合わせる
         //idチェック
         $check = $this->invMdl->checkId($get['id']);
         if (!$check) {
