@@ -42,18 +42,10 @@ class CompaniesController
         $page = 0;
         if (!empty($get['page'])) {
             $page = $get['page'];
-            $page = mb_convert_kana($page, "n"); //半角数字に合わせる
-            if ($page === '') {
-                $page = 1;
-            }
+            $page = is_page($page, $maxPage);
         } else {
             $page = 1;
         }
-        //最小値
-        $page = max($page, 1);
-        //最大値（存在しないページを指定された場合）
-        $page = min($page, $maxPage);
-        //ページ
         $start = ($page - 1) * 10;
 
         //DBに接続　検索・昇順降順
