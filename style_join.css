@@ -105,3 +105,12 @@ td{
     text-align: left;
     margin-left: 30px;
 }
+#close_modal{
+    float:right;
+    color: gray;
+    font-size:large;
+    margin-right:30px;
+}
+#close_modal:hover{
+    cursor: pointer;
+}

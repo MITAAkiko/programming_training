@@ -27,6 +27,12 @@ function getData() {
                         let radiobtn = '<input name="post" id=address'+i+' type="radio" value="' + str + '" class="rdobtn"><label class="label" for="address'+i+'">' + str + '</label><br class="label">'
                         $('#select_post').append(radiobtn)
                     }
+                $('#close_modal').click(function(){
+                    $('#post_modal').hide();//モーダル消す
+                    $('.rdobtn').remove();//前のデータ消す。ラジオボタン
+                    $('.label').remove();//前のデータ消す。ラベルと改行
+                    $("#address").val(str1)
+                });
                 $('#select_post').click(function(){
                     const str1 = $('input:radio[name="post"]:checked').val();
                     $('.decision-modal').click(function(){
