@@ -133,6 +133,7 @@ table th ,table td{
 .search_btn:hover{
     cursor:pointer;
     border: 2px solid;
+    padding: 4px 19px;
     border-color: rgb(193, 193, 193);
 }
 /*丸い・白背景・赤文字・一覧へ移動のボタン*/
@@ -200,10 +201,10 @@ table th ,table td{
     color: rgb(227, 227, 227);
 }
 .ascdesc:active{
-    color: rgb(0, 0, 0);
+    color:#AA0000;
 }
 .advice{
-    color:rgb(255, 219, 219)
+    color:rgb(255, 219, 219);
 }
 
 .search_address{
