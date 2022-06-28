@@ -8,7 +8,12 @@ class CompaniesModel
     {
         $user = 'root';
         $pass = 'P@ssw0rd';
-        $this->db = new \PDO('mysql:dbname=programming_training;host=127.0.0.1;charset=utf8', $user, $pass);
+        try {
+            $this->db = new \PDO('mysql:dbname=programming_training;host=127.0.0.1;charset=utf8', $user, $pass);
+            $this->db -> setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        } catch (\PDOException $e) {
+            echo '接続エラー:'.$e -> getMessage();
+        }
     }
     public function fetchMaxPageSearched($searched)
     {
