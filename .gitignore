@@ -1,3 +1,5 @@
 vendor/
 memo.txt
 xcelFolder/
+PHPMailer/
+sendMail.php
