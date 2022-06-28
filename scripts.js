@@ -1,12 +1,11 @@
 
 //Ajax関数
 function getData() {
-    //
     var incode = $("#postcode").val();
     $.ajax({
         type: 'get'
       , url: 'https://zip-cloud.appspot.com/api/search'
-      , dataType:'jsonp'        // 応答のデータの種類 
+      , dataType:'jsonp'        // 応答のデータの種類 jsonデータを取得するための仕組み
       , data: { 
             zipcode: incode     // 郵便番号
         }
@@ -26,8 +25,14 @@ function getData() {
                     for (i = 0; i < res.results.length; i++) {
                         str = res.results[i].address2 + res.results[i].address3; //市区町村
                         let radiobtn = '<input name="post" id=address'+i+' type="radio" value="' + str + '" class="rdobtn"><label class="label" for="address'+i+'">' + str + '</label><br class="label">'
-                        $('#select_post').append(radiobtn)
+                        $('#select_post').append(radiobtn);
                     }
+                $('#close_modal').click(function(){
+                    $('#post_modal').hide();//モーダル消す
+                    $('.rdobtn').remove();//前のデータ消す。ラジオボタン
+                    $('.label').remove();//前のデータ消す。ラベルと改行
+                    $("#address").val(str1);
+                });
                 $('#select_post').click(function(){
                     const str1 = $('input:radio[name="post"]:checked').val();
                     $('.decision-modal').click(function(){
@@ -41,7 +46,7 @@ function getData() {
                 });
             } else {//1つの場合
                 str = obj.address2 + obj.address3; //市区町村
-                $("#address").val(str)
+                $("#address").val(str);
                 document.getElementById('address').focus(); //カーソルを移動
             }//
         } else {

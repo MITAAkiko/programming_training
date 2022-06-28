@@ -6,7 +6,14 @@ class InvoicesModel
     private $db;
     public function __construct()
     {
-        $this->db = new \PDO('mysql:dbname=programming_training;host=127.0.0.1;charset=utf8', 'root', 'P@ssw0rd');
+        $user = 'root';
+        $pass = 'P@ssw0rd';
+        try {
+            $this->db = new \PDO('mysql:dbname=programming_training;host=127.0.0.1;charset=utf8', $user, $pass);
+            $this->db -> setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        } catch (\PDOException $e) {
+            echo '接続エラー:'.$e -> getMessage();
+        }
     }
     //check id
     public function checkId($id)
@@ -147,7 +154,7 @@ class InvoicesModel
     }
     public function fetchCompanyNameById($id)
     {
-        $companies = $this->db->prepare('SELECT  company_name, id, prefix FROM companies WHERE id = ? AND deleted IS NULL');
+        $companies = $this->db->prepare('SELECT  company_name, id, prefix, manager_name FROM companies WHERE id = ? AND deleted IS NULL');
         $companies->bindParam(1, $id, \PDO::PARAM_INT);
         $companies->execute();
         $company = $companies->fetch();

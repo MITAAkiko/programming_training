@@ -97,10 +97,15 @@ table th ,table td{
     font-weight:bold;
     font-size: 13px;
     border-radius: 30px;
-    border: 0px;
-    padding:6px 40px;
+    border:2px solid;
+    border-color: #EE0000;
+    padding:4px 40px;
     /*下線を消す*/
     text-decoration: none;
+}
+.long_btn:active{
+    color: #EE0000;
+    background-color: white;
 }
 
 /*検索・絞り込みエリア*/
@@ -125,7 +130,13 @@ table th ,table td{
     padding: 5px 20px;
     font-size: 12px;
 }
-/*丸い・白背景・赤文字・見積/請求一覧のボタン*/
+.search_btn:hover{
+    cursor:pointer;
+    border: 2px solid;
+    padding: 4px 19px;
+    border-color: rgb(193, 193, 193);
+}
+/*丸い・白背景・赤文字・一覧へ移動のボタン*/
 .list_btn{
     background-color: #ffffff;
     color: #EE0000;
@@ -163,7 +174,7 @@ table th ,table td{
     border: 1px solid;
     border-color: rgb(193, 193, 193);
     border-radius: 5px;
-    padding: 3px 18px;
+    padding: 3px 13px;
     /*下線を消す*/
     text-decoration: none;
     color: black;
@@ -187,11 +198,13 @@ table th ,table td{
     padding: 0px 0px;
 }
 .ascdesc:hover{
-    color: rgb(191, 191, 191);
-    
+    color: rgb(227, 227, 227);
+}
+.ascdesc:active{
+    color:#AA0000;
 }
 .advice{
-    color:rgb(255, 219, 219)
+    color:rgb(255, 219, 219);
 }
 
 .search_address{
@@ -208,4 +221,9 @@ table th ,table td{
 }
 .search_address:hover{
     cursor: pointer;
+}
+.search_address:active{
+    color: white;
+    background-color: #EE0000;
+
 }

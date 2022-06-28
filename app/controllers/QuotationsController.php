@@ -19,6 +19,7 @@ class QuotationController
     }
     public function index($get)
     {
+        $get['id'] = mb_convert_kana($get['id'], "n"); //半角数字に合わせる
         $check = $this->quoMdl->checkId($get['id']);
         if (!$check) {
             header('Location:../');
@@ -55,18 +56,14 @@ class QuotationController
         }
         $maxPage = max($maxPage, 1);
         //page
+        //ページ移動用
+        $page = 0;
         if (!empty($get['page'])) {
             $page = $get['page'];
-            $page = mb_convert_kana($page, "n");//ページが半角全角混ざるとエラーになるので、全て半角に
-            if ($page === '') {
-                $page = 1;
-            }
+            $page = is_page($page, $maxPage);
+        } else {
+            $page = 1;
         }
-        //最小値
-        $page = max($page, 1);
-        //最大値
-        $page = min($page, $maxPage);
-
         //DBに接続する用意
         //会社名を表示させる（見積がないときなど）
         $company = $this->quoMdl->fetchCompanyNameById($get['id']);

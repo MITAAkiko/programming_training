@@ -1,7 +1,6 @@
 <?php
 
 require_once('../config.php');
-require_once(HOME.'/dbconnect.php');
 require_once(HOME.'/functions.php');
 require_once(APP.'/controllers/CompaniesController.php');
 
@@ -42,6 +41,7 @@ require_once(APP.'/controllers/CompaniesController.php');
     <table id='companies_list'>
         <tr class="table_heading">
             <form action='index.php' method=get>
+                <th class="th ID">会社番号　<input class="ascdesc" type="submit" value="&#9660;"></th><!--▼-->
                 <?php if ($order === 'DESC') :?>
                     <?php $order = 'ASC' ?><!--ここはボタンの値を決める。-->
                 <?php else : ?>
@@ -51,7 +51,6 @@ require_once(APP.'/controllers/CompaniesController.php');
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
                 <input type='hidden' name='order' value="<?php echo h($order) ?>">
-                <th class="th ID">会社番号　<input class="ascdesc" type="submit" value="▼"></th>
             </form>
             <th class="th name">会社名</th><th class="th PIC">担当者名</th><th class="th tel">電話番号</th>
             <th class="th address">住所</th><th class="th email">メールアドレス</th>

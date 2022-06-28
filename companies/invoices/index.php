@@ -33,7 +33,7 @@ $order2 = $res['order2'];//請求日での昇順降順
     <hr>
     
     <form action='./' method="get" href='./?id=<?php echo h($_GET['id']) ?>&search=<?php echo h($_GET['search']) ?>'><!--getにhrefいらない？自動で入力？-->
-    <a href="./make_invoice.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">請求作成</a>
+    <a href="./i_add.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">請求作成</a>
         <input class="search_btn" type="submit" value="検索">
         <select class="text_search" name="search">
             <!--検索した後の初期値-->
@@ -51,13 +51,14 @@ $order2 = $res['order2'];//請求日での昇順降順
     <br>
     <table>
         <tr class="table_heading">
+            <th class="makeInv">請求書 出力</th>
             <form action='index.php' method=get>
                 <input type='hidden' name='id' value="<?php echo h($_GET['id']); ?>">
                 <?php if (!empty($_GET['search'])) : ?>
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
                 <input type='hidden' name='order' value="<?php echo h($order * -1) ?>" >
-                <th class="no">請求番号　<input class="ascdesc" type="submit" value="▼"></th>
+                <th class="no">請求番号　<input class="ascdesc" type="submit" value="&#9660;"></th><!--▼-->
             </form>
             <th class="title">請求名</th><th class="manager">担当者名</th>
             <th class="total">金額</th><th class="pay">支払期限</th>
@@ -67,7 +68,7 @@ $order2 = $res['order2'];//請求日での昇順降順
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
                 <input type='hidden' name='order2' value="<?php echo h($order2 * -1) ?>" >
-                <th class="date">請求日<input class="ascdesc" type="submit" value="▼"></th>
+                <th class="date">請求日<input class="ascdesc" type="submit" value="&#9660;"></th><!--▼-->
                 <!-- $_GET['id']と$_GET['search']の値は渡すが、IDと請求日の値をお互いに渡さないことで上書き？ -->
             </form>
             <th class="quo">見積番号</th><th class="status">状態</th>
@@ -76,6 +77,11 @@ $order2 = $res['order2'];//請求日での昇順降順
         
         <?php  foreach ($invoices as $invoice) : ?>
             <tr>
+                <td class="td">
+                    <a class="edit_delete" href="invoiceCreation.php?id=<?php echo h($invoice['id']) ?>&cid=<?php echo h($company['id']) ?>&make=pdf">PDF</a>
+                    <span class="separation"> | </span> 
+                    <a class="edit_delete" href="invoiceCreation.php?id=<?php echo h($invoice['id']) ?>&cid=<?php echo h($company['id']) ?>&make=exl">Excel</a>
+                </td>
                 <td class="td"><?php echo h($invoice['no']);?></td>
                 <td class="td"><?php echo h($invoice['title']);?></td>
                 <td class="td"><?php echo h($invoice['manager_name']);?></td>
@@ -126,6 +132,6 @@ $order2 = $res['order2'];//請求日での昇順降順
     <?php endif; ?>
 </div>
 </main>
+<script src="../../scripts.js"></script>
 </body>
-<script src="../../get_from_post.js"></script>
 </html>

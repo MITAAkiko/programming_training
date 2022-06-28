@@ -42,22 +42,14 @@ class CompaniesController
         $page = 0;
         if (!empty($get['page'])) {
             $page = $get['page'];
-            $page = mb_convert_kana($page, "n");
-            if ($page === '') {
-                $page = 1;
-            }
+            $page = is_page($page, $maxPage);
         } else {
             $page = 1;
         }
-        //最小値
-        $page = max($page, 1);
-        //最大値（存在しないページを指定された場合）
-        $page = min($page, $maxPage);
-        //ページ
         $start = ($page - 1) * 10;
 
         //DBに接続　検索・昇順降順
-        //モデルの中でif文を使いたくなかったので、ASC/DESCで分けて2パターン書いた？
+        //モデルの中でif文を使いたくなかったので、ASC/DESCで分けて2パターン書いた
         if (!empty($get['search'])) {//GETでおくる
             $searched = '%' . addcslashes($get['search'], '%_\\') . '%' ;
             if ($order === 'DESC') {
@@ -120,7 +112,9 @@ class CompaniesController
                 header('Location:./');
                 //exit();
             } else {//エラーがあったとき、選択項目をもう一度選択してもらう
-                $error['prefecture_code'] = 'error';
+                if (empty($error['prefecture_code'])) {
+                    $error['prefecture_code'] = 'error';
+                }
                 return [
                     'error' => $error,
                     'company' => $company,

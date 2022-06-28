@@ -6,7 +6,14 @@ class CompaniesModel
     private $db;
     public function __construct()
     {
-        $this->db = new \PDO('mysql:dbname=programming_training;host=127.0.0.1;charset=utf8', 'root', 'P@ssw0rd');
+        $user = 'root';
+        $pass = 'P@ssw0rd';
+        try {
+            $this->db = new \PDO('mysql:dbname=programming_training;host=127.0.0.1;charset=utf8', $user, $pass);
+            $this->db -> setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        } catch (\PDOException $e) {
+            echo '接続エラー:'.$e -> getMessage();
+        }
     }
     public function fetchMaxPageSearched($searched)
     {
@@ -76,7 +83,7 @@ class CompaniesModel
         $statement->bindParam(2, $post['manager'], \PDO::PARAM_STR);
         $statement->bindParam(3, $post['phone'], \PDO::PARAM_STR);
         $statement->bindParam(4, $post['postal_code'], \PDO::PARAM_STR);
-        $statement->bindParam(5, $post['prefecture_code'], \PDO::PARAM_STR);
+        $statement->bindParam(5, $post['prefecture_code'], \PDO::PARAM_INT);
         $statement->bindParam(6, $post['address'], \PDO::PARAM_STR);
         $statement->bindParam(7, $post['email'], \PDO::PARAM_STR);
         $statement->bindParam(8, $post['prefix'], \PDO::PARAM_STR);
@@ -99,8 +106,8 @@ class CompaniesModel
             modified = NOW() WHERE id = ?');
         $statement->bindParam(1, $post['name'], \PDO::PARAM_STR);
         $statement->bindParam(2, $post['manager'], \PDO::PARAM_STR);
-        $statement->bindParam(3, $post['phone'], \PDO::PARAM_INT);
-        $statement->bindParam(4, $post['postal_code'], \PDO::PARAM_INT);
+        $statement->bindParam(3, $post['phone'], \PDO::PARAM_STR);
+        $statement->bindParam(4, $post['postal_code'], \PDO::PARAM_STR);
         $statement->bindParam(5, $post['prefecture_code'], \PDO::PARAM_INT);
         $statement->bindParam(6, $post['address'], \PDO::PARAM_STR);
         $statement->bindParam(7, $post['email'], \PDO::PARAM_STR);

@@ -1,7 +1,6 @@
 <?php
 
 require_once('../../config.php');
-require_once(HOME.'/dbconnect.php');
 require_once(HOME.'/functions.php');
 require_once(APP.'/controllers/QuotationsController.php');
 use App\Controllers\QuotationController;
@@ -35,7 +34,7 @@ $order2 = $res['order2'];
     <hr>
     <!--絞り込み-->
     <form action='./' method="get" href='./?id=<?php echo h($_GET['id']) ?>&search=<?php echo h($_GET['search']) ?>'>
-    <a href="./make_quote.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">見積作成</a>
+    <a href="./q_add.php?id=<?php echo h($_GET['id']) ?>" class="long_btn">見積作成</a>
         <input class="search_btn" type="submit" value="検索">
         <select class="text_search" name="search">
             <?php if (!empty($_GET['search'])) :?>
@@ -57,7 +56,7 @@ $order2 = $res['order2'];
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
                 <input type='hidden' name='order' value="<?php echo h($order * -1) ?>" >
-                <th class="no">見積番号　<input class="ascdesc" type="submit" value="▼"></th>
+                <th class="no">見積番号　<input class="ascdesc" type="submit" value="&#9660;"></th><!--▼-->
             </form>
             <th class="title">見積名</th><th class="manager">担当者名</th>
             <th class="total">金額</th><th class="period">見積書有効期限</th>
@@ -67,7 +66,7 @@ $order2 = $res['order2'];
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
                 <input type='hidden' name='order2' value="<?php echo h($order2 * -1) ?>" >
-                <th class="due">納期<input class="ascdesc" type="submit" value="▼"></th>
+                <th class="due">納期<input class="ascdesc" type="submit" value="&#9660;"></th><!--▼-->
             </form>
             <th class="status">状態</th><th class="q_edit">編集</th><th class="q_delete">削除</th>
         </tr>
@@ -151,6 +150,6 @@ $order2 = $res['order2'];
     <?php endif; ?>
 </div>
 </main>
-<script src="../../get_from_post.js"></script>
+<script src="../../scripts.js"></script>
 </body>
 </html>

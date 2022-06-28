@@ -1,7 +1,6 @@
 <?php
 
 require_once('../config.php');
-require_once(HOME.'/dbconnect.php');
 require_once(HOME.'/functions.php');
 require_once(APP.'/controllers/CompaniesController.php');
 
@@ -95,7 +94,7 @@ $company = $res['company'];
                     echo h($_POST['postal_code']);
                 } else {
                     echo h($company['postal_code']);
-                } ?>"><span class='search_address' onclick="getData();">住所検索</span><br/>
+                } ?>"><span class='search_address' onclick="getData()">住所検索</span><br/>
                 <?php if ($error['postal_code']==='blank') : ?>
                     <p class="error">※郵便番号を入力してください</p>
                 <?php elseif ($error['postal_code'] === 'type') : ?>
@@ -118,7 +117,7 @@ $company = $res['company'];
                     <?php elseif ($error['prefecture_code'] === 'type') : ?>
                         <p class="error">※正しく選択してください</p>
                     <?php elseif ($error['prefecture_code'] === 'error') :?>
-                        <p class="error">※変更の際はもう一度入力してください</p>
+                        <p class="error">※変更の際はもう一度入力か住所検索を押してください</p>
                     <?php endif; ?>
                 </td>
             </tr>
