@@ -58,7 +58,7 @@ $order2 = $res['order2'];//請求日での昇順降順
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
                 <input type='hidden' name='order' value="<?php echo h($order * -1) ?>" >
-                <th class="no">請求番号　<input class="ascdesc" type="submit" value="▼"></th>
+                <th class="no">請求番号　<input class="ascdesc" type="submit" value="&#9660;"></th><!--▼-->
             </form>
             <th class="title">請求名</th><th class="manager">担当者名</th>
             <th class="total">金額</th><th class="pay">支払期限</th>
@@ -68,7 +68,7 @@ $order2 = $res['order2'];//請求日での昇順降順
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
                 <input type='hidden' name='order2' value="<?php echo h($order2 * -1) ?>" >
-                <th class="date">請求日<input class="ascdesc" type="submit" value="▼"></th>
+                <th class="date">請求日<input class="ascdesc" type="submit" value="&#9660;"></th><!--▼-->
                 <!-- $_GET['id']と$_GET['search']の値は渡すが、IDと請求日の値をお互いに渡さないことで上書き？ -->
             </form>
             <th class="quo">見積番号</th><th class="status">状態</th>

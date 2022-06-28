@@ -56,7 +56,7 @@ $order2 = $res['order2'];
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
                 <input type='hidden' name='order' value="<?php echo h($order * -1) ?>" >
-                <th class="no">見積番号　<input class="ascdesc" type="submit" value="▼"></th>
+                <th class="no">見積番号　<input class="ascdesc" type="submit" value="&#9660;"></th><!--▼-->
             </form>
             <th class="title">見積名</th><th class="manager">担当者名</th>
             <th class="total">金額</th><th class="period">見積書有効期限</th>
@@ -66,7 +66,7 @@ $order2 = $res['order2'];
                     <input type='hidden' name='search' value="<?php echo h($_GET['search']); ?>" >
                 <?php endif; ?>
                 <input type='hidden' name='order2' value="<?php echo h($order2 * -1) ?>" >
-                <th class="due">納期<input class="ascdesc" type="submit" value="▼"></th>
+                <th class="due">納期<input class="ascdesc" type="submit" value="&#9660;"></th><!--▼-->
             </form>
             <th class="status">状態</th><th class="q_edit">編集</th><th class="q_delete">削除</th>
         </tr>
