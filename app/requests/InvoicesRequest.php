@@ -24,12 +24,12 @@ namespace App\Requests
         }
         public function checkIsError($post)
         {
-            $this->titleIsError($post['title']);
-            $this->totalIsError($post['total']);
-            $this->payIsError($post['pay'], $post['date']);
-            $this->dateIsError($post['date']);
-            $this->quoIsError($post['quo']);
-            $this->statusIsError($post['status']);
+            $this->titleError($post['title']);
+            $this->totalError($post['total']);
+            $this->payError($post['pay'], $post['date']);
+            $this->dateError($post['date']);
+            $this->quoError($post['quo']);
+            $this->statusError($post['status']);
             return $this->isError($this->error, $this->nonerror);
         }
         //エラー内容は何か
@@ -38,7 +38,7 @@ namespace App\Requests
             return $this->error;
         }
         //各エラーチェック
-        private function titleIsError($input)
+        private function titleError($input)
         {
             $errors = [
                 $this->blank($input),
@@ -47,7 +47,7 @@ namespace App\Requests
             $this->error['title'] = $this->errors($errors);
             return $this->error['title'];
         }
-        private function totalIsError($input)
+        private function totalError($input)
         {
             $errors = [
                 $this->blank($input),
@@ -57,7 +57,7 @@ namespace App\Requests
             $this->error['total'] = $this->errors($errors);
             return $this->error['total'];
         }
-        private function payIsError($input, $input2)
+        private function payError($input, $input2)
         {
             $errors = [
                 $this->blank($input),
@@ -68,7 +68,7 @@ namespace App\Requests
             $this->error['pay'] = $this->errors($errors);
             return $this->error['pay'];
         }
-        private function dateIsError($input)
+        private function dateError($input)
         {
             $errors = [
                 $this->blank($input),
@@ -78,7 +78,7 @@ namespace App\Requests
             $this->error['date'] = $this->errors($errors);
             return $this->error['date'];
         }
-        private function quoIsError($input)
+        private function quoError($input)
         {
             $errors = [
                 $this->blank($input),
@@ -88,7 +88,7 @@ namespace App\Requests
             $this->error['quo'] = $this->errors($errors);
             return $this->error['quo'];
         }
-        private function statusIsError($input)
+        private function statusError($input)
         {
             $errors = [
                 $this->blank($input),

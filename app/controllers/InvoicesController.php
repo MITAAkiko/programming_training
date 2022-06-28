@@ -63,7 +63,7 @@ class InvoicesController
         $page = 0;
         if (!empty($get['page'])) {
             $page = $get['page'];
-            $page = is_page($page, $maxPage);
+            $page = adjust_page($page, $maxPage);
         } else {
             $page = 1;
         }

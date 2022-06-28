@@ -23,11 +23,11 @@ namespace App\Requests
         }
         public function checkIsError($post)
         {
-            $this->titleIsError($post['title']);
-            $this->totalIsError($post['total']);
-            $this->periodIsError($post['period']);
-            $this->dueIsError($post['due'], $post['period']);
-            $this->statusIsError($post['status']);
+            $this->titleError($post['title']);
+            $this->totalError($post['total']);
+            $this->periodError($post['period']);
+            $this->dueError($post['due'], $post['period']);
+            $this->statusError($post['status']);
             return $this->isError($this->error, $this->nonerror);
         }
         //エラー内容は何か
@@ -36,7 +36,7 @@ namespace App\Requests
             return $this->error;
         }
         //各エラーチェック
-        private function titleIsError($input)
+        private function titleError($input)
         {
             $errors = [
                 $this->blank($input),
@@ -45,7 +45,7 @@ namespace App\Requests
             $this->error['title'] = $this->errors($errors);
             return $this->error['title'];
         }
-        private function totalIsError($input)
+        private function totalError($input)
         {
             $errors = [
                 $this->blank($input),
@@ -55,7 +55,7 @@ namespace App\Requests
             $this->error['total'] = $this->errors($errors);
             return $this->error['total'];
         }
-        private function periodIsError($input)
+        private function periodError($input)
         {
             $errors = [
                 $this->blank($input),
@@ -65,7 +65,7 @@ namespace App\Requests
             $this->error['period'] = $this->errors($errors);
             return $this->error['period'];
         }
-        private function dueIsError($input, $input2)
+        private function dueError($input, $input2)
         {
             $errors = [
                 $this->blank($input),
@@ -76,7 +76,7 @@ namespace App\Requests
             $this->error['due'] = $this->errors($errors);
             return $this->error['due'];
         }
-        private function statusIsError($input)
+        private function statusError($input)
         {
             $errors = [
                 $this->blank($input),
