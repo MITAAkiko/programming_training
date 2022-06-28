@@ -57,7 +57,9 @@ main{
     margin-left: 9px;
     font-size: 7px;
 }
-
+.selectbox{
+    font-size: 13px;
+}
 tr{
     height:20px;
 }
