@@ -83,7 +83,7 @@ require_once(APP.'/controllers/CompaniesController.php');
                 <td>郵便番号 <input type="text" id="postcode" class="text_join_post" name="postal_code"
                     value="<?php if (!empty($_POST['postal_code'])) {
                             echo h($_POST['postal_code']);
-                           }?>"><span class='search_address' onclick="getData();">住所検索</span><br/>
+                           }?>"><span class='search_address' onclick="getData()">住所検索</span><br/>
                   
                     <?php if ($error['postal_code']==='blank') : ?>
                         <p class="error">※郵便番号を入力してください</p>

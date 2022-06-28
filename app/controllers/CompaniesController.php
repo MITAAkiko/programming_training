@@ -49,7 +49,7 @@ class CompaniesController
         $start = ($page - 1) * 10;
 
         //DBに接続　検索・昇順降順
-        //モデルの中でif文を使いたくなかったので、ASC/DESCで分けて2パターン書いた？
+        //モデルの中でif文を使いたくなかったので、ASC/DESCで分けて2パターン書いた
         if (!empty($get['search'])) {//GETでおくる
             $searched = '%' . addcslashes($get['search'], '%_\\') . '%' ;
             if ($order === 'DESC') {

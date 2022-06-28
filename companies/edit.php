@@ -94,7 +94,7 @@ $company = $res['company'];
                     echo h($_POST['postal_code']);
                 } else {
                     echo h($company['postal_code']);
-                } ?>"><span class='search_address' onclick="getData();">住所検索</span><br/>
+                } ?>"><span class='search_address' onclick="getData()">住所検索</span><br/>
                 <?php if ($error['postal_code']==='blank') : ?>
                     <p class="error">※郵便番号を入力してください</p>
                 <?php elseif ($error['postal_code'] === 'type') : ?>

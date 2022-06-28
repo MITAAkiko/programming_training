@@ -30,7 +30,7 @@ namespace App\Requests
         }
         public function type($value, $preg)
         {
-            if (!preg_match($preg, $value)) { //空文字ダメの半角数値
+            if (!preg_match($preg, $value)) {
                 return 'type';
             } else {
                 return '';
