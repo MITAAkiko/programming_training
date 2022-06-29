@@ -95,9 +95,12 @@ require_once(APP.'/controllers/CompaniesController.php');
                 </td>
             </tr>
             <tr><td>都道府県<select class="select_address" name="prefecture_code">
-                        <option id="prefcode">選択してください</option>
-                        <?php foreach (PREFECTURES as $number => $value) : ?>
-                            <option value="<?php echo $number ?>"><?php echo $value ?></option>
+                        <option class="selectbox" id="prefcode">選択してください</option>
+                        <?php foreach (PREFECTURES as $number => $value) :
+                            if (!empty(REGION[$number])) : ?>
+                                <optgroup label=<?php echo REGION[$number] ?>>
+                            <?php endif; ?>
+                            <option class="selectbox" value="<?php echo $number ?>"><?php echo $value ?></option>
                         <?php endforeach; ?>
                     </select>
                     <?php if ($error['prefecture_code']==='blank') : ?>

@@ -10,7 +10,7 @@ function sttnum($value)
     if ($value === '1' || $value === '2' || $value === '9') {
         return $value;
     } else {
-        return $value = null;
+        return null;
     }
 }
 //昇順降順(order)の入力値があっているか
@@ -19,16 +19,16 @@ function ordnum($value)
     if ($value === '1' || $value === '-1') {
         return $value;
     } else {
-        return $value = null;
+        return null;
     }
 }
 //ページの入力値処理
-function is_page($value, $max)
+function adjust_page($value, $max)
 {
-    if (!is_numeric($value)) {//数字かチェック
-        return $value = 1;
-    }
     $value = mb_convert_kana($value, "n"); //半角数字に合わせる
+    if (!is_numeric($value)) {//数字かチェック1;
+        return 1;
+    }
     $value = ceil($value);//小数点繰り上げ
     //最小値
     $value = max($value, 1);
