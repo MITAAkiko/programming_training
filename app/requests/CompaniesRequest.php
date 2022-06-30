@@ -27,14 +27,14 @@ class CompaniesRequest extends Request
     //エラーがあるか
     public function checkIsError($post)
     {
-        $this->nameIsError($post['name']);
-        $this->managerIsError($post['manager']);
-        $this->phoneIsError($post['phone']);
-        $this->postalIsError($post['postal_code']);
-        $this->prefectureIsError($post['prefecture_code']);
-        $this->addressIsError($post['address']);
-        $this->emailIsError($post['email']);
-        $this->prefixIsError($post['prefix']);
+        $this->nameError($post['name']);
+        $this->managerError($post['manager']);
+        $this->phoneError($post['phone']);
+        $this->postalError($post['postal_code']);
+        $this->prefectureError($post['prefecture_code']);
+        $this->addressError($post['address']);
+        $this->emailError($post['email']);
+        $this->prefixError($post['prefix']);
         //エラーチェック
         return $this->isError($this->error, $this->nonerror);
     }
@@ -44,7 +44,7 @@ class CompaniesRequest extends Request
         return $this->error;
     }
     //各エラーチェック
-    private function nameIsError($input)
+    private function nameError($input)
     {
         $errors = [
             $this->blank($input),
@@ -53,7 +53,7 @@ class CompaniesRequest extends Request
         $this->error['name'] = $this->errors($errors);
         return $this->error['name'];
     }
-    private function managerIsError($input)
+    private function managerError($input)
     {
         $errors = [
             $this->blank($input),
@@ -62,7 +62,7 @@ class CompaniesRequest extends Request
         $this->error['manager'] = $this->errors($errors);
         return $this->error['manager'];
     }
-    private function phoneIsError($input)
+    private function phoneError($input)
     {
         $errors = [
             $this->blank($input),
@@ -72,7 +72,7 @@ class CompaniesRequest extends Request
         $this->error['phone'] = $this->errors($errors);
         return $this->error['phone'];
     }
-    private function postalIsError($input)
+    private function postalError($input)
     {
         $errors = [
             $this->blank($input),
@@ -82,7 +82,7 @@ class CompaniesRequest extends Request
         $this->error['postal_code'] = $this->errors($errors);
         return $this->error['postal_code'];
     }
-    private function prefectureIsError($input)
+    private function prefectureError($input)
     {
         $errors = [
             $this->blank($input),
@@ -93,7 +93,7 @@ class CompaniesRequest extends Request
         $this->error['prefecture_code'] = $this->errors($errors);
         return $this->error['prefecture_code'];
     }
-    private function addressIsError($input)
+    private function addressError($input)
     {
         $errors = [
             $this->blank($input),
@@ -102,7 +102,7 @@ class CompaniesRequest extends Request
         $this->error['address'] = $this->errors($errors);
         return $this->error['address'];
     }
-    private function emailIsError($input)
+    private function emailError($input)
     {
         $errors = [
             $this->blank($input),
@@ -112,7 +112,7 @@ class CompaniesRequest extends Request
         $this->error['email'] = $this->errors($errors);
         return $this->error['email'];
     }
-    private function prefixIsError($input)
+    private function prefixError($input)
     {
         $errors = [
             $this->blank($input),
