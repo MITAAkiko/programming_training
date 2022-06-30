@@ -10,6 +10,8 @@ use App\Models\Quotation;
 
 class Company extends Model
 {
+    const CREATED_AT = 'created';
+    const UPDATED_AT = 'modified';
     use HasFactory;
     public function invoices()//1対多リレーション（１）
     {
@@ -77,18 +79,20 @@ class Company extends Model
     }
     public function create($value)
     {
-        DB::table('companies')->insert([
-            'company_name' => $value['name'],
-            'manager_name' => $value['manager'],
-            'phone_number' => $value['phone'],
-            'postal_code' => $value['postal'],
-            'prefecture_code' => $value['prefecture_code'],
-            'address' => $value['address'],
-            'mail_address' => $value['email'],
-            'prefix' => $value['prefix'],
-            'created' => NOW(),
-            'modified' => NOW()
-        ]);
+        $company = new Company;
+        // $company->create([
+            $company->company_name = $value['name'];
+            $company->manager_name = $value['manager'];
+            $company->phone_number = $value['phone'];
+            $company->postal_code = $value['postal'];
+            $company->prefecture_code = $value['prefecture_code'];
+            $company->address = $value['address'];
+            $company->mail_address = $value['email'];
+            $company->prefix = $value['prefix'];
+            // 'created' => NOW(),
+            // 'modified' => NOW()
+        // ]);
+        $company->save();
     }
     public function updateData($id, $value)
     {
